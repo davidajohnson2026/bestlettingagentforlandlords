@@ -14,6 +14,8 @@ import FeePriceCards from '../components/FeePriceCards.astro';
 import GuideCards from '../components/GuideCards.astro';
 import SpotStrip from '../components/SpotStrip.astro';
 import MortgagePartner from '../components/MortgagePartner.astro';
+import MemeBreak from '../components/MemeBreak.astro';
+import RelatedRail from '../components/RelatedRail.astro';
 
 const servicePaths = [
 	{
@@ -287,6 +289,14 @@ const jsonLd = [
 			</div>
 		</section>
 
+		<MemeBreak
+			src="/spots/call.jpg"
+			alt="Landlords waiting on an agent callback"
+			caption="If they won’t answer before you instruct…"
+			href="/questions-to-ask-a-letting-agent/"
+			cta="Use the phone checklist"
+		/>
+
 		<section class="trust" id="trust" aria-labelledby="trust-heading">
 			<div class="section-shell">
 				<div class="section-intro reveal">
@@ -311,6 +321,8 @@ const jsonLd = [
 				</div>
 			</div>
 		</section>
+
+		<RelatedRail heading="Stay on site — useful next reads" />
 
 		<section class="recommended" id="recommended" aria-labelledby="recommended-heading">
 			<div class="section-shell recommended-grid">
@@ -391,6 +403,14 @@ const jsonLd = [
 			</div>
 		</section>
 
+		<MemeBreak
+			src="/spots/desk.jpg"
+			alt="Landlord reviewing fee paperwork"
+			caption="Compare fees before the brochure wins"
+			href="/letting-agent-fees/"
+			cta="Open the fees guide"
+		/>
+
 		<SpotStrip />
 
 		<section class="how" id="how" aria-labelledby="how-heading">
@@ -432,6 +452,8 @@ const jsonLd = [
 		</section>
 
 		<GuideCards heading="More landlord guides" />
+
+		<RelatedRail heading="Still deciding? Jump to another guide" />
 
 		<FaqSection items={homeFaqs} heading="People also ask about letting agents" />
 

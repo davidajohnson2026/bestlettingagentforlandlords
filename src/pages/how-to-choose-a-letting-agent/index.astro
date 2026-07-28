@@ -7,6 +7,8 @@ import RelatedGuides from '../../components/RelatedGuides.astro';
 import GuideVisual from '../../components/GuideVisual.astro';
 import GuideCards from '../../components/GuideCards.astro';
 import MortgagePartner from '../../components/MortgagePartner.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
 import Icon from '../../components/Icon.astro';
 import { chooseFaqs } from '../../data/faq';
 import { painPoints, trustFactors } from '../../data/content';
@@ -120,6 +122,16 @@ const jsonLd = [
 				</p>
 			</div>
 		</article>
+
+		<MemeBreak
+			src="/spots/street.jpg"
+			alt="UK residential street"
+			caption="Local streets beat national slogans"
+			href="/compare/"
+			cta="Compare by your postcode"
+		/>
+
+		<RelatedRail heading="Related guides on this site" exclude="/how-to-choose-a-letting-agent/" />
 
 		<FaqSection items={chooseFaqs} id="choose-faq" heading="People also ask when choosing an agent" />
 		<GuideCards heading="More landlord guides" exclude="/how-to-choose-a-letting-agent/" />

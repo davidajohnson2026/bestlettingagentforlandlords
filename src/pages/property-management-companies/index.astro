@@ -6,6 +6,8 @@ import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
 import GuideVisual from '../../components/GuideVisual.astro';
 import GuideCards from '../../components/GuideCards.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
 import KeyFacts from '../../components/KeyFacts.astro';
 import GuideToc from '../../components/GuideToc.astro';
 import MidArticleCta from '../../components/MidArticleCta.astro';
@@ -173,7 +175,19 @@ const jsonLd = [
 				secondaryHref="/compare/"
 				secondaryLabel="Compare by postcode"
 			/>
+		</article>
 
+		<MemeBreak
+			src="/spots/city.jpg"
+			alt="City rental buildings"
+			caption="Management firm ≠ automatic local knowledge"
+			href="/how-to-choose-a-letting-agent/"
+			cta="How to choose checklist"
+		/>
+
+		<RelatedRail heading="Related on this site" exclude={path} />
+
+		<article class="section-shell prose">
 			<h2 id="pros-cons">Pros and cons of using a property management company</h2>
 			<div class="pros-cons">
 				<div>

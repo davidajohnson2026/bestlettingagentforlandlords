@@ -11,6 +11,8 @@ import GuideToc from '../../components/GuideToc.astro';
 import MidArticleCta from '../../components/MidArticleCta.astro';
 import FeePriceCards from '../../components/FeePriceCards.astro';
 import MortgagePartner from '../../components/MortgagePartner.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
 import { feesFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
@@ -181,7 +183,19 @@ const jsonLd = [
 				secondaryHref="/letting-agents/doncaster/"
 				secondaryLabel="Doncaster fee table"
 			/>
+		</article>
 
+		<MemeBreak
+			src="/spots/fees.jpg"
+			alt="Landlord fee paperwork and calculator"
+			caption="Brochure % vs real annual cost"
+			href="/full-management-vs-tenant-find/"
+			cta="Compare service levels on this site"
+		/>
+
+		<RelatedRail heading="Keep exploring on this site" exclude="/letting-agent-fees/" />
+
+		<article class="section-shell">
 			<div class="prose">
 				<h2 id="hidden-charges">Additional ‘hidden’ charges</h2>
 				<p>Always request a full schedule of fees. Watch for:</p>

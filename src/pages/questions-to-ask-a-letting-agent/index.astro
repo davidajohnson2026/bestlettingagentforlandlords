@@ -6,6 +6,8 @@ import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
 import GuideVisual from '../../components/GuideVisual.astro';
 import GuideCards from '../../components/GuideCards.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
 import Icon from '../../components/Icon.astro';
 import { phoneFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
@@ -132,6 +134,16 @@ const jsonLd = [
 				<a href="/full-management-vs-tenant-find/">managed vs let-only</a>
 			</p>
 		</article>
+
+		<MemeBreak
+			src="/spots/call.jpg"
+			alt="Discussing letting agent questions"
+			caption="Ask once. Get it in writing."
+			href="/letting-agent-fees/"
+			cta="Then check typical fee bands"
+		/>
+
+		<RelatedRail heading="Related on this site" exclude="/questions-to-ask-a-letting-agent/" />
 
 		<FaqSection items={phoneFaqs} id="phone-faq" heading="People also ask about phoning agents" />
 		<GuideCards heading="More landlord guides" exclude="/questions-to-ask-a-letting-agent/" />

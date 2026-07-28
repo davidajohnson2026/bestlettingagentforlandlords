@@ -24,11 +24,11 @@ export const guideCards: GuideCard[] = [
 		imageAlt: 'Calculator and paperwork for landlord fee planning',
 	},
 	{
-		href: '/property-management-companies/',
-		title: 'What are property management companies?',
-		blurb: 'Ten tips for landlords comparing management firms on service, fees and compliance.',
-		image: '/guides/management.jpg',
-		imageAlt: 'Modern apartment building exterior',
+		href: '/full-management-vs-tenant-find/',
+		title: 'Full management or tenant find?',
+		blurb: 'Match service level to how hands-on you want to be — before you compare percentages.',
+		image: '/spots/build.jpg',
+		imageAlt: 'Apartment building for managed lets',
 	},
 	{
 		href: '/questions-to-ask-a-letting-agent/',
@@ -36,5 +36,26 @@ export const guideCards: GuideCard[] = [
 		blurb: 'A plain-English call checklist covering fees, referencing, repairs and trust schemes.',
 		image: '/guides/checklist.jpg',
 		imageAlt: 'Landlord reviewing documents and notes',
+	},
+	{
+		href: '/property-management-companies/',
+		title: 'What are property management companies?',
+		blurb: 'Ten tips for landlords comparing management firms on service, fees and compliance.',
+		image: '/guides/management.jpg',
+		imageAlt: 'Modern apartment building exterior',
+	},
+	{
+		href: '/compare/',
+		title: 'Compare agents by postcode',
+		blurb: 'Free UK postcode match with fair local recommendations — no national default agent.',
+		image: '/spots/street.jpg',
+		imageAlt: 'UK residential street',
+	},
+	{
+		href: '/letting-agents/',
+		title: 'Browse UK area guides',
+		blurb: 'City-by-city landlord guides for fees, trust checks and local next steps.',
+		image: '/spots/city.jpg',
+		imageAlt: 'UK city skyline',
 	},
 ];

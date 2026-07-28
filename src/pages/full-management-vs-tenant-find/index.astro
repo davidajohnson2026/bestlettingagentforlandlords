@@ -6,6 +6,8 @@ import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
 import GuideVisual from '../../components/GuideVisual.astro';
 import GuideCards from '../../components/GuideCards.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
 import Icon from '../../components/Icon.astro';
 import { serviceFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
@@ -88,6 +90,16 @@ const jsonLd = [
 				}
 			</div>
 		</section>
+
+		<MemeBreak
+			src="/spots/build.jpg"
+			alt="Apartment building needing management"
+			caption="Hands-off costs more — until the void does"
+			href="/letting-agent-fees/"
+			cta="See what each level usually costs"
+		/>
+
+		<RelatedRail heading="Keep reading on this site" exclude="/full-management-vs-tenant-find/" />
 
 		<article class="section-shell prose" style="padding-top: 0;">
 			<h2>How to decide as a landlord</h2>
