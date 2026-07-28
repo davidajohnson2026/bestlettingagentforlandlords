@@ -12,6 +12,9 @@
 	--muted: #5a726b;
 	--white: #ffffff;
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--radius-sm: 10px;
+	--radius: 16px;
+	--radius-lg: 22px;
 	--font-display: "Bricolage Grotesque", Georgia, serif;
 	--font-body: "Source Sans 3", system-ui, sans-serif;
 }

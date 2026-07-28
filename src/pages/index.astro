@@ -11,6 +11,7 @@ import { faqSchema, serviceSchema, webPageSchema } from '../data/schema';
 import { pageSeo } from '../data/seo';
 import RelatedGuides from '../components/RelatedGuides.astro';
 import FeePriceCards from '../components/FeePriceCards.astro';
+import GuideCards from '../components/GuideCards.astro';
 
 const servicePaths = [
 	{
@@ -196,25 +197,46 @@ const jsonLd = [
 
 		<section class="pain" id="pain-points" aria-labelledby="pain-heading">
 			<div class="section-shell">
-				<div class="section-intro reveal">
-					<p class="eyebrow">Landlord pain points</p>
-					<h2 id="pain-heading">What goes wrong when the wrong agent wins the instruction</h2>
+				<div class="pain-head reveal">
+					<p class="eyebrow">Fix these before you instruct</p>
+					<h2 id="pain-heading">What goes wrong when the wrong agent wins</h2>
 					<p class="section-lead">
-						These are the issues landlords search for — and the reasons comparison sites exist. Fix them at selection time, not mid-tenancy.
+						These are the landlord complaints that cost yield — catch them at selection time, not mid-tenancy.
 					</p>
 				</div>
-				<div class="grid-cards cols-2">
+				<ol class="pain-rail" role="list">
 					{
 						painPoints.map((item, i) => (
-							<article class="grid-item reveal" style={`--d: ${i * 50}ms`}>
-								<span class="icon-badge" aria-hidden="true">
-									<Icon name={item.icon} size={22} />
-								</span>
-								<h3>{item.title}</h3>
-								<p>{item.body}</p>
-							</article>
+							<li class="pain-row reveal" style={`--d: ${i * 70}ms`}>
+								<span class="pain-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+								<div class="pain-copy">
+									<span class="pain-icon" aria-hidden="true">
+										<Icon name={item.icon} size={22} />
+									</span>
+									<h3>{item.title}</h3>
+									<p>{item.body}</p>
+								</div>
+							</li>
 						))
 					}
+				</ol>
+				<div class="pain-foot reveal">
+					<p>Still choosing from a shopfront leaflet?</p>
+					<a class="btn btn-primary" href="/compare/">Compare agents near you</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="band-cta" aria-labelledby="band-cta-heading">
+			<div class="section-shell band-cta-inner reveal">
+				<p class="eyebrow">Next step</p>
+				<h2 id="band-cta-heading">Get a postcode match before another void month lands.</h2>
+				<p>
+					Enter your property postcode, pick tenant-find or full management, and see local guidance — not a national default agent.
+				</p>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="/compare/">Start free comparison</a>
+					<a class="btn btn-ghost" href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
 				</div>
 			</div>
 		</section>
@@ -222,25 +244,27 @@ const jsonLd = [
 		<section class="needs" id="what-landlords-want" aria-labelledby="needs-heading">
 			<div class="section-shell">
 				<div class="section-intro reveal">
-					<p class="eyebrow">Search intent</p>
-					<h2 id="needs-heading">What landlords are actually looking for</h2>
+					<p class="eyebrow">What landlords want</p>
+					<h2 id="needs-heading">Beyond the cheapest fee</h2>
 					<p class="section-lead">
-						Beyond “cheapest fee”, landlords want predictable yield, protected client money and an agent who understands their postcode.
+						Predictable yield, protected client money, and an agent who knows your streets.
 					</p>
 				</div>
-				<div class="grid-cards cols-2">
+				<ul class="want-rail" role="list">
 					{
 						landlordNeeds.map((item, i) => (
-							<article class="grid-item reveal" style={`--d: ${i * 50}ms`}>
-								<span class="icon-badge" aria-hidden="true">
-									<Icon name={item.icon} size={22} />
+							<li class="want-row reveal" style={`--d: ${i * 60}ms`}>
+								<span class="want-mark" aria-hidden="true">
+									<Icon name={item.icon} size={24} />
 								</span>
-								<h3>{item.title}</h3>
-								<p>{item.body}</p>
-							</article>
+								<div>
+									<h3>{item.title}</h3>
+									<p>{item.body}</p>
+								</div>
+							</li>
 						))
 					}
-				</div>
+				</ul>
 				<p class="inline-links reveal">
 					Deep dives:
 					<a href="/letting-agent-fees/">UK letting agent fees</a>
@@ -387,19 +411,22 @@ const jsonLd = [
 			</div>
 		</section>
 
+		<GuideCards heading="More landlord guides" />
+
 		<FaqSection items={homeFaqs} heading="People also ask about letting agents" />
 
 		<section class="promise" aria-labelledby="promise-heading">
 			<div class="section-shell promise-inner reveal">
-				<h2 id="promise-heading">Built for landlords who want clarity, not sales pressure</h2>
+				<p class="eyebrow">Ready when you are</p>
+				<h2 id="promise-heading">Clarity beats sales pressure.</h2>
 				<p>
-					Compare fees and ratings with the same honesty landlords expect from AgentCheck-style tools — then instruct a recommended local partner when the fit is right.
+					Compare fees and local fit with honesty — then instruct a recommended partner when the postcode matches.
 				</p>
 				<div class="hero-actions">
 					<a class="btn btn-primary" href="/compare/">Start your comparison</a>
-					<a class="btn btn-secondary" href="/recommend/">Recommend an agent</a>
+					<a class="btn btn-ghost" href="/recommend/">Recommend an agent</a>
 				</div>
-				<RelatedGuides exclude="/" />
+				<RelatedGuides exclude="/" tone="inverse" />
 			</div>
 		</section>
 	</main>
@@ -515,6 +542,7 @@ const jsonLd = [
 		animation: rise 0.9s var(--ease) 0.4s both;
 		background: color-mix(in srgb, var(--ink) 88%, black);
 		border: 1px solid color-mix(in srgb, var(--brass) 35%, transparent);
+		border-radius: var(--radius-lg);
 		padding: 1.15rem 1.2rem 1.25rem;
 		box-shadow: 0 24px 60px color-mix(in srgb, black 35%, transparent);
 	}
@@ -550,9 +578,9 @@ const jsonLd = [
 		width: 100%;
 		padding: 0.85rem 0.95rem;
 		border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
+		border-radius: var(--radius-sm);
 		background: color-mix(in srgb, var(--ink) 70%, black);
 		color: var(--cream);
-		border-radius: 0;
 	}
 
 	.field input::placeholder {
@@ -703,14 +731,241 @@ const jsonLd = [
 		color: var(--forest);
 		background: color-mix(in srgb, var(--mist) 80%, white);
 		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+		border-radius: var(--radius-sm);
 	}
 
 	.pain {
-		background: var(--mist);
+		position: relative;
+		isolation: isolate;
+		background:
+			radial-gradient(ellipse 90% 70% at 100% 0%, color-mix(in srgb, var(--moss) 22%, transparent), transparent 55%),
+			radial-gradient(ellipse 60% 50% at 0% 100%, color-mix(in srgb, var(--brass) 12%, transparent), transparent 50%),
+			var(--ink);
+		color: var(--cream);
+		overflow: hidden;
+	}
+
+	.pain::before {
+		content: '';
+		position: absolute;
+		inset: auto -10% -20% 40%;
+		height: 55%;
+		background: radial-gradient(circle, color-mix(in srgb, var(--brass) 16%, transparent), transparent 65%);
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	.pain .eyebrow {
+		color: var(--brass);
+	}
+
+	.pain-head {
+		max-width: 38rem;
+		margin-bottom: 2.75rem;
+	}
+
+	.pain-head h2 {
+		font-size: clamp(2rem, 4.5vw, 3.1rem);
+		color: var(--cream);
+		margin-bottom: 0.9rem;
+		max-width: 14ch;
+	}
+
+	.pain-head .section-lead {
+		color: color-mix(in srgb, var(--cream) 78%, transparent);
+	}
+
+	.pain-rail {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid color-mix(in srgb, var(--cream) 16%, transparent);
+	}
+
+	.pain-row {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1rem 1.25rem;
+		padding: 1.5rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--cream) 16%, transparent);
+		transition-delay: var(--d, 0ms);
+		align-items: start;
+	}
+
+	.pain-num {
+		font-family: var(--font-display);
+		font-size: clamp(2.4rem, 5vw, 3.5rem);
+		font-weight: 700;
+		letter-spacing: -0.05em;
+		line-height: 0.9;
+		color: color-mix(in srgb, var(--brass) 85%, white);
+		padding-top: 0.15rem;
+	}
+
+	.pain-copy {
+		display: grid;
+		gap: 0.4rem;
+		max-width: 40rem;
+	}
+
+	.pain-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.35rem;
+		height: 2.35rem;
+		margin-bottom: 0.15rem;
+		color: var(--brass);
+		border: 1px solid color-mix(in srgb, var(--brass) 45%, transparent);
+		border-radius: var(--radius-sm);
+		background: color-mix(in srgb, var(--brass) 10%, transparent);
+	}
+
+	.pain-copy h3 {
+		font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+		color: var(--cream);
+		margin: 0;
+	}
+
+	.pain-copy p {
+		margin: 0;
+		color: color-mix(in srgb, var(--cream) 70%, transparent);
+		font-size: 1.02rem;
+	}
+
+	.pain-foot {
+		margin-top: 2.5rem;
+		padding: 1.35rem 1.4rem;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		background: color-mix(in srgb, var(--cream) 6%, transparent);
+		border: 1px solid color-mix(in srgb, var(--brass) 40%, transparent);
+		border-radius: var(--radius);
+	}
+
+	.pain-foot p {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+		font-weight: 560;
+		letter-spacing: -0.02em;
+		color: var(--cream);
+		max-width: 22ch;
+	}
+
+	.band-cta {
+		background:
+			linear-gradient(
+				120deg,
+				color-mix(in srgb, var(--brass) 92%, white) 0%,
+				var(--brass) 42%,
+				color-mix(in srgb, var(--brass-deep) 70%, var(--brass)) 100%
+			);
+		color: var(--ink);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.band-cta::after {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 6px;
+		background: var(--ink);
+	}
+
+	.band-cta-inner {
+		max-width: 44rem;
+	}
+
+	.band-cta .eyebrow {
+		color: var(--ink-soft);
+	}
+
+	.band-cta h2 {
+		font-size: clamp(2rem, 4.6vw, 3.25rem);
+		color: var(--ink);
+		margin: 0 0 0.85rem;
+		max-width: 16ch;
+	}
+
+	.band-cta p {
+		margin: 0 0 1.5rem;
+		font-size: 1.1rem;
+		color: color-mix(in srgb, var(--ink) 78%, transparent);
+		max-width: 36rem;
+	}
+
+	.band-cta .btn-ghost {
+		border-color: color-mix(in srgb, var(--ink) 35%, transparent);
+		color: var(--ink);
+	}
+
+	.band-cta .btn-ghost:hover {
+		border-color: var(--ink);
+		background: color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.band-cta .btn-primary {
+		background: var(--ink);
+		color: var(--cream);
+	}
+
+	.band-cta .btn-primary:hover {
+		background: var(--ink-soft);
 	}
 
 	.needs {
-		background: var(--paper);
+		background:
+			linear-gradient(180deg, var(--paper), color-mix(in srgb, var(--mist) 55%, var(--paper)));
+	}
+
+	.want-rail {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0;
+	}
+
+	.want-row {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.1rem;
+		padding: 1.4rem 0;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		transition-delay: var(--d, 0ms);
+	}
+
+	.want-row:last-child {
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+	}
+
+	.want-mark {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		color: var(--forest);
+		background: color-mix(in srgb, var(--mist) 70%, white);
+		border: 1px solid color-mix(in srgb, var(--forest) 18%, transparent);
+		border-radius: var(--radius-sm);
+	}
+
+	.want-row h3 {
+		font-size: 1.35rem;
+		color: var(--ink);
+		margin: 0 0 0.35rem;
+	}
+
+	.want-row p {
+		margin: 0;
+		color: var(--muted);
+		max-width: 36rem;
 	}
 
 	.inline-links {
@@ -787,6 +1042,7 @@ const jsonLd = [
 		margin: 0;
 		position: relative;
 		overflow: hidden;
+		border-radius: var(--radius-lg);
 	}
 
 	.recommended-visual img {
@@ -855,27 +1111,41 @@ const jsonLd = [
 
 	.promise {
 		background:
-			linear-gradient(
-				135deg,
-				color-mix(in srgb, var(--forest) 8%, var(--paper)),
-				var(--paper) 55%
-			);
+			radial-gradient(ellipse 80% 60% at 0% 100%, color-mix(in srgb, var(--brass) 18%, transparent), transparent 55%),
+			linear-gradient(145deg, var(--ink) 0%, var(--ink-soft) 55%, var(--forest) 100%);
+		color: var(--cream);
 	}
 
 	.promise-inner {
-		max-width: 42rem;
+		max-width: 44rem;
+	}
+
+	.promise .eyebrow {
+		color: var(--brass);
 	}
 
 	.promise h2 {
-		font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+		font-size: clamp(2.2rem, 5vw, 3.6rem);
 		margin-bottom: 0.9rem;
-		color: var(--ink);
+		color: var(--cream);
+		max-width: 12ch;
 	}
 
 	.promise p {
-		color: var(--muted);
+		color: color-mix(in srgb, var(--cream) 80%, transparent);
 		margin-bottom: 1.5rem;
-		font-size: 1.08rem;
+		font-size: 1.12rem;
+		max-width: 36rem;
+	}
+
+	.promise .btn-ghost {
+		border-color: color-mix(in srgb, var(--cream) 40%, transparent);
+		color: var(--cream);
+	}
+
+	.promise .btn-ghost:hover {
+		border-color: var(--cream);
+		background: color-mix(in srgb, var(--cream) 10%, transparent);
 	}
 
 	@media (min-width: 720px) {
@@ -927,6 +1197,21 @@ const jsonLd = [
 		.steps {
 			grid-template-columns: repeat(3, 1fr);
 			gap: 2rem;
+		}
+
+		.pain-row {
+			grid-template-columns: 5.5rem 1fr;
+			gap: 1.75rem;
+			padding: 1.75rem 0;
+		}
+
+		.want-rail {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0 2.5rem;
+		}
+
+		.want-row {
+			padding: 1.55rem 0;
 		}
 	}
 

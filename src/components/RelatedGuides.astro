@@ -4,13 +4,15 @@ import { RELATED_GUIDES } from '../data/seo';
 interface Props {
 	exclude?: string;
 	heading?: string;
+	/** Use on dark backgrounds */
+	tone?: 'default' | 'inverse';
 }
 
-const { exclude, heading = 'Related landlord guides' } = Astro.props;
+const { exclude, heading = 'Related landlord guides', tone = 'default' } = Astro.props;
 const links = RELATED_GUIDES.filter((item) => item.href !== exclude);
 ---
 
-<nav class="related-guides" aria-labelledby="related-guides-heading">
+<nav class:list={['related-guides', tone === 'inverse' && 'is-inverse']} aria-labelledby="related-guides-heading">
 	<h2 id="related-guides-heading">{heading}</h2>
 	<ul role="list">
 		{links.map((item) => (
@@ -53,5 +55,23 @@ const links = RELATED_GUIDES.filter((item) => item.href !== exclude);
 
 	.related-guides a:hover {
 		border-bottom-color: var(--forest);
+	}
+
+	.related-guides.is-inverse {
+		border-top-color: color-mix(in srgb, var(--cream) 22%, transparent);
+	}
+
+	.related-guides.is-inverse h2 {
+		color: var(--cream);
+	}
+
+	.related-guides.is-inverse a {
+		color: var(--brass);
+		border-bottom-color: color-mix(in srgb, var(--brass) 45%, transparent);
+	}
+
+	.related-guides.is-inverse a:hover {
+		border-bottom-color: var(--brass);
+		color: color-mix(in srgb, var(--brass) 80%, white);
 	}
 </style>
