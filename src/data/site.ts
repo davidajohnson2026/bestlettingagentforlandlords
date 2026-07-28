@@ -7,6 +7,15 @@ export const SITE = {
 	description:
 		'Compare UK letting agent fees, ratings and local performance nationwide. Independent guidance for landlords choosing tenant-find or full management.',
 	ogImage: 'https://bestlettingagentforlandlords.co.uk/hero-property.jpg',
+	/** Default OG image dimensions (hero-property.jpg) */
+	ogImageWidth: 2400,
+	ogImageHeight: 1802,
+	/**
+	 * ISO dates for Article/WebPage schema defaults.
+	 * Bump contentUpdated whenever meaningful guide copy ships.
+	 */
+	contentPublished: '2026-07-28',
+	contentUpdated: '2026-07-28',
 	sameAs: [] as string[],
 	/** Where landlord recommendation form submissions are sent (FormSubmit / inbox) */
 	recommendationsEmail: 'hello@bestlettingagentforlandlords.co.uk',

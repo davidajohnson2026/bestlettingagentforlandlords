@@ -16,6 +16,7 @@ import RelatedRail from '../../components/RelatedRail.astro';
 import { feesFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
+import { SITE } from '../../data/site';
 
 const { title, description } = pageSeo.fees;
 const path = '/letting-agent-fees/';
@@ -84,7 +85,7 @@ const jsonLd = [
 		headline: title,
 		description,
 		path,
-		dateModified: '2026-07-28',
+		dateModified: SITE.contentUpdated,
 	}),
 	faqSchema(feesFaqs),
 ];

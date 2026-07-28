@@ -26,6 +26,15 @@ function extract(html, re) {
 	return m?.[1]?.trim() ?? null;
 }
 
+// Sitemap hygiene first — always asserted even if page checks fail later
+const sitemap = await readFile(join(DIST.pathname, 'sitemap-0.xml'), 'utf8');
+if (sitemap.includes('/recommend/thanks')) {
+	failures.push('sitemap: noindex /recommend/thanks/ must not appear in sitemap-0.xml');
+}
+if (!sitemap.includes(`${HOST}/for-ai/`)) {
+	failures.push('sitemap: missing /for-ai/');
+}
+
 const files = await walkHtml(DIST.pathname);
 for (const file of files) {
 	const html = await readFile(file, 'utf8');
@@ -87,15 +96,16 @@ for (const file of files) {
 	}
 }
 
-if (failures.length) {
-	console.error(`SEO check failed (${failures.length}):\n` + failures.map((f) => ` - ${f}`).join('\n'));
-	process.exit(1);
+// Homepage should expose crawl discovery links for AI / sitemap surfaces
+const indexHtml = await readFile(join(DIST.pathname, 'index.html'), 'utf8');
+for (const needle of ['/for-ai/', '/llms.txt', '/sitemap-index.xml']) {
+	if (!indexHtml.includes(`href="${needle}"`) && !indexHtml.includes(`href='${needle}'`)) {
+		failures.push(`index.html: missing internal crawl link ${needle}`);
+	}
 }
 
-// Noindex pages must not appear in the XML sitemap
-const sitemap = await readFile(join(DIST.pathname, 'sitemap-0.xml'), 'utf8');
-if (sitemap.includes('/recommend/thanks')) {
-	console.error('SEO check failed: noindex /recommend/thanks/ is still in sitemap-0.xml');
+if (failures.length) {
+	console.error(`SEO check failed (${failures.length}):\n` + failures.map((f) => ` - ${f}`).join('\n'));
 	process.exit(1);
 }
 

@@ -85,8 +85,8 @@ export function webPageSchema(opts: {
 		about: { '@id': ORG_ID },
 		inLanguage: 'en-GB',
 		isAccessibleForFree: true,
-		datePublished: opts.datePublished ?? '2026-07-28',
-		dateModified: opts.dateModified ?? '2026-07-28',
+		datePublished: opts.datePublished ?? SITE.contentPublished,
+		dateModified: opts.dateModified ?? SITE.contentUpdated,
 		publisher: { '@id': ORG_ID },
 	};
 }
@@ -113,8 +113,8 @@ export function articleSchema(opts: {
 		isPartOf: { '@id': WEBSITE_ID },
 		inLanguage: 'en-GB',
 		isAccessibleForFree: true,
-		datePublished: opts.datePublished ?? '2026-07-28',
-		dateModified: opts.dateModified ?? '2026-07-28',
+		datePublished: opts.datePublished ?? SITE.contentPublished,
+		dateModified: opts.dateModified ?? SITE.contentUpdated,
 		author: { '@id': ORG_ID },
 		publisher: { '@id': ORG_ID },
 		image: [SITE.ogImage],
