@@ -56,8 +56,8 @@ export const chatChoices: ChatChoice[] = [
 		id: 'mortgage',
 		label: 'Buy-to-let mortgage help?',
 		reply:
-			'After you know agent fees, check whether your buy-to-let mortgage or remortgage still works on the rent. MortgageRM has guidance for landlord finance.',
-		href: 'https://mortgagerm.co.uk/',
-		cta: 'Visit MortgageRM',
+			'After you know agent fees, check whether your buy-to-let mortgage or remortgage still works on the rent. MortgagesRM has guidance for landlord finance.',
+		href: 'https://mortgagesrm.co.uk/',
+		cta: 'Visit MortgagesRM',
 	},
 ];
