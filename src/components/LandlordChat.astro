@@ -149,9 +149,14 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 			if (!(target instanceof Element)) return;
 			const choice = target.closest('[data-chat-choice]');
 			if (!(choice instanceof HTMLElement)) return;
+			const href = choice.dataset.href || '';
+			if (href) {
+				setOpen(false);
+				window.location.assign(href);
+				return;
+			}
 			const label = choice.dataset.label || choice.textContent?.trim() || 'Question';
 			const reply = choice.dataset.reply || '';
-			const href = choice.dataset.href || '';
 			const cta = choice.dataset.cta || '';
 			const greeting = body?.querySelector('[data-chat-greeting]');
 			if (greeting instanceof HTMLElement) greeting.hidden = true;
