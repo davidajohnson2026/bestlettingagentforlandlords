@@ -4,6 +4,9 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import Icon from '../../components/Icon.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import { areaPath } from '../../data/areas';
 import { areasWithFeatured } from '../../data/matchArea';
 import { KERRIGANS_RADIUS_DISTRICTS } from '../../data/recommendations';
@@ -222,7 +225,20 @@ const jsonLd = [
 					<strong>Elsewhere:</strong> neutral UK guidance
 				</p>
 			</div>
+		</section>
 
+		<MemeBreak
+			src="/spots/desk.jpg"
+			alt="Landlord reviewing paperwork before instructing an agent"
+			caption="Postcode first. Brochure second."
+			href="/letting-agent-fees/"
+			cta="See typical UK fee bands"
+		/>
+
+		<RelatedRail heading="Keep exploring on this site" exclude="/compare/" />
+		<GuideCards heading="More landlord guides" exclude="/compare/" />
+
+		<section class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/compare/" />
 		</section>
 	</main>

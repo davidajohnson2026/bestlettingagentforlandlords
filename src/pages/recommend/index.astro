@@ -3,6 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import { publishedRecommendations } from '../../data/landlord-recommendations';
 import { breadcrumbSchema, faqSchema, webPageSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
@@ -203,7 +206,20 @@ function stars(n: number) {
 					))
 				}
 			</section>
+		</section>
 
+		<MemeBreak
+			src="/spots/call.jpg"
+			alt="Landlords sharing agent recommendations"
+			caption="Fair praise helps the next landlord"
+			href="/compare/"
+			cta="Or compare by postcode"
+		/>
+
+		<RelatedRail heading="Related on this site" exclude="/recommend/" />
+		<GuideCards heading="More landlord guides" exclude="/recommend/" />
+
+		<section class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/recommend/" />
 		</section>
 	</main>

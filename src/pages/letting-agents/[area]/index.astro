@@ -4,6 +4,10 @@ import SiteHeader from '../../../components/SiteHeader.astro';
 import SiteFooter from '../../../components/SiteFooter.astro';
 import FaqSection from '../../../components/FaqSection.astro';
 import RelatedGuides from '../../../components/RelatedGuides.astro';
+import GuideVisual from '../../../components/GuideVisual.astro';
+import MemeBreak from '../../../components/MemeBreak.astro';
+import RelatedRail from '../../../components/RelatedRail.astro';
+import GuideCards from '../../../components/GuideCards.astro';
 import { areas, areaPath, type Area } from '../../../data/areas';
 import { articleSchema, breadcrumbSchema, faqSchema, localBusinessSchema } from '../../../data/schema';
 import { areaPageDescription, areaPageTitle } from '../../../data/seo';
@@ -81,6 +85,11 @@ const nearby = areas.filter((item) => item.region === area.region && item.slug !
 		</header>
 
 		<article class="section-shell prose">
+			<GuideVisual
+				src="/spots/street.jpg"
+				alt={`Residential street context for ${area.name} landlords`}
+				caption={`Local streets beat national slogans in ${area.name}.`}
+			/>
 			<p>
 				Searching for the <strong>best letting agents in {area.name}</strong> should start with regulation and all-in fees, not the loudest portal presence. Use our UK-wide guidance, then shortlist agents who know your streets.
 			</p>
@@ -157,7 +166,18 @@ const nearby = areas.filter((item) => item.region === area.region && item.slug !
 			</p>
 		</article>
 
+		<MemeBreak
+			src="/spots/fees.jpg"
+			alt="Landlord fee paperwork"
+			caption="Local fees ≠ national brochure %"
+			href="/letting-agent-fees/"
+			cta="Open the UK fees guide"
+		/>
+
+		<RelatedRail heading="Keep reading on this site" exclude={path} />
+
 		<FaqSection items={faqs} id={`${area.slug}-faq`} heading={`People also ask about ${area.name} letting agents`} />
+		<GuideCards heading="More landlord guides" exclude={path} />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude={path} />
 		</div>

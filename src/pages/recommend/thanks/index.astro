@@ -2,6 +2,9 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import SiteHeader from '../../../components/SiteHeader.astro';
 import SiteFooter from '../../../components/SiteFooter.astro';
+import MemeBreak from '../../../components/MemeBreak.astro';
+import RelatedRail from '../../../components/RelatedRail.astro';
+import GuideCards from '../../../components/GuideCards.astro';
 
 const title = 'Thank You — Your Letting Agent Recommendation Is In';
 const description =
@@ -32,6 +35,17 @@ const path = '/recommend/thanks/';
 				</div>
 			</div>
 		</header>
+
+		<MemeBreak
+			src="/spots/street.jpg"
+			alt="UK street while waiting for recommendation moderation"
+			caption="While we moderate — keep shortlisting"
+			href="/how-to-choose-a-letting-agent/"
+			cta="How to choose checklist"
+		/>
+
+		<RelatedRail heading="Useful next reads on this site" />
+		<GuideCards heading="More landlord guides" />
 	</main>
 	<SiteFooter />
 </BaseLayout>

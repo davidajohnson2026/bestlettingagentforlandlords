@@ -3,6 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import { areas, areasByRegion, areaPath } from '../../data/areas';
 import { articleSchema, breadcrumbSchema, itemListSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
@@ -80,6 +83,20 @@ const jsonLd = [
 					</section>
 				))
 			}
+		</section>
+
+		<MemeBreak
+			src="/spots/city.jpg"
+			alt="UK city skyline for area letting guides"
+			caption="Pick the city — then check fees & trust"
+			href="/how-to-choose-a-letting-agent/"
+			cta="Trust checks before you instruct"
+		/>
+
+		<RelatedRail heading="Related on this site" exclude="/letting-agents/" />
+		<GuideCards heading="More landlord guides" exclude="/letting-agents/" />
+
+		<section class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/letting-agents/" />
 		</section>
 	</main>

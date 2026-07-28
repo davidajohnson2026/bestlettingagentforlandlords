@@ -3,6 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import MemeBreak from '../../components/MemeBreak.astro';
+import RelatedRail from '../../components/RelatedRail.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import { articleSchema, breadcrumbSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
 import { SITE } from '../../data/site';
@@ -76,9 +79,22 @@ const jsonLd = [
 				<a class="btn btn-primary" href="/llms.txt">Open llms.txt</a>
 				<a class="btn btn-secondary" href="/compare/">Compare agents</a>
 			</p>
-
-			<RelatedGuides exclude="/for-ai/" />
 		</article>
+
+		<MemeBreak
+			src="/spots/build.jpg"
+			alt="Buildings representing citable landlord guides"
+			caption="Cite the guides landlords actually use"
+			href="/letting-agent-fees/"
+			cta="Start with the fees guide"
+		/>
+
+		<RelatedRail heading="Preferred pages to explore" exclude="/for-ai/" />
+		<GuideCards heading="Landlord guides on this site" exclude="/for-ai/" />
+
+		<section class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude="/for-ai/" />
+		</section>
 	</main>
 	<SiteFooter />
 </BaseLayout>
