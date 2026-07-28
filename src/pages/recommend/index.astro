@@ -1,0 +1,448 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import { publishedRecommendations } from '../../data/landlord-recommendations';
+import { breadcrumbSchema, faqSchema, webPageSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+import { SITE } from '../../data/site';
+
+const { title, description } = pageSeo.recommend;
+const path = '/recommend/';
+
+const formAction = `https://formsubmit.co/${SITE.recommendationsEmail}`;
+const thanksUrl = `${SITE.url}/recommend/thanks/`;
+
+const recommendFaqs = [
+	{
+		question: 'Will my recommendation appear on the site straight away?',
+		answer:
+			'No. Every submission is moderated first so spam and unfair claims stay off the site. If we publish yours, we use your first name and initial only — never your full address or email.',
+	},
+	{
+		question: 'What makes a helpful landlord recommendation?',
+		answer:
+			'Be specific: communication, time-to-let, maintenance handling, fees transparency, and whether you would instruct them again. Fair praise (and fair caveats) help other landlords more than vague five-star blurbs.',
+	},
+	{
+		question: 'Can I recommend any UK letting agent?',
+		answer:
+			'Yes — anywhere in the UK. We are especially interested in regulated local agents who look after landlords well. Featured partners are separate and still scoped fairly by area.',
+	},
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Recommend an agent', path },
+	]),
+	webPageSchema({ name: title, description, path }),
+	faqSchema(recommendFaqs),
+];
+
+function stars(n: number) {
+	return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Recommend</span>
+				</nav>
+				<p class="eyebrow">Landlord community</p>
+				<h1>Recommend a letting agent</h1>
+				<p class="lead">
+					Had a good experience? Leave a fair recommendation so other landlords can shortlist with more confidence — and give credit to agents who look after landlords properly.
+				</p>
+			</div>
+		</header>
+
+		<section class="section-shell recommend-layout">
+			<div class="recommend-grid">
+				<div>
+					<h2 id="form-heading">Leave a recommendation</h2>
+					<p class="intro">
+						Submissions are reviewed before they go live. Your email is for verification only and will not be published.
+					</p>
+
+					<form
+						class="rec-form"
+						action={formAction}
+						method="POST"
+						id="recommend-form"
+						aria-labelledby="form-heading"
+					>
+						<input type="hidden" name="_subject" value="Landlord recommendation — bestlettingagentforlandlords" />
+						<input type="hidden" name="_template" value="table" />
+						<input type="hidden" name="_captcha" value="false" />
+						<input type="hidden" name="_next" value={thanksUrl} />
+						<input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+						<label class="field">
+							<span>Letting agent name</span>
+							<input type="text" name="agent_name" required maxlength="120" placeholder="e.g. Kerrigans Property" />
+						</label>
+
+						<label class="field">
+							<span>Town or area</span>
+							<input type="text" name="area" required maxlength="80" placeholder="e.g. Doncaster" />
+						</label>
+
+						<label class="field">
+							<span>Property postcode <em>(optional)</em></span>
+							<input type="text" name="postcode" maxlength="12" placeholder="e.g. DN1 1AA" autocomplete="postal-code" />
+						</label>
+
+						<fieldset class="field rating-field">
+							<legend>Overall rating</legend>
+							<div class="rating-options">
+								{
+									([5, 4, 3, 2, 1] as const).map((n, i) => (
+										<label>
+											<input type="radio" name="rating" value={String(n)} required={i === 0} />
+											<span>{n}</span>
+										</label>
+									))
+								}
+							</div>
+						</fieldset>
+
+						<label class="field">
+							<span>Your recommendation</span>
+							<textarea
+								name="recommendation"
+								required
+								minlength="40"
+								maxlength="800"
+								rows="5"
+								placeholder="What did they do well? Communication, tenant quality, fees clarity, repairs… Would you instruct them again?"
+							/>
+						</label>
+
+						<label class="field">
+							<span>Your first name</span>
+							<input type="text" name="landlord_name" required maxlength="40" placeholder="e.g. David" autocomplete="given-name" />
+						</label>
+
+						<label class="field">
+							<span>Your email <em>(not published)</em></span>
+							<input type="email" name="email" required maxlength="120" placeholder="you@example.com" autocomplete="email" />
+						</label>
+
+						<label class="consent">
+							<input type="checkbox" name="consent_publish" value="yes" required />
+							<span>
+								I confirm this is my genuine experience as a landlord, and I am happy for a moderated version to be published with my first name and initial.
+							</span>
+						</label>
+
+						<button class="btn btn-primary" type="submit">Send recommendation</button>
+						<p class="fineprint">
+							By sending, you agree we may moderate and publish a shortened version of your feedback with your first name and initial.
+						</p>
+					</form>
+				</div>
+
+				<aside class="aside" aria-labelledby="published-heading">
+					<h2 id="published-heading">Published recommendations</h2>
+					{
+						publishedRecommendations.length === 0 ? (
+							<p class="empty">
+								None published yet — be among the first landlords to share a fair recommendation.
+								We add moderated quotes here so other landlords can learn from real experiences.
+							</p>
+						) : (
+							<ul class="quotes" role="list">
+								{publishedRecommendations.map((item) => (
+									<li>
+										<p class="stars" aria-label={`${item.rating} out of 5`}>
+											{stars(item.rating)}
+										</p>
+										<blockquote>
+											<p>{item.quote}</p>
+										</blockquote>
+										<p class="meta">
+											<strong>{item.agentName}</strong>
+											{' · '}
+											{item.areaHref ? <a href={item.areaHref}>{item.area}</a> : item.area}
+											{' · '}
+											{item.landlordLabel}
+										</p>
+									</li>
+								))}
+							</ul>
+						)
+					}
+
+					<div class="why">
+						<h3>Why this helps</h3>
+						<ul>
+							<li>Gives landlords real local signal beyond ads</li>
+							<li>Rewards agents who communicate and comply well</li>
+							<li>Keeps our featured picks honest — moderated, not bought blurbs</li>
+						</ul>
+					</div>
+				</aside>
+			</div>
+
+			<section class="faq-block" aria-labelledby="rec-faq-heading">
+				<h2 id="rec-faq-heading">Recommendation FAQs</h2>
+				{
+					recommendFaqs.map((item) => (
+						<details>
+							<summary>{item.question}</summary>
+							<p>{item.answer}</p>
+						</details>
+					))
+				}
+			</section>
+
+			<RelatedGuides exclude="/recommend/" />
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.recommend-layout {
+		padding-top: clamp(2.5rem, 5vw, 3.5rem);
+	}
+
+	.recommend-grid {
+		display: grid;
+		gap: 2.75rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.recommend-grid h2 {
+		font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+		color: var(--ink);
+		margin-bottom: 0.55rem;
+	}
+
+	.intro {
+		color: var(--muted);
+		margin-bottom: 1.25rem;
+		max-width: 36rem;
+	}
+
+	.rec-form {
+		display: grid;
+		gap: 1rem;
+		max-width: 34rem;
+	}
+
+	.field {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.field span,
+	.field legend {
+		font-size: 0.85rem;
+		font-weight: 650;
+		color: var(--ink-soft);
+	}
+
+	.field em {
+		font-style: normal;
+		font-weight: 500;
+		color: var(--muted);
+	}
+
+	.field input,
+	.field textarea {
+		width: 100%;
+		padding: 0.85rem 0.95rem;
+		border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+		background: var(--paper);
+		color: var(--text);
+		font: inherit;
+	}
+
+	.field textarea {
+		resize: vertical;
+		min-height: 8rem;
+	}
+
+	.rating-field {
+		border: 0;
+		padding: 0;
+		margin: 0;
+	}
+
+	.rating-options {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.rating-options label {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.75rem;
+		min-height: 2.75rem;
+		border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+		background: var(--white);
+		cursor: pointer;
+		font-weight: 650;
+		color: var(--ink);
+	}
+
+	.rating-options input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.rating-options label:has(input:checked) {
+		background: var(--ink);
+		color: var(--cream);
+		border-color: var(--ink);
+	}
+
+	.consent {
+		display: flex;
+		gap: 0.65rem;
+		align-items: flex-start;
+		color: var(--muted);
+		font-size: 0.95rem;
+		line-height: 1.45;
+	}
+
+	.consent input {
+		margin-top: 0.25rem;
+		flex-shrink: 0;
+	}
+
+	.fineprint {
+		font-size: 0.85rem;
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.fineprint code {
+		font-size: 0.8em;
+	}
+
+	.hp {
+		position: absolute;
+		left: -9999px;
+		height: 0;
+		width: 0;
+		opacity: 0;
+	}
+
+	.aside {
+		max-width: 28rem;
+	}
+
+	.empty {
+		color: var(--muted);
+		padding: 1rem 0 0;
+		line-height: 1.55;
+	}
+
+	.quotes {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.quotes li {
+		padding-top: 1.15rem;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+	}
+
+	.stars {
+		color: var(--brass);
+		letter-spacing: 0.08em;
+		margin-bottom: 0.45rem;
+	}
+
+	blockquote {
+		margin: 0;
+	}
+
+	blockquote p {
+		color: var(--ink-soft);
+		font-size: 1.05rem;
+		line-height: 1.55;
+		margin: 0 0 0.65rem;
+	}
+
+	.meta {
+		font-size: 0.92rem;
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.meta a {
+		color: var(--forest);
+	}
+
+	.why {
+		margin-top: 2rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+	}
+
+	.why h3 {
+		font-size: 1.05rem;
+		color: var(--ink);
+		margin-bottom: 0.55rem;
+	}
+
+	.why ul {
+		margin: 0;
+		padding-left: 1.15rem;
+		color: var(--muted);
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.faq-block {
+		max-width: 40rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.faq-block h2 {
+		font-size: 1.35rem;
+		color: var(--ink);
+		margin-bottom: 0.85rem;
+	}
+
+	.faq-block details {
+		padding: 0.7rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.faq-block summary {
+		cursor: pointer;
+		font-weight: 650;
+		color: var(--ink);
+	}
+
+	.faq-block details p {
+		margin: 0.55rem 0 0;
+		color: var(--muted);
+	}
+
+	@media (min-width: 900px) {
+		.recommend-grid {
+			grid-template-columns: 1.15fr 0.85fr;
+			align-items: start;
+			gap: 3.5rem;
+		}
+	}
+</style>

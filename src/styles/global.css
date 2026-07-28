@@ -1,0 +1,144 @@
+:root {
+	--ink: #0f2e28;
+	--ink-soft: #1a433a;
+	--forest: #234e44;
+	--moss: #3d6b5f;
+	--mist: #dce6e2;
+	--paper: #f3f6f4;
+	--brass: #c4a35a;
+	--brass-deep: #9a7a3a;
+	--cream: #f7f1e4;
+	--text: #1a2e2a;
+	--muted: #5a726b;
+	--white: #ffffff;
+	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--font-display: "Bricolage Grotesque", Georgia, serif;
+	--font-body: "Source Sans 3", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	font-size: 1.125rem;
+	line-height: 1.7;
+	color: var(--text);
+	background: var(--paper);
+	-webkit-font-smoothing: antialiased;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+a {
+	color: inherit;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.22em;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
+	font-weight: 560;
+	line-height: 1.18;
+	letter-spacing: -0.02em;
+	margin: 0;
+	text-wrap: balance;
+}
+
+p {
+	margin: 0;
+}
+
+button,
+input,
+select {
+	font: inherit;
+}
+
+:focus-visible {
+	outline: 3px solid var(--brass);
+	outline-offset: 3px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(1.25rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes ken {
+	from {
+		transform: scale(1.08) translateY(1%);
+	}
+	to {
+		transform: scale(1) translateY(0);
+	}
+}
+
+@keyframes draw {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+.reveal {
+	opacity: 1;
+	transform: none;
+	transition:
+		opacity 0.8s var(--ease),
+		transform 0.8s var(--ease);
+}
+
+/* Only hide below-fold reveals after JS marks them — keeps content visible for crawlers */
+.reveal.reveal-pending {
+	opacity: 0;
+	transform: translateY(1.25rem);
+}
+
+.reveal.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal,
+	.reveal.reveal-pending,
+	.reveal.is-visible {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

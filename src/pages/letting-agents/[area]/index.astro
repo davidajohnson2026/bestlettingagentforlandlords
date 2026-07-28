@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import FaqSection from '../../../components/FaqSection.astro';
+import RelatedGuides from '../../../components/RelatedGuides.astro';
+import { areas, areaPath, type Area } from '../../../data/areas';
+import { articleSchema, breadcrumbSchema, faqSchema, localBusinessSchema } from '../../../data/schema';
+import { areaPageDescription, areaPageTitle } from '../../../data/seo';
+import { feeCompareForSlug } from '../../../data/local-fee-compare';
+import type { FaqItem } from '../../../data/faq';
+import LocalFeeCompare from '../../../components/LocalFeeCompare.astro';
+
+export function getStaticPaths() {
+	return areas.map((area) => ({
+		params: { area: area.slug },
+		props: { area },
+	}));
+}
+
+interface Props {
+	area: Area;
+}
+
+const { area } = Astro.props;
+const path = areaPath(area.slug);
+const title = areaPageTitle(area.name);
+const description = areaPageDescription(area.name, Boolean(area.featured));
+const feeCompare = feeCompareForSlug(area.slug);
+
+const faqs: FaqItem[] = [
+	{
+		question: `How do I find a good letting agent in ${area.name}?`,
+		answer: `Shortlist ARLA Propertymark or Safeagent members with Client Money Protection and a redress scheme, compare full written fee schedules, and ask about recent lets in your ${area.name} postcode. Prioritise local market knowledge over national brand advertising.`,
+	},
+	{
+		question: `How much do ${area.name} letting agents charge landlords?`,
+		answer: area.feeNote,
+	},
+];
+
+const jsonLd: Record<string, unknown>[] = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Areas', path: '/letting-agents/' },
+		{ name: area.name, path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	faqSchema(faqs),
+];
+
+if (area.featured) {
+	jsonLd.push(
+		localBusinessSchema({
+			agent: area.featured,
+			city: area.name,
+			path,
+		}),
+	);
+}
+
+const nearby = areas.filter((item) => item.region === area.region && item.slug !== area.slug).slice(0, 4);
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<a href="/letting-agents/">UK areas</a>
+					<span aria-hidden="true">/</span>
+					<span>{area.name}</span>
+				</nav>
+				<p class="eyebrow">{area.region} · {area.nation}</p>
+				<h1>Best letting agents in {area.name}</h1>
+				<p class="lead">{area.blurb}</p>
+			</div>
+		</header>
+
+		<article class="section-shell prose">
+			<p>
+				Searching for the <strong>best letting agents in {area.name}</strong> should start with regulation and all-in fees, not the loudest portal presence. Use our UK-wide guidance, then shortlist agents who know your streets.
+			</p>
+
+			<h2>What {area.name} landlords should compare</h2>
+			<ul>
+				<li>ARLA Propertymark / Safeagent, Client Money Protection and redress membership</li>
+				<li>Tenant-find vs rent collection vs full management pricing (inc VAT)</li>
+				<li>Time-to-let and achieved rents on comparable local properties</li>
+				<li>How maintenance and out-of-hours issues are handled</li>
+				<li>Clarity on deposit protection and tenancy law changes in {area.nation}</li>
+			</ul>
+
+			<h2>Typical fee context</h2>
+			<p>{area.feeNote}</p>
+			<p>
+				Read the <a href="/letting-agent-fees/">UK letting agent fees guide</a> and
+				<a href="/full-management-vs-tenant-find/">full management vs tenant find</a> comparison before you instruct.
+			</p>
+
+			{feeCompare && <LocalFeeCompare data={feeCompare} />}
+
+			{
+				area.featured && (
+					<>
+						<h2>Featured recommendation: {area.featured.name}</h2>
+						<p>{area.featured.summary}</p>
+						{area.slug === 'doncaster' && (
+							<p>
+								<strong>Coverage:</strong> Doncaster town and about a 9-mile radius (e.g. DN1–DN7, DN9, DN11, DN12).
+								Not recommended here for Sheffield or Rotherham properties — see those area guides for separate local features.
+							</p>
+						)}
+						{area.featured.reputationNote && <p>{area.featured.reputationNote}</p>}
+						<ul>
+							{area.featured.highlights.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+						<p>
+							Prefer to talk? Call <a href={area.featured.phoneHref}>{area.featured.phone}</a>.
+						</p>
+						<p class="hero-actions">
+							<a class="btn btn-primary" href={area.featured.phoneHref}>
+								Call {area.featured.name}
+							</a>
+							<a class="btn btn-secondary" href={area.featured.url} target="_blank" rel="noopener noreferrer">
+								Visit their lettings page
+							</a>
+						</p>
+					</>
+				)
+			}
+
+			{
+				nearby.length > 0 && (
+					<>
+						<h2>Nearby areas</h2>
+						<p>
+							{nearby.map((item, index) => (
+								<>
+									{index > 0 && ' · '}
+									<a href={areaPath(item.slug)}>{item.name}</a>
+								</>
+							))}
+						</p>
+					</>
+				)
+			}
+
+			<p class="hero-actions" style="margin-top: 2rem;">
+				<a class="btn btn-primary" href={`/compare/?area=${area.slug}`}>Compare in {area.name}</a>
+				<a class="btn btn-secondary" href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
+			</p>
+		</article>
+
+		<FaqSection items={faqs} id={`${area.slug}-faq`} heading={`People also ask about ${area.name} letting agents`} />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude={path} />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>

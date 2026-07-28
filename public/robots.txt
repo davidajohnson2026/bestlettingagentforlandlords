@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Helpful crawl targets
+Allow: /llms.txt
+Allow: /sitemap-index.xml
+Allow: /robots.txt
+
+Sitemap: https://bestlettingagentforlandlords.co.uk/sitemap-index.xml

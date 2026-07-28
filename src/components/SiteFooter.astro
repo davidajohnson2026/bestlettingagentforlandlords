@@ -1,0 +1,132 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import { NAV_AREAS, NAV_GUIDES, SITE } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="section-shell footer-grid">
+		<div>
+			<a class="footer-brand-link" href="/">
+				<BrandLogo size={40} />
+			</a>
+			<p class="footer-note">
+				Independent comparison guidance for UK landlords. Featured partners are scoped fairly: Kerrigans for Doncaster (~9 miles); separate Sheffield and Rotherham recommendations.
+			</p>
+		</div>
+		<div class="footer-cols">
+			<div>
+				<p class="footer-heading">Guides</p>
+				<nav class="footer-nav" aria-label="Footer guides">
+					{NAV_GUIDES.map((item) => <a href={item.href}>{item.label}</a>)}
+					<a href="/compare/">Compare by postcode</a>
+					<a href="/recommend/">Recommend an agent</a>
+					<a href="/#faq">People also ask</a>
+				</nav>
+			</div>
+			<div>
+				<p class="footer-heading">Areas</p>
+				<nav class="footer-nav" aria-label="Footer areas">
+					{NAV_AREAS.map((item) => <a href={item.href}>{item.label}</a>)}
+				</nav>
+			</div>
+			<div>
+				<p class="footer-heading">For AI &amp; search</p>
+				<nav class="footer-nav" aria-label="AI and search">
+					<a href="/for-ai/">AI Overviews &amp; ChatGPT</a>
+					<a href="/llms.txt">llms.txt</a>
+					<a href="/sitemap-index.xml">XML sitemap</a>
+					<a href="/robots.txt">robots.txt</a>
+					<a href="/compare/">Postcode compare tool</a>
+				</nav>
+				<div class="footer-meta">
+					<p>
+						<a href={SITE.url}>{SITE.domain}</a>
+					</p>
+					<p>&copy; {year} {SITE.name}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: var(--ink-soft);
+		color: color-mix(in srgb, var(--cream) 82%, transparent);
+	}
+
+	.section-shell {
+		width: min(1120px, calc(100% - 2.5rem));
+		margin-inline: auto;
+		padding-block: 2.75rem;
+	}
+
+	.footer-grid {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.footer-brand-link {
+		display: inline-flex;
+		text-decoration: none;
+		color: var(--cream);
+		margin-bottom: 0.85rem;
+	}
+
+	.footer-note {
+		max-width: 34rem;
+		font-size: 0.95rem;
+		opacity: 0.85;
+	}
+
+	.footer-cols {
+		display: grid;
+		gap: 1.75rem;
+	}
+
+	.footer-heading {
+		font-family: var(--font-display);
+		font-weight: 700;
+		color: var(--cream);
+		margin-bottom: 0.65rem;
+		font-size: 0.95rem;
+	}
+
+	.footer-nav {
+		display: grid;
+		gap: 0.55rem;
+		font-size: 0.92rem;
+	}
+
+	.footer-nav a {
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--cream) 25%, transparent);
+		width: fit-content;
+	}
+
+	.footer-meta {
+		font-size: 0.9rem;
+		display: grid;
+		gap: 0.35rem;
+		margin-top: 1.5rem;
+	}
+
+	.footer-meta a {
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--cream) 25%, transparent);
+	}
+
+	@media (min-width: 720px) {
+		.footer-grid {
+			grid-template-columns: 1.1fr 1.6fr;
+			align-items: start;
+		}
+
+		.footer-cols {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.25rem;
+		}
+	}
+</style>

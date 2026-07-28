@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import GuideToc from '../../components/GuideToc.astro';
+import MidArticleCta from '../../components/MidArticleCta.astro';
+import FeePriceCards from '../../components/FeePriceCards.astro';
+import { feesFaqs } from '../../data/faq';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.fees;
+const path = '/letting-agent-fees/';
+
+const keyFacts = [
+	'Tenant-find is typically a one-off fee (about 4–8% of first year’s rent or £400–£1,500).',
+	'Rent collection commonly sits around 5–10% of monthly rent; full management about 8–15% + VAT (London higher).',
+	'Tenant Fees Act 2019 (England) bans most tenant admin fees — costs often shift to landlords.',
+	'Allowable agent fees are usually tax-deductible against rental income — keep invoices for Self Assessment.',
+];
+
+const toc = [
+	{ href: '#pricing', label: 'Typical fees side-by-side' },
+	{ href: '#worked-example', label: 'Worked £1,200/mo example' },
+	{ href: '#hidden-charges', label: 'Hidden charges to watch' },
+	{ href: '#tenant-fees-act', label: 'Tenant Fees Act 2019' },
+	{ href: '#tax', label: 'Tax deductibility' },
+	{ href: '#agent-types', label: 'High-street vs online agents' },
+	{ href: '#credentials', label: 'How to verify credentials' },
+	{ href: '#cut-costs', label: 'Tips to cut management costs' },
+	{ href: '#local-compare', label: 'Local fee comparisons' },
+	{ href: '#fees-faq', label: 'FAQs' },
+];
+
+const workedRows = [
+	{ service: 'Tenant find (one-off mid)', calc: '6% of £14,400', cost: '£864' },
+	{ service: 'Rent collection (8% + VAT)', calc: '8% × £1,200 × 12 × 1.2', cost: '£1,382' },
+	{ service: 'Full management (12% + VAT)', calc: '12% × £1,200 × 12 × 1.2', cost: '£2,074' },
+];
+
+const agentTypes = [
+	{
+		type: 'Local independent',
+		pros: 'Local knowledge; named contacts; often clearer schedules',
+		cons: 'Marketing reach can be narrower than nationals',
+		bestFor: 'Landlords who want a hands-on local relationship',
+	},
+	{
+		type: 'High-street / national',
+		pros: 'Brand reach; multiple offices; standardised processes',
+		cons: 'Fees can stack; service can feel remote',
+		bestFor: 'Portfolios spanning several towns',
+	},
+	{
+		type: 'Online / hybrid',
+		pros: 'Often lower fixed fees; digital dashboards',
+		cons: 'You may handle more yourself (e.g. viewings)',
+		bestFor: 'Hands-on landlords focused on cost',
+	},
+];
+
+const cutCosts = [
+	'Ask for the full fee schedule inclusive of VAT before you compare.',
+	'Negotiate if you have more than one property or a longer instruction.',
+	'Push to remove or cap renewal / continuation fees upfront.',
+	'Price extras (inventory, exit, contractor mark-ups) into a 12-month total.',
+	'Shortlist three regulated locals via our postcode compare — not the first brochure.',
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Letting agent fees', path },
+	]),
+	articleSchema({
+		headline: title,
+		description,
+		path,
+		dateModified: '2026-07-28',
+	}),
+	faqSchema(feesFaqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Letting agent fees</span>
+				</nav>
+				<p class="eyebrow">Fees guide for landlords · 2026</p>
+				<h1>How much do letting agents charge in the UK?</h1>
+				<p class="lead">
+					A practical landlord guide to tenant-find, rent collection and full management fees — plus VAT, hidden extras, the Tenant Fees Act, tax deductibility and how to compare fairly.
+				</p>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="/compare/">Compare agents by postcode</a>
+					<a class="btn btn-secondary" href="#pricing">See pricing bands</a>
+				</div>
+			</div>
+		</header>
+
+		<article class="section-shell">
+			<p class="guide-updated">Updated 28 July 2026 · Independent landlord guidance</p>
+
+			<KeyFacts heading="Quick summary (TL;DR)" facts={keyFacts} />
+			<GuideToc items={toc} />
+
+			<div class="prose">
+				<p>
+					Understanding <strong>letting agent fees</strong> protects your yield. Start with service level, then convert every quote into an all-in annual cost for your rent. The bands below are typical 2026 ranges — always confirm locally in writing.
+				</p>
+			</div>
+
+			<section class="pricing" id="pricing" aria-labelledby="pricing-heading">
+				<div class="pricing-intro">
+					<h2 id="pricing-heading">Typical letting agent fees side-by-side</h2>
+					<p>
+						Illustrative UK bands (not a live agent quote). Use them to sanity-check any schedule — then
+						<a href="/compare/">shortlist regulated agents near your postcode</a>.
+					</p>
+				</div>
+
+				<div class="price-grid-wrap">
+					<FeePriceCards />
+				</div>
+			</section>
+
+			<section class="worked" id="worked-example" aria-labelledby="worked-heading">
+				<h2 id="worked-heading">Worked example — £1,200 per month rent</h2>
+				<p class="worked-lead">
+					Rough pounds before inventory, renewals or contractor mark-ups. VAT shown where the management percentage usually attracts it.
+				</p>
+				<table class="fee-table">
+					<thead>
+						<tr>
+							<th scope="col">Service (example rate)</th>
+							<th scope="col">How we got there</th>
+							<th scope="col">About</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							workedRows.map((row) => (
+								<tr>
+									<td>{row.service}</td>
+									<td>{row.calc}</td>
+									<td>
+										<strong>{row.cost}</strong>
+									</td>
+								</tr>
+							))
+						}
+					</tbody>
+				</table>
+				<p class="worked-note">
+					A “cheaper” 10% that excludes renewals and marks up contractors can cost more than a clearer 12% inclusive schedule. Price the whole year, not the brochure percentage.
+				</p>
+			</section>
+
+			<MidArticleCta
+				heading="Ready to compare local agents?"
+				body="Enter your postcode for fair local guidance — Kerrigans only within Doncaster’s ~9-mile radius, with separate Sheffield and Rotherham features."
+				primaryHref="/compare/"
+				primaryLabel="Compare by postcode"
+				secondaryHref="/letting-agents/doncaster/"
+				secondaryLabel="Doncaster fee table"
+			/>
+
+			<div class="prose">
+				<h2 id="hidden-charges">Additional ‘hidden’ charges</h2>
+				<p>Always request a full schedule of fees. Watch for:</p>
+				<ul>
+					<li>VAT on the management percentage</li>
+					<li>Inventory, check-in and check-out fees</li>
+					<li>Tenancy renewal or “continuation” fees</li>
+					<li>Exit fees if you switch agents mid-tenancy</li>
+					<li>Notice serving, court attendance or compliance add-ons</li>
+					<li>Contractor mark-ups on maintenance</li>
+				</ul>
+				<p>
+					Northern England and the Midlands often sit toward the lower end of headline bands; London and the South East toward the top. Large brands may quote effective rates above 18% including VAT once lettings and management fees stack.
+				</p>
+
+				<h2 id="tenant-fees-act">What landlords must know about the Tenant Fees Act 2019</h2>
+				<p>
+					In England, the <strong>Tenant Fees Act 2019</strong> bans most upfront admin fees to tenants (for example referencing, inventory checks and contract setup charged to the tenant). Those costs are often absorbed into landlord-facing fees instead. Confirm your agent follows the rules — non-compliance risks penalties. See
+					<a href="https://www.gov.uk/government/collections/tenant-fees-act" target="_blank" rel="noopener noreferrer">
+						GOV.UK Tenant Fees Act guidance
+					</a>.
+				</p>
+
+				<h2 id="tax">Are letting agent fees tax-deductible?</h2>
+				<p>
+					<strong>Usually yes</strong> — HMRC treats fees paid wholly and exclusively for renting out a property as allowable expenses against rental income. Keep invoices and statements for Self Assessment. VAT recovery depends on your circumstances — check with your accountant. See
+					<a
+						href="https://www.gov.uk/guidance/income-tax-when-you-rent-out-a-property-working-out-your-rental-income"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						HMRC rental income guidance
+					</a>.
+				</p>
+
+				<h2 id="agent-types">High-street vs online letting agents</h2>
+				<p>Balance cost, reach and how hands-on you want to be:</p>
+			</div>
+
+			<table class="fee-table agent-type-table">
+				<thead>
+					<tr>
+						<th scope="col">Agent type</th>
+						<th scope="col">Pros</th>
+						<th scope="col">Cons</th>
+						<th scope="col">Best for</th>
+					</tr>
+				</thead>
+				<tbody>
+					{
+						agentTypes.map((row) => (
+							<tr>
+								<td>
+									<strong>{row.type}</strong>
+								</td>
+								<td>{row.pros}</td>
+								<td>{row.cons}</td>
+								<td>{row.bestFor}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+
+			<div class="prose">
+				<h2 id="credentials">How to verify your letting agent’s credentials</h2>
+				<ol>
+					<li>
+						<strong>Client Money Protection (CMP)</strong> — required in England for agents holding client money.
+					</li>
+					<li>
+						<strong>Redress scheme</strong> — The Property Ombudsman or Property Redress Scheme.
+					</li>
+					<li>
+						<strong>Professional membership</strong> — ARLA Propertymark or Safeagent where claimed (
+						<a href="https://www.propertymark.co.uk/find-an-expert.html" target="_blank" rel="noopener noreferrer">
+							verify via Propertymark
+						</a>
+						).
+					</li>
+				</ol>
+				<p>
+					Use our <a href="/how-to-choose-a-letting-agent/">how to choose</a> checklist and
+					<a href="/questions-to-ask-a-letting-agent/">phone script</a> before you instruct.
+				</p>
+
+				<h2 id="cut-costs">Tips to reduce property management costs</h2>
+				<ol>
+					{cutCosts.map((item) => <li>{item}</li>)}
+				</ol>
+
+				<h2 id="local-compare">Local fee comparisons</h2>
+				<p>
+					For Doncaster, Sheffield and Rotherham we publish a RentRound-style fee table: featured local agent plus typical market bands (not invented competitor quotes).
+				</p>
+				<div class="compare-cities">
+					<a href="/letting-agents/doncaster/">Doncaster</a>
+					<a href="/letting-agents/sheffield/">Sheffield</a>
+					<a href="/letting-agents/rotherham/">Rotherham</a>
+					<a href="/property-management-companies/">10 tips guide</a>
+				</div>
+			</div>
+
+			<MidArticleCta
+				heading="Compare letting agent fees near you"
+				body="Free postcode match with fair local recommendations — then instruct only after you have the written schedule."
+				primaryHref="/compare/"
+				primaryLabel="Start comparison"
+				secondaryHref="/letting-agent-fees/#fees-faq"
+				secondaryLabel="Read FAQs"
+			/>
+
+			<p class="hero-actions" style="margin-top: 0.5rem;">
+				<a class="btn btn-secondary" href="/full-management-vs-tenant-find/">Managed vs let-only</a>
+				<a class="btn btn-secondary" href="/recommend/">Recommend an agent</a>
+			</p>
+		</article>
+
+		<FaqSection items={feesFaqs} id="fees-faq" heading="People also ask about letting agent fees" />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude="/letting-agent-fees/" />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.pricing {
+		margin: 2rem 0 2.5rem;
+	}
+
+	.pricing-intro {
+		max-width: 40rem;
+		margin-bottom: 1.35rem;
+	}
+
+	.pricing-intro h2 {
+		font-size: clamp(1.5rem, 2.8vw, 2rem);
+		color: var(--ink);
+		margin-bottom: 0.55rem;
+	}
+
+	.pricing-intro p {
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.pricing-intro a {
+		color: var(--forest);
+		font-weight: 550;
+	}
+
+	.worked {
+		margin: 0 0 1.5rem;
+		max-width: 48rem;
+	}
+
+	.worked h2 {
+		font-size: clamp(1.5rem, 2.8vw, 2rem);
+		color: var(--ink);
+		margin-bottom: 0.55rem;
+	}
+
+	.worked-lead,
+	.worked-note {
+		color: var(--muted);
+		margin: 0 0 1rem;
+		max-width: 40rem;
+	}
+
+	.worked-note {
+		margin-top: 0.85rem;
+	}
+
+	.agent-type-table {
+		max-width: 52rem;
+	}
+</style>

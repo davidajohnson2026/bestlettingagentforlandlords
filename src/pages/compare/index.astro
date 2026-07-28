@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import Icon from '../../components/Icon.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import { areaPath } from '../../data/areas';
+import { areasWithFeatured } from '../../data/matchArea';
+import { KERRIGANS_RADIUS_DISTRICTS } from '../../data/recommendations';
+import {
+	breadcrumbSchema,
+	faqSchema,
+	itemListSchema,
+	webApplicationSchema,
+	webPageSchema,
+} from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.compare;
+const path = '/compare/';
+
+const featuredAreas = areasWithFeatured();
+const kerrigansDistricts = [...KERRIGANS_RADIUS_DISTRICTS];
+
+const compareFaqs = [
+	{
+		question: 'Which letting agents does this compare tool recommend?',
+		answer:
+			'Kerrigans Property for Doncaster and about a 9-mile radius only. Henry Spencer & Sons for Sheffield. Bricknells Rentals for Rotherham. Other UK postcodes get area guides and trust checklists — not a Doncaster default.',
+	},
+	{
+		question: 'Does Kerrigans cover Sheffield or Rotherham?',
+		answer:
+			'No. For fairness we do not recommend Kerrigans for Sheffield or Rotherham town centres. Use the Sheffield and Rotherham area guides for local featured agents instead.',
+	},
+	{
+		question: 'How should landlords use this tool?',
+		answer:
+			'Enter your property postcode, choose tenant-find or full management, then open the matched area guide. Always verify ARLA or Safeagent membership, Client Money Protection and a written fee schedule before you instruct.',
+	},
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Compare', path },
+	]),
+	webPageSchema({ name: title, description, path }),
+	webApplicationSchema({
+		name: 'Compare letting agents by UK postcode',
+		description,
+		path,
+	}),
+	itemListSchema(
+		'Featured letting agents for UK landlords by area',
+		featuredAreas.map((area) => ({
+			name: `${area.featured!.name} — ${area.name}`,
+			path: areaPath(area.slug),
+			description: area.featured!.summary,
+		})),
+	),
+	faqSchema(compareFaqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Compare</span>
+				</nav>
+				<p class="eyebrow">Fair local recommendations</p>
+				<h1>Compare letting agents near you</h1>
+				<p class="lead">
+					Enter a UK postcode for a fair local match. Kerrigans only for Doncaster + about a 9-mile radius.
+					Sheffield and Rotherham get their own featured agents — not a Doncaster recommendation by default.
+				</p>
+			</div>
+		</header>
+
+		<section class="section-shell">
+			<form class="compare-form" action="/compare/" method="get" id="compare-form">
+				<label class="field">
+					<span>Property postcode</span>
+					<input
+						type="text"
+						name="postcode"
+						id="postcode"
+						placeholder="e.g. DN1 1AA, S1 2HU, S60 1AA, M1 1AE"
+						autocomplete="postal-code"
+						required
+					/>
+				</label>
+				<label class="field">
+					<span>Service needed</span>
+					<select name="service" id="service">
+						<option value="full">Full management</option>
+						<option value="tenant-find">Tenant find only</option>
+						<option value="rent-collect">Rent collection</option>
+					</select>
+				</label>
+				<button class="btn btn-primary" type="submit">Compare agents</button>
+			</form>
+
+			<div id="compare-results" class="results" hidden>
+				<div class="result-card" data-local-route hidden>
+					<p class="eyebrow">Local match</p>
+					<h2 data-local-name></h2>
+					<p class="meta"><span data-local-region></span> · <span data-local-nation></span></p>
+					<p data-local-blurb></p>
+					<p class="fee" data-local-fee></p>
+					<p class="service-note">You selected: <strong data-service-label-local></strong></p>
+
+					<div class="featured" data-local-featured hidden>
+						<p class="eyebrow">Featured local recommendation</p>
+						<h3 data-featured-name></h3>
+						<p data-featured-summary></p>
+						<p class="rep-note" data-featured-rep></p>
+						<div class="hero-actions">
+							<a class="btn btn-primary" data-featured-phone href="#">Call agent</a>
+							<a class="btn btn-secondary" data-featured-url href="#" target="_blank" rel="noopener noreferrer">
+								Visit website
+							</a>
+						</div>
+					</div>
+
+					<p class="fair-note" data-no-featured hidden>
+						No single featured agent for this exact postcode yet — use the area guide and phone checklist to shortlist regulated locals fairly.
+					</p>
+
+					<div class="hero-actions">
+						<a class="btn btn-primary" data-local-guide href="#">Open area guide</a>
+						<a class="btn btn-secondary" href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
+					</div>
+				</div>
+
+				<div class="result-card" data-default-rec hidden>
+					<p class="eyebrow">UK-wide guidance</p>
+					<h2>Compare regulated agents near your postcode</h2>
+					<p>
+						We only feature Kerrigans inside Doncaster’s ~9-mile radius, and separate Sheffield / Rotherham recommendations.
+						For other UK areas, use the fees guide, trust checklist and phone script — then instruct a local ARLA / Safeagent member.
+					</p>
+					<p class="fee" data-other-area-note hidden></p>
+					<p class="service-note">You selected: <strong data-service-label-default></strong></p>
+
+					<div class="hero-actions">
+						<a class="btn btn-primary" href="/how-to-choose-a-letting-agent/">How to choose</a>
+						<a class="btn btn-secondary" href="/letting-agent-fees/">UK fees guide</a>
+						<a class="btn btn-secondary" href="/letting-agents/">Browse UK areas</a>
+					</div>
+				</div>
+			</div>
+
+			{/* Static HTML for crawlers — always in the document, not JS-only */}
+			<section class="crawl-block" aria-labelledby="featured-areas-heading">
+				<h2 id="featured-areas-heading">Featured agents by area</h2>
+				<p>
+					Crawlable area guides with a featured local recommendation where we have one.
+					Always verify regulation and fees yourself before you instruct.
+				</p>
+				<ul class="featured-list" role="list">
+					{
+						featuredAreas.map((area) => (
+							<li>
+								<a href={areaPath(area.slug)}>
+									<strong>{area.name}</strong>
+									{' — '}
+									{area.featured!.name}
+								</a>
+								<p>{area.featured!.summary}</p>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="crawl-block" aria-labelledby="how-compare-heading">
+				<h2 id="how-compare-heading">How postcode matching works</h2>
+				<ol>
+					<li>
+						<strong>Doncaster (~9 miles):</strong> districts {kerrigansDistricts.join(', ')} may show Kerrigans Property.
+						DN postcodes further out do not.
+					</li>
+					<li>
+						<strong>Sheffield:</strong> other S postcodes match the
+						<a href="/letting-agents/sheffield/">Sheffield guide</a> (Henry Spencer &amp; Sons).
+					</li>
+					<li>
+						<strong>Rotherham:</strong> S60–S66 match the
+						<a href="/letting-agents/rotherham/">Rotherham guide</a> (Bricknells Rentals).
+					</li>
+					<li>
+						<strong>Rest of the UK:</strong> open the nearest
+						<a href="/letting-agents/">city guide</a> and use our trust checklist — no Kerrigans default.
+					</li>
+				</ol>
+			</section>
+
+			<section class="crawl-block" aria-labelledby="compare-faq-heading">
+				<h2 id="compare-faq-heading">Compare tool FAQs</h2>
+				{
+					compareFaqs.map((item) => (
+						<details>
+							<summary>{item.question}</summary>
+							<p>{item.answer}</p>
+						</details>
+					))
+				}
+			</section>
+
+			<div class="uk-note">
+				<p>
+					<span class="icon-badge" aria-hidden="true"><Icon name="pin" size={18} /></span>
+					<strong>Kerrigans:</strong> {kerrigansDistricts.join(', ')} (≈9 miles) ·
+					<strong>Sheffield:</strong> Henry Spencer &amp; Sons ·
+					<strong>Rotherham:</strong> Bricknells Rentals ·
+					<strong>Elsewhere:</strong> neutral UK guidance
+				</p>
+			</div>
+
+			<RelatedGuides exclude="/compare/" />
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<script>
+	import '../../scripts/compare-tool';
+</script>
+
+<style>
+	.compare-form {
+		display: grid;
+		gap: 1rem;
+		margin-bottom: 2rem;
+		padding: 1.25rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.field {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.field span {
+		font-size: 0.85rem;
+		font-weight: 650;
+		color: var(--ink-soft);
+	}
+
+	.field input,
+	.field select {
+		width: 100%;
+		padding: 0.85rem 0.95rem;
+		border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+		background: var(--paper);
+		color: var(--text);
+	}
+
+	.results {
+		margin-bottom: 2rem;
+	}
+
+	.result-card {
+		padding: 1.5rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+		max-width: 46rem;
+	}
+
+	.result-card .eyebrow {
+		margin-bottom: 0.5rem;
+	}
+
+	.result-card h2 {
+		font-size: clamp(1.6rem, 3vw, 2.2rem);
+		color: var(--ink);
+		margin-bottom: 0.35rem;
+	}
+
+	.result-card h3 {
+		font-size: 1.3rem;
+		color: var(--ink);
+		margin-bottom: 0.45rem;
+	}
+
+	.meta {
+		color: var(--moss);
+		font-weight: 650;
+		margin-bottom: 0.85rem;
+	}
+
+	.result-card p {
+		color: var(--muted);
+		margin-bottom: 0.85rem;
+	}
+
+	.fee {
+		padding: 0.85rem 1rem;
+		background: var(--mist);
+		color: var(--ink) !important;
+	}
+
+	.featured {
+		margin: 1.25rem 0;
+		padding: 1.15rem 0 0;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+	}
+
+	.rep-note {
+		font-size: 0.95rem;
+		color: var(--ink-soft) !important;
+	}
+
+	.fair-note {
+		padding: 0.85rem 1rem;
+		background: var(--mist);
+		color: var(--ink) !important;
+	}
+
+	.crawl-block {
+		max-width: 46rem;
+		margin: 0 0 2rem;
+	}
+
+	.crawl-block h2 {
+		font-size: 1.35rem;
+		color: var(--ink);
+		margin-bottom: 0.65rem;
+	}
+
+	.crawl-block p,
+	.crawl-block li {
+		color: var(--muted);
+		margin-bottom: 0.65rem;
+		line-height: 1.55;
+	}
+
+	.crawl-block ol {
+		padding-left: 1.2rem;
+	}
+
+	.featured-list {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 1rem;
+	}
+
+	.featured-list li {
+		padding: 1rem 0 0;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+	}
+
+	.featured-list a {
+		color: var(--forest);
+		text-decoration: none;
+		font-size: 1.05rem;
+	}
+
+	.featured-list a:hover {
+		text-decoration: underline;
+	}
+
+	.featured-list p {
+		margin: 0.4rem 0 0;
+		font-size: 0.98rem;
+	}
+
+	.crawl-block details {
+		margin-bottom: 0.65rem;
+		padding: 0.65rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.crawl-block summary {
+		cursor: pointer;
+		font-weight: 650;
+		color: var(--ink);
+	}
+
+	.crawl-block details p {
+		margin: 0.55rem 0 0;
+	}
+
+	.uk-note {
+		max-width: 46rem;
+		color: var(--muted);
+		font-size: 1.02rem;
+	}
+
+	.uk-note .icon-badge {
+		display: inline-flex;
+		vertical-align: middle;
+		margin-right: 0.35rem;
+		width: 1.75rem;
+		height: 1.75rem;
+		align-items: center;
+		justify-content: center;
+		color: var(--forest);
+		background: var(--mist);
+		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	@media (min-width: 720px) {
+		.compare-form {
+			grid-template-columns: 1.2fr 1fr auto;
+			align-items: end;
+		}
+	}
+</style>

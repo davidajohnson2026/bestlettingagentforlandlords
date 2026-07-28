@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import Icon from '../../components/Icon.astro';
+import { chooseFaqs } from '../../data/faq';
+import { painPoints, trustFactors } from '../../data/content';
+import { articleSchema, breadcrumbSchema, faqSchema, howToSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.choose;
+const path = '/how-to-choose-a-letting-agent/';
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'How to choose a letting agent', path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	howToSchema(),
+	faqSchema(chooseFaqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>How to choose</span>
+				</nav>
+				<p class="eyebrow">Landlord decision guide</p>
+				<h1>How to choose a letting agent</h1>
+				<p class="lead">
+					Shortlist regulated locals, compare the full fee schedule, then instruct the agent who proves results in your postcode — not the one with the slickest brochure.
+				</p>
+			</div>
+		</header>
+
+		<article class="section-shell">
+			<div class="prose">
+				<p>
+					Choosing a letting agent is one of the highest-leverage decisions a landlord makes. The wrong instruction creates voids, compliance risk and months of poor communication. The right one protects yield and your time.
+				</p>
+
+				<h2>Trust factors to verify first</h2>
+			</div>
+
+			<div class="grid-cards cols-2" style="margin: 1.5rem 0 2.5rem;">
+				{
+					trustFactors.map((item) => (
+						<article class="grid-item">
+							<span class="icon-badge" aria-hidden="true">
+								<Icon name={item.icon} size={22} />
+							</span>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+						</article>
+					))
+				}
+			</div>
+
+			<div class="prose">
+				<h2>Pain points to design out</h2>
+			</div>
+
+			<div class="grid-cards cols-2" style="margin: 1.5rem 0 2.5rem;">
+				{
+					painPoints.slice(0, 4).map((item) => (
+						<article class="grid-item">
+							<span class="icon-badge" aria-hidden="true">
+								<Icon name={item.icon} size={22} />
+							</span>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+						</article>
+					))
+				}
+			</div>
+
+			<div class="prose">
+				<h2>Interview questions that reveal quality</h2>
+				<ul>
+					<li>How long do similar local properties take to let, and at what rent?</li>
+					<li>What does your referencing and Right to Rent process include?</li>
+					<li>Who handles maintenance — and where is that team based?</li>
+					<li>Can I see your full fee schedule including renewals and exits?</li>
+					<li>Which CMP and redress schemes are you on — and can I verify them?</li>
+					<li>How are you preparing landlords for Renters’ Rights changes?</li>
+				</ul>
+
+				<h2>Is it better to use an agency or self-manage?</h2>
+				<p>
+					Self-managing can work if you live nearby, understand compliance and want maximum control. An agency is usually better when the property is remote, you hold a portfolio, or you need reliable arrears and maintenance cover. Compare the management fee against your time and void risk — not against zero.
+				</p>
+
+				<p>
+					Also read our <a href="/letting-agent-fees/">UK fees guide</a> and browse
+					<a href="/letting-agents/">letting agents by UK area</a>.
+				</p>
+
+				<p class="hero-actions" style="margin-top: 2rem;">
+					<a class="btn btn-primary" href="/compare/">Compare agents</a>
+					<a class="btn btn-secondary" href="/letting-agent-fees/">Fee ranges</a>
+				</p>
+			</div>
+		</article>
+
+		<FaqSection items={chooseFaqs} id="choose-faq" heading="People also ask when choosing an agent" />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude="/how-to-choose-a-letting-agent/" />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>

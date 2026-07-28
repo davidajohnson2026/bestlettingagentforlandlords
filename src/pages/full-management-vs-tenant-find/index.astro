@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import Icon from '../../components/Icon.astro';
+import { serviceFaqs } from '../../data/faq';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.services;
+const path = '/full-management-vs-tenant-find/';
+
+const tiers = [
+	{
+		icon: 'userCheck',
+		title: 'Tenant find (let-only)',
+		fee: 'Often 4–8% of year-one rent or a fixed fee',
+		body: 'Marketing, viewings, referencing and tenancy setup — then you manage the tenancy day to day.',
+		best: 'Hands-on local landlords who want control after move-in.',
+	},
+	{
+		icon: 'fees',
+		title: 'Rent collection',
+		fee: 'Often ~5–10% of monthly rent',
+		body: 'Tenant find plus rent processing and arrears chasing. Maintenance may still sit with you.',
+		best: 'Landlords who want cashflow handled but can manage repairs.',
+	},
+	{
+		icon: 'handsOff',
+		title: 'Full management',
+		fee: 'Often 8–15% of monthly rent + VAT',
+		body: 'Ongoing management: rent, maintenance coordination, inspections and tenant communication.',
+		best: 'Distant, time-poor or portfolio landlords who need compliance cover.',
+	},
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Full management vs tenant find', path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	faqSchema(serviceFaqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Managed vs let-only</span>
+				</nav>
+				<p class="eyebrow">Letting services compared</p>
+				<h1>Full management vs tenant find</h1>
+				<p class="lead">
+					The right service level depends on how hands-on you want to be — and what you are really paying for. Use this breakdown before you compare agent fees.
+				</p>
+			</div>
+		</header>
+
+		<section class="section-shell">
+			<div class="grid-cards cols-3">
+				{
+					tiers.map((tier) => (
+						<article class="grid-item">
+							<span class="icon-badge" aria-hidden="true">
+								<Icon name={tier.icon} size={22} />
+							</span>
+							<h2 style="font-size: 1.25rem; margin-bottom: 0.4rem;">{tier.title}</h2>
+							<p style="color: var(--forest); font-weight: 650; margin-bottom: 0.55rem;">{tier.fee}</p>
+							<p>{tier.body}</p>
+							<p style="margin-top: 0.75rem;"><strong style="color: var(--ink);">Best for:</strong> {tier.best}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
+
+		<article class="section-shell prose" style="padding-top: 0;">
+			<h2>How to decide as a landlord</h2>
+			<ul>
+				<li>If voids and repairs stress you more than the fee, lean full management.</li>
+				<li>If you live nearby and know compliance, tenant find can protect yield.</li>
+				<li>Always compare the written schedule — renewals and extras can erase a “cheap” let-only quote.</li>
+				<li>Ask who answers the tenant at 8pm when a boiler fails — that answer reveals the real service.</li>
+			</ul>
+
+			<h2>Related guides</h2>
+			<p>
+				See <a href="/letting-agent-fees/">how much letting agents charge</a>, then use
+				<a href="/how-to-choose-a-letting-agent/">how to choose a letting agent</a> to shortlist regulated locals. Browse
+				<a href="/letting-agents/">all UK areas</a> or
+				<a href="/compare/">compare by postcode</a>.
+			</p>
+
+			<p class="hero-actions" style="margin-top: 2rem;">
+				<a class="btn btn-primary" href="/compare/">Compare agents near you</a>
+				<a class="btn btn-secondary" href="/letting-agent-fees/">Fee ranges</a>
+			</p>
+		</article>
+
+		<FaqSection items={serviceFaqs} id="services-faq" heading="People also ask about letting services" />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude="/full-management-vs-tenant-find/" />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>

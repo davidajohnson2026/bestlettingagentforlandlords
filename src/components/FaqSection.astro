@@ -1,0 +1,121 @@
+---
+import type { FaqItem } from '../data/faq';
+
+interface Props {
+	items: FaqItem[];
+	heading?: string;
+	eyebrow?: string;
+	id?: string;
+}
+
+const {
+	items,
+	heading = 'People also ask',
+	eyebrow = 'FAQ for landlords',
+	id = 'faq',
+} = Astro.props;
+---
+
+<section class="faq" id={id} aria-labelledby={`${id}-heading`}>
+	<div class="section-shell">
+		<div class="section-intro reveal">
+			<p class="eyebrow">{eyebrow}</p>
+			<h2 id={`${id}-heading`}>{heading}</h2>
+			<p class="section-lead">
+				Straight answers to the questions landlords search before comparing letting agents — fees, trust checks and what “good” looks like in practice.
+			</p>
+		</div>
+		<div class="faq-list">
+			{
+				items.map((item, i) => (
+					<details class="faq-item reveal" style={`--d: ${i * 60}ms`} name="landlord-faq">
+						<summary>{item.question}</summary>
+						<p>{item.answer}</p>
+					</details>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.faq {
+		background: var(--paper);
+	}
+
+	.section-shell {
+		width: min(1120px, calc(100% - 2.5rem));
+		margin-inline: auto;
+		padding-block: clamp(4rem, 9vw, 6.5rem);
+	}
+
+	.section-intro {
+		max-width: 40rem;
+		margin-bottom: 2rem;
+	}
+
+	.eyebrow {
+		font-size: 0.8rem;
+		font-weight: 650;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--moss);
+		margin-bottom: 0.85rem;
+	}
+
+	.section-intro h2 {
+		font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+		margin-bottom: 0.9rem;
+		color: var(--ink);
+	}
+
+	.section-lead {
+		color: var(--muted);
+		font-size: 1.08rem;
+	}
+
+	.faq-list {
+		display: grid;
+		gap: 0.75rem;
+		max-width: 48rem;
+	}
+
+	.faq-item {
+		border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		background: var(--white);
+		padding: 0;
+		transition-delay: var(--d, 0ms);
+	}
+
+	.faq-item summary {
+		cursor: pointer;
+		list-style: none;
+		padding: 1.1rem 1.2rem;
+		font-family: var(--font-display);
+		font-weight: 560;
+		font-size: 1.08rem;
+		color: var(--ink);
+	}
+
+	.faq-item summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq-item summary::after {
+		content: '+';
+		float: right;
+		color: var(--brass-deep);
+		font-weight: 700;
+	}
+
+	.faq-item[open] summary::after {
+		content: '–';
+	}
+
+	.faq-item p {
+		margin: 0;
+		padding: 0 1.2rem 1.2rem;
+		color: var(--muted);
+		max-width: 42rem;
+	}
+</style>

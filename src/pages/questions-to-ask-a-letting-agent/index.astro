@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import Icon from '../../components/Icon.astro';
+import { phoneFaqs } from '../../data/faq';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.phone;
+const path = '/questions-to-ask-a-letting-agent/';
+
+const questions = [
+	{
+		title: 'Fees — including VAT and extras',
+		ask: 'Please email your full landlord fee schedule, including VAT, inventory, renewals and any exit fees.',
+	},
+	{
+		title: 'How long will my property take to let?',
+		ask: 'What rent would you advertise, and how long have similar homes nearby taken to let recently?',
+	},
+	{
+		title: 'Tenant checks',
+		ask: 'What referencing and Right to Rent checks do you complete before a tenant moves in?',
+	},
+	{
+		title: 'Repairs and emergencies',
+		ask: 'Who do tenants call if something goes wrong, and how quickly do you usually respond?',
+	},
+	{
+		title: 'Your named contact',
+		ask: 'Will I have one person looking after my property, and can I reach them by phone?',
+	},
+	{
+		title: 'Trust and protection',
+		ask: 'Which Client Money Protection and redress schemes are you in — and are you ARLA or Safeagent registered?',
+	},
+	{
+		title: 'Service level',
+		ask: 'For my situation, would you recommend tenant find only or full management — and why?',
+	},
+	{
+		title: 'Leaving if it doesn’t work',
+		ask: 'What notice do I need to give if I want to change agents later?',
+	},
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Questions to ask a letting agent', path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	faqSchema(phoneFaqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Phone checklist</span>
+				</nav>
+				<p class="eyebrow">Print or keep beside the phone</p>
+				<h1>Questions to ask a letting agent</h1>
+				<p class="lead">
+					Many landlords prefer a proper conversation before they instruct anyone. Use this checklist on the call — then ask them to confirm fees in writing by email.
+				</p>
+			</div>
+		</header>
+
+		<article class="section-shell">
+			<div class="checklist-intro prose">
+				<p>
+					Tick each point as you go. You do not need to sound like an expert — clear answers matter more than fancy language.
+				</p>
+			</div>
+
+			<ol class="phone-list" role="list">
+				{
+					questions.map((item, i) => (
+						<li class="phone-item">
+							<span class="phone-num">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<h2>{item.title}</h2>
+								<p>
+									<span class="ask-label">Say:</span> “{item.ask}”
+								</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<div class="talk-box">
+				<span class="icon-badge" aria-hidden="true">
+					<Icon name="phone" size={22} />
+				</span>
+				<div>
+					<h2>Prefer to speak to a recommended local agent?</h2>
+					<p>
+						For Doncaster landlords, Kerrigans Property can talk through tenant find or full management and arrange a free rental valuation.
+					</p>
+					<p class="phone-line">
+						<a href="tel:+441302769276">01302 769276</a>
+					</p>
+					<div class="hero-actions">
+						<a class="btn btn-primary" href="tel:+441302769276">Call Kerrigans</a>
+						<a class="btn btn-secondary" href="https://kerrigans.co.uk/lettings/" target="_blank" rel="noopener noreferrer">
+							Visit their website
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<p class="prose" style="margin-top: 2rem;">
+				Next: <a href="/how-to-choose-a-letting-agent/">how to choose a letting agent</a> ·
+				<a href="/letting-agent-fees/">fee ranges</a> ·
+				<a href="/full-management-vs-tenant-find/">managed vs let-only</a>
+			</p>
+		</article>
+
+		<FaqSection items={phoneFaqs} id="phone-faq" heading="People also ask about phoning agents" />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude="/questions-to-ask-a-letting-agent/" />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.checklist-intro {
+		margin-bottom: 1.75rem;
+	}
+
+	.phone-list {
+		list-style: none;
+		margin: 0 0 2.5rem;
+		padding: 0;
+		display: grid;
+		gap: 1rem;
+		max-width: 48rem;
+	}
+
+	.phone-item {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1rem;
+		padding: 1.15rem 1.2rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+	}
+
+	.phone-num {
+		font-family: var(--font-display);
+		font-weight: 700;
+		color: var(--brass-deep);
+		font-size: 1.05rem;
+		padding-top: 0.15rem;
+	}
+
+	.phone-item h2 {
+		font-size: 1.2rem;
+		color: var(--ink);
+		margin-bottom: 0.4rem;
+	}
+
+	.phone-item p {
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.ask-label {
+		font-weight: 650;
+		color: var(--ink-soft);
+	}
+
+	.talk-box {
+		display: grid;
+		gap: 1rem;
+		padding: 1.5rem;
+		background: var(--mist);
+		border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+		max-width: 48rem;
+	}
+
+	.talk-box h2 {
+		font-size: 1.45rem;
+		color: var(--ink);
+		margin-bottom: 0.55rem;
+	}
+
+	.talk-box p {
+		color: var(--muted);
+		margin-bottom: 0.75rem;
+	}
+
+	.phone-line {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		font-weight: 700;
+		margin-bottom: 1rem !important;
+	}
+
+	.phone-line a {
+		color: var(--ink);
+		text-decoration: none;
+		border-bottom: 2px solid var(--brass);
+	}
+
+	@media (min-width: 720px) {
+		.talk-box {
+			grid-template-columns: auto 1fr;
+			align-items: start;
+		}
+	}
+
+	@media print {
+		:global(.site-header),
+		:global(.site-footer),
+		:global(.page-hero .breadcrumbs),
+		:global(.hero-actions),
+		:global(.faq) {
+			display: none !important;
+		}
+
+		.phone-item {
+			break-inside: avoid;
+		}
+	}
+</style>

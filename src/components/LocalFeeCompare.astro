@@ -1,0 +1,281 @@
+---
+import type { CityFeeCompare } from '../data/local-fee-compare';
+
+interface Props {
+	data: CityFeeCompare;
+}
+
+const { data } = Astro.props;
+const agentCount = data.rows.filter((row) => !row.isReference).length;
+const bandCount = data.rows.filter((row) => row.isReference).length;
+---
+
+<section class="fee-compare" aria-labelledby={`fee-compare-${data.slug}`}>
+	<div class="fee-compare-head">
+		<div class="pill-row">
+			<span class="loc-pill">{data.postcodeHint}</span>
+			<span class="count-pill">
+				{agentCount} featured · {bandCount} market bands
+			</span>
+		</div>
+		<p class="updated">{data.updatedLabel}</p>
+	</div>
+
+	<h2 id={`fee-compare-${data.slug}`}>Compare fees in {data.city}</h2>
+	<p class="lead">
+		RentRound-style side-by-side view for landlords — featured local agent first, then typical market bands so you can sanity-check any quote.
+	</p>
+
+	<div class="compare-list" role="list">
+		{
+			data.rows.map((row) => (
+				<article
+					class:list={['compare-row', row.topMatch && 'is-top', row.isReference && 'is-ref']}
+					role="listitem"
+				>
+					{row.topMatch && <p class="top-label">Top match</p>}
+					<div class="row-grid">
+						<div class="who">
+							<div class="name-line">
+								<strong>{row.name}</strong>
+								{row.badge && <span class="badge">{row.badge}</span>}
+							</div>
+							<p class="meta">{row.meta}</p>
+						</div>
+						<div class="metric">
+							<span class="metric-label">Let only</span>
+							<span class="metric-value">{row.letOnly}</span>
+						</div>
+						<div class="metric">
+							<span class="metric-label">Full mgmt</span>
+							<span class="metric-value">{row.fullMgmt}</span>
+						</div>
+						<div class="aside">
+							<span class="metric-label">Next step</span>
+							{row.phoneHref ? (
+								<a class="aside-link" href={row.phoneHref}>
+									{row.aside}
+								</a>
+							) : (
+								<span class="aside-text">{row.aside}</span>
+							)}
+						</div>
+					</div>
+					{(row.phoneHref || row.url) && (
+						<div class="row-actions">
+							{row.phoneHref && (
+								<a class="btn btn-primary" href={row.phoneHref}>
+									Call {row.name}
+								</a>
+							)}
+							{row.url && (
+								<a class="btn btn-secondary" href={row.url} target="_blank" rel="noopener noreferrer">
+									Website
+								</a>
+							)}
+						</div>
+					)}
+				</article>
+			))
+		}
+	</div>
+
+	<p class="footnote">
+		* {data.footnote}
+	</p>
+</section>
+
+<style>
+	.fee-compare {
+		margin: 2rem 0 2.5rem;
+		max-width: 52rem;
+	}
+
+	.fee-compare-head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.65rem;
+		margin-bottom: 0.85rem;
+	}
+
+	.pill-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+	}
+
+	.loc-pill,
+	.count-pill,
+	.updated {
+		font-size: 0.82rem;
+		font-weight: 650;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		color: var(--ink-soft);
+	}
+
+	.updated {
+		color: var(--moss);
+		border-color: color-mix(in srgb, var(--moss) 25%, transparent);
+	}
+
+	.fee-compare h2 {
+		font-size: clamp(1.45rem, 2.6vw, 1.9rem);
+		color: var(--ink);
+		margin: 0 0 0.45rem;
+	}
+
+	.lead {
+		color: var(--muted);
+		margin: 0 0 1.15rem;
+		max-width: 40rem;
+	}
+
+	.compare-list {
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.compare-row {
+		position: relative;
+		padding: 1rem 1.1rem 1.05rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		border-radius: 14px;
+	}
+
+	.compare-row.is-top {
+		border-color: color-mix(in srgb, var(--forest) 45%, var(--brass));
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--forest) 18%, transparent);
+		background: color-mix(in srgb, var(--mist) 35%, var(--white));
+	}
+
+	.compare-row.is-ref {
+		background: color-mix(in srgb, var(--paper) 70%, var(--white));
+	}
+
+	.top-label {
+		position: absolute;
+		top: -0.55rem;
+		left: 1rem;
+		margin: 0;
+		padding: 0.2rem 0.55rem;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--cream);
+		background: var(--forest);
+		border-radius: 999px;
+	}
+
+	.row-grid {
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.name-line {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.name-line strong {
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		color: var(--ink);
+	}
+
+	.badge {
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		padding: 0.18rem 0.45rem;
+		border-radius: 999px;
+		background: var(--mist);
+		color: var(--moss);
+	}
+
+	.is-top .badge {
+		background: color-mix(in srgb, var(--brass) 28%, white);
+		color: var(--ink);
+	}
+
+	.meta {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+
+	.metric-label {
+		display: block;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--moss);
+		margin-bottom: 0.2rem;
+	}
+
+	.metric-value {
+		font-family: var(--font-display);
+		font-size: 1.55rem;
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		color: var(--ink);
+		line-height: 1;
+	}
+
+	.aside-link,
+	.aside-text {
+		font-weight: 650;
+		color: var(--forest);
+		text-decoration: none;
+	}
+
+	.aside-link:hover {
+		text-decoration: underline;
+	}
+
+	.aside-text {
+		color: var(--ink-soft);
+	}
+
+	.row-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		margin-top: 0.9rem;
+		padding-top: 0.85rem;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.row-actions .btn {
+		padding: 0.65rem 0.95rem;
+		min-height: 2.4rem;
+		font-size: 0.92rem;
+	}
+
+	.footnote {
+		margin: 1rem 0 0;
+		font-size: 0.9rem;
+		color: var(--muted);
+		max-width: 46rem;
+		line-height: 1.5;
+	}
+
+	@media (min-width: 800px) {
+		.row-grid {
+			grid-template-columns: minmax(11rem, 1.4fr) 0.7fr 0.7fr 0.9fr;
+			align-items: center;
+			gap: 1rem;
+		}
+	}
+</style>

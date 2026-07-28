@@ -1,0 +1,21 @@
+---
+interface Props {
+	heading?: string;
+	items: { href: string; label: string }[];
+}
+
+const { heading = 'In this guide', items } = Astro.props;
+---
+
+<nav class="guide-toc" aria-label={heading}>
+	<p class="guide-toc-heading">{heading}</p>
+	<ol>
+		{
+			items.map((item) => (
+				<li>
+					<a href={item.href}>{item.label}</a>
+				</li>
+			))
+		}
+	</ol>
+</nav>

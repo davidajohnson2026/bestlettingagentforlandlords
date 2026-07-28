@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import GuideToc from '../../components/GuideToc.astro';
+import MidArticleCta from '../../components/MidArticleCta.astro';
+import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.pmc;
+const path = '/property-management-companies/';
+
+const keyFacts = [
+	'Property management companies (letting agents) can find tenants or fully manage the tenancy for you.',
+	'Service levels usually run tenant-find → rent collection → full management.',
+	'Typical full management sits around 8–15% of rent + VAT; always compare the written schedule.',
+	'In England, agents holding client money need Client Money Protection and a redress scheme.',
+	'Compare at least three regulated locals — do not instruct on the lowest headline percentage alone.',
+];
+
+const toc = [
+	{ href: '#tips', label: '10 tips to choose well' },
+	{ href: '#pros-cons', label: 'Pros and cons' },
+	{ href: '#protect', label: 'Protect yield' },
+	{ href: '#pmc-faq', label: 'FAQs' },
+];
+
+const tips = [
+	{
+		title: 'Match the service level to how hands-on you want to be',
+		body: 'Most property management companies offer tenant-find (let-only), rent collection, or full management. Tenant-find covers marketing, viewings, referencing and tenancy setup. Rent collection adds chasing rent. Full management usually includes repairs coordination, inspections, compliance support and day-to-day tenant issues.',
+	},
+	{
+		title: 'Compare fees as an all-in annual cost',
+		body: 'Costs vary by service and location — London and the South East usually sit higher. Tenant-find is often a one-off (around one month’s rent or a percentage of the first year). Full management commonly lands around 8–15% of monthly rent plus VAT. Convert every quote into pounds per year for your rent, including VAT.',
+	},
+	{
+		title: 'Insist on thorough tenant sourcing',
+		body: 'A good company should complete credit checks, previous landlord or employer references, and Right to Rent checks. Ask how many applicants they typically need before a quality let, and whether they already hold suitable applicants on their books.',
+	},
+	{
+		title: 'Hunt for extras beyond the headline percentage',
+		body: 'Common add-ons include inventories, check-in/check-out, renewals, safety certificate coordination, notice serving and contractor mark-ups. Some agreements also take a cut if you sell to a sitting tenant. Get every line in writing before you instruct.',
+	},
+	{
+		title: 'Know what tenants can and cannot be charged',
+		body: 'Under the Tenant Fees Act 2019 (England), agents and landlords cannot charge tenants most admin fees (for example referencing or renewal fees). Allowed tenant payments are tightly limited — mainly rent, deposits and a few permitted changes. Your agent should already work within those rules.',
+	},
+	{
+		title: 'Weigh local independents against larger brands',
+		body: 'Smaller local firms often give clearer named contacts and faster responses. Larger nationals may bring bigger marketing budgets and more offices. Visit or call the office that would actually manage your property — organisation and culture matter as much as the brand name.',
+	},
+	{
+		title: 'Ask how they will advertise your property',
+		body: 'Confirm portal listing (for example Rightmove / Zoopla), photography and floorplans, and whether they have waiting applicants. Vague marketing answers often mean slower lets and longer voids.',
+	},
+	{
+		title: 'Verify reputation and regulation',
+		body: 'Ask other local landlords for recommendations, read recent detailed reviews, and verify ARLA Propertymark or Safeagent membership where claimed. Check Client Money Protection and a government-approved redress scheme (The Property Ombudsman or Property Redress Scheme) independently.',
+	},
+	{
+		title: 'Get quotes from several companies',
+		body: 'Shortlist three regulated agents near your postcode and compare services and full fee schedules side by side. Do not pick on price alone. If you later need to switch, check the notice period — often around two months, sometimes longer.',
+	},
+	{
+		title: 'Test customer service before you instruct',
+		body: 'Judge the first phone or email exchange: clarity, speed and whether they listen. Ask about office hours and out-of-hours repairs. Weak communication at enquiry stage rarely improves once they hold the keys.',
+	},
+];
+
+const pros = [
+	'Professional marketing, referencing and compliance support',
+	'Less day-to-day hassle — especially if you live far from the property',
+	'Named processes for arrears, repairs and emergencies',
+	'A buffer for difficult landlord–tenant conversations',
+];
+
+const cons = [
+	'Fees reduce net rental income',
+	'Less direct control over contractors and tenant decisions',
+	'Poor agents can create voids, slow repairs and opaque extras',
+];
+
+const faqs = [
+	{
+		question: 'What is a property management company for landlords?',
+		answer:
+			'In UK lettings, a property management company is usually a letting agent that finds tenants and/or manages the tenancy — rent, repairs coordination, inspections and compliance support — in return for a fee.',
+	},
+	{
+		question: 'How much do property management companies charge landlords?',
+		answer:
+			'Full management commonly costs around 8–15% of monthly rent plus VAT. Tenant-find is often a one-off fee. Always compare the full written schedule including inventories, renewals and exit fees.',
+	},
+	{
+		question: 'Is a property management company the same as a letting agent?',
+		answer:
+			'Landlords often use the terms interchangeably. Many high-street letting agents offer property management packages. What matters is the service level, regulation and the written fee schedule — not the label on the shopfront.',
+	},
+	{
+		question: 'Should every landlord use a property management company?',
+		answer:
+			'Not always. Hands-on landlords with a nearby property may prefer tenant-find only or self-management. Distant owners, busy portfolios or complex lets usually benefit more from full management — if the agent is regulated and communicative.',
+	},
+];
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'Property management companies', path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	faqSchema(faqs),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>Property management companies</span>
+				</nav>
+				<p class="eyebrow">Landlord tips guide</p>
+				<h1>Property management companies for landlords</h1>
+				<p class="lead">
+					10 practical tips for choosing a property management company (letting agent) — service levels, fees, tenant checks, trust and how to compare without getting sold the brochure.
+				</p>
+			</div>
+		</header>
+
+		<article class="section-shell prose">
+			<p class="guide-updated">Updated 28 July 2026 · Independent landlord guidance</p>
+			<KeyFacts facts={keyFacts} />
+			<GuideToc items={toc} />
+
+			<p>
+				Hiring a property management company can make life easier — but it costs money and the wrong firm creates more hassle than it removes. Use the tips below to decide whether you need one, which service level fits, and how to shortlist fairly. Then
+				<a href="/compare/">compare agents by postcode</a>.
+			</p>
+
+			<h2 id="tips">10 tips to find the right property management company</h2>
+
+			{
+				tips.map((tip, index) => (
+					<section class="tip" aria-labelledby={`tip-${index + 1}`}>
+						<h3 id={`tip-${index + 1}`}>
+							{index + 1}. {tip.title}
+						</h3>
+						<p>{tip.body}</p>
+					</section>
+				))
+			}
+
+			<MidArticleCta
+				heading="Compare fees before you instruct"
+				body="See typical UK bands, then shortlist regulated agents near your postcode."
+				primaryHref="/letting-agent-fees/"
+				primaryLabel="Fees guide"
+				secondaryHref="/compare/"
+				secondaryLabel="Compare by postcode"
+			/>
+
+			<h2 id="pros-cons">Pros and cons of using a property management company</h2>
+			<div class="pros-cons">
+				<div>
+					<h3>Pros</h3>
+					<ul>
+						{pros.map((item) => <li>{item}</li>)}
+					</ul>
+				</div>
+				<div>
+					<h3>Cons</h3>
+					<ul>
+						{cons.map((item) => <li>{item}</li>)}
+					</ul>
+				</div>
+			</div>
+
+			<h2 id="protect">Protect yield as well as the property</h2>
+			<p>
+				Agent fees are only one line in your landlord budget. Also plan for voids, maintenance and suitable landlord insurance (buildings, liability and optional rent guarantee). Insurance is separate from management — instruct a regulated agent for the day-to-day, and review cover with an insurer or broker that understands buy-to-let risk.
+			</p>
+
+			<p>
+				Next: read our
+				<a href="/letting-agent-fees/">UK fees guide</a>,
+				<a href="/full-management-vs-tenant-find/">full management vs tenant find</a> comparison, or the
+				<a href="/how-to-choose-a-letting-agent/">how to choose a letting agent</a> checklist.
+			</p>
+
+			<p class="hero-actions" style="margin-top: 2rem;">
+				<a class="btn btn-primary" href="/compare/">Compare agents near you</a>
+				<a class="btn btn-secondary" href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
+			</p>
+		</article>
+
+		<FaqSection items={faqs} id="pmc-faq" heading="People also ask about property management companies" />
+		<div class="section-shell" style="padding-top: 0;">
+			<RelatedGuides exclude={path} />
+		</div>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.tip {
+		margin: 0 0 1.35rem;
+		padding-bottom: 0.35rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+		max-width: 42rem;
+	}
+
+	.tip h3 {
+		font-size: 1.2rem;
+		color: var(--ink);
+		margin-bottom: 0.45rem;
+	}
+
+	.tip p {
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.pros-cons {
+		display: grid;
+		gap: 1.5rem;
+		margin: 1rem 0 1.75rem;
+		max-width: 42rem;
+	}
+
+	.pros-cons h3 {
+		font-size: 1.1rem;
+		color: var(--ink);
+		margin-bottom: 0.5rem;
+	}
+
+	.pros-cons ul {
+		margin: 0;
+		padding-left: 1.15rem;
+		color: var(--muted);
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	@media (min-width: 720px) {
+		.pros-cons {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+</style>

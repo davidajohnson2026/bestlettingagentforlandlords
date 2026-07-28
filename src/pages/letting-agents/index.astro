@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import { areas, areasByRegion, areaPath } from '../../data/areas';
+import { articleSchema, breadcrumbSchema, itemListSchema } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
+
+const { title, description } = pageSeo.areasIndex;
+const path = '/letting-agents/';
+const grouped = areasByRegion();
+
+const jsonLd = [
+	breadcrumbSchema([
+		{ name: 'Home', path: '/' },
+		{ name: 'UK areas', path },
+	]),
+	articleSchema({ headline: title, description, path }),
+	itemListSchema(
+		'UK letting agent guides by city',
+		areas.map((area) => ({
+			name: `${area.name} letting agents`,
+			path: areaPath(area.slug),
+			description: area.blurb,
+		})),
+	),
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} ogType="article" jsonLd={jsonLd}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<span>UK areas</span>
+				</nav>
+				<p class="eyebrow">United Kingdom</p>
+				<h1>Letting agents by area</h1>
+				<p class="lead">
+					UK-wide guidance for landlords. Choose your city for local fee context, trust checks and — where we have one — a featured recommendation.
+				</p>
+			</div>
+		</header>
+
+		<section class="section-shell">
+			<form class="compare-form" action="/compare/" method="get">
+				<label class="field">
+					<span>Your property postcode</span>
+					<input type="text" name="postcode" placeholder="e.g. M1 1AE" autocomplete="postal-code" required />
+				</label>
+				<label class="field">
+					<span>Service needed</span>
+					<select name="service">
+						<option value="full">Full management</option>
+						<option value="tenant-find">Tenant find only</option>
+						<option value="rent-collect">Rent collection</option>
+					</select>
+				</label>
+				<button class="btn btn-primary" type="submit">Find my area</button>
+			</form>
+
+			{
+				grouped.map(([region, list]) => (
+					<section class="region-block">
+						<h2>{region}</h2>
+						<ul class="area-links" role="list">
+							{list.map((area) => (
+								<li>
+									<a href={areaPath(area.slug)}>
+										<span>{area.name}</span>
+										<span class="nation">{area.nation}</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				))
+			}
+			<RelatedGuides exclude="/letting-agents/" />
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.compare-form {
+		display: grid;
+		gap: 1rem;
+		margin-bottom: 3rem;
+		padding: 1.25rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.field {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.field span {
+		font-size: 0.85rem;
+		font-weight: 650;
+		color: var(--ink-soft);
+	}
+
+	.field input,
+	.field select {
+		width: 100%;
+		padding: 0.85rem 0.95rem;
+		border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+		background: var(--paper);
+		color: var(--text);
+	}
+
+	.region-block {
+		margin-bottom: 2.25rem;
+	}
+
+	.region-block h2 {
+		font-size: 1.35rem;
+		color: var(--ink);
+		margin-bottom: 0.85rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+	}
+
+	.area-links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.55rem;
+	}
+
+	.area-links a {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		text-decoration: none;
+		padding: 0.75rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+		color: var(--ink);
+		font-weight: 550;
+	}
+
+	.nation {
+		color: var(--muted);
+		font-weight: 400;
+		font-size: 0.92rem;
+	}
+
+	@media (min-width: 720px) {
+		.compare-form {
+			grid-template-columns: 1.2fr 1fr auto;
+			align-items: end;
+		}
+
+		.area-links {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 0.35rem 2rem;
+		}
+	}
+</style>

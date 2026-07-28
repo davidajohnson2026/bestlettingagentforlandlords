@@ -1,0 +1,27 @@
+---
+interface Props {
+	heading: string;
+	body: string;
+	primaryHref: string;
+	primaryLabel: string;
+	secondaryHref?: string;
+	secondaryLabel?: string;
+}
+
+const { heading, body, primaryHref, primaryLabel, secondaryHref, secondaryLabel } = Astro.props;
+---
+
+<aside class="mid-cta" aria-label={heading}>
+	<h2>{heading}</h2>
+	<p>{body}</p>
+	<div class="hero-actions">
+		<a class="btn btn-primary" href={primaryHref}>{primaryLabel}</a>
+		{
+			secondaryHref && secondaryLabel && (
+				<a class="btn btn-secondary" href={secondaryHref}>
+					{secondaryLabel}
+				</a>
+			)
+		}
+	</div>
+</aside>

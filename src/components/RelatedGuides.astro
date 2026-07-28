@@ -1,0 +1,57 @@
+---
+import { RELATED_GUIDES } from '../data/seo';
+
+interface Props {
+	exclude?: string;
+	heading?: string;
+}
+
+const { exclude, heading = 'Related landlord guides' } = Astro.props;
+const links = RELATED_GUIDES.filter((item) => item.href !== exclude);
+---
+
+<nav class="related-guides" aria-labelledby="related-guides-heading">
+	<h2 id="related-guides-heading">{heading}</h2>
+	<ul role="list">
+		{links.map((item) => (
+			<li>
+				<a href={item.href}>{item.label}</a>
+			</li>
+		))}
+	</ul>
+</nav>
+
+<style>
+	.related-guides {
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		max-width: 48rem;
+	}
+
+	.related-guides h2 {
+		font-size: 1.25rem;
+		color: var(--ink);
+		margin-bottom: 0.85rem;
+	}
+
+	.related-guides ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem 1.1rem;
+	}
+
+	.related-guides a {
+		color: var(--forest);
+		font-weight: 550;
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--forest) 35%, transparent);
+	}
+
+	.related-guides a:hover {
+		border-bottom-color: var(--forest);
+	}
+</style>

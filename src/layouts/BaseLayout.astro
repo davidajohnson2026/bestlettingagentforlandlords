@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+import '../styles/ui.css';
+import { organizationSchema, websiteSchema } from '../data/schema';
+import { SITE } from '../data/site';
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonicalPath?: string;
+	ogType?: 'website' | 'article';
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+	noindex?: boolean;
+	/** Set false only for rare cases; default injects Organization + WebSite on indexable pages */
+	includeSiteSchema?: boolean;
+}
+
+const {
+	title = `${SITE.name} | Compare Fees & Ratings`,
+	description = SITE.description,
+	canonicalPath = '/',
+	ogType = 'website',
+	jsonLd,
+	noindex = false,
+	includeSiteSchema = true,
+} = Astro.props;
+
+const canonical = new URL(canonicalPath, SITE.url).toString();
+const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const schemas =
+	!noindex && includeSiteSchema
+		? [organizationSchema(), websiteSchema(), ...pageSchemas]
+		: pageSchemas;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/logo.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#0f2e28" />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+		<meta name="author" content={SITE.name} />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+		<link rel="alternate" hreflang="en-GB" href={canonical} />
+		<link rel="alternate" hreflang="x-default" href={canonical} />
+
+		<meta property="og:site_name" content={SITE.name} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:locale" content="en_GB" />
+		<meta property="og:image" content={SITE.ogImage} />
+		<meta property="og:image:alt" content={`${SITE.name} — compare UK letting agents`} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={SITE.ogImage} />
+
+		<title>{title}</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,560;12..96,700&family=Source+Sans+3:ital,wght@0,400;0,550;0,650;1,400&display=swap"
+			rel="stylesheet"
+		/>
+
+		{
+			schemas.map((schema) => (
+				<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+			))
+		}
+	</head>
+	<body>
+		<slot />
+		<script>
+			const reveals = document.querySelectorAll('.reveal');
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							entry.target.classList.remove('reveal-pending');
+							observer.unobserve(entry.target);
+						}
+					}
+				},
+				{ threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
+			);
+			const fold = window.innerHeight * 0.92;
+			reveals.forEach((el) => {
+				if (!(el instanceof HTMLElement)) return;
+				if (el.getBoundingClientRect().top > fold) {
+					el.classList.add('reveal-pending');
+					observer.observe(el);
+				} else {
+					el.classList.add('is-visible');
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+
+const title = 'Thank You — Your Letting Agent Recommendation Is In';
+const description =
+	'Thanks for sharing a letting agent recommendation. We moderate every submission before publishing so other landlords get fair, useful feedback.';
+const path = '/recommend/thanks/';
+---
+
+<BaseLayout title={title} description={description} canonicalPath={path} noindex={true}>
+	<SiteHeader />
+	<main>
+		<header class="page-hero">
+			<div class="section-shell">
+				<nav class="breadcrumbs" aria-label="Breadcrumb">
+					<a href="/">Home</a>
+					<span aria-hidden="true">/</span>
+					<a href="/recommend/">Recommend</a>
+					<span aria-hidden="true">/</span>
+					<span>Thank you</span>
+				</nav>
+				<p class="eyebrow">Recommendation received</p>
+				<h1>Thank you for sharing</h1>
+				<p class="lead">
+					Your recommendation is with us for moderation. If we publish it, we will use your first name and initial only — never your email or full address.
+				</p>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="/compare/">Compare agents</a>
+					<a class="btn btn-secondary" href="/recommend/">Back to recommendations</a>
+				</div>
+			</div>
+		</header>
+	</main>
+	<SiteFooter />
+</BaseLayout>

@@ -1,0 +1,136 @@
+---
+import { feeTiers, type FeeTier } from '../data/fee-tiers';
+
+interface Props {
+	tiers?: FeeTier[];
+	/** Compact cards for homepage strip */
+	compact?: boolean;
+}
+
+const { tiers = feeTiers, compact = false } = Astro.props;
+---
+
+<div class:list={['price-grid', compact && 'is-compact']}>
+	{
+		tiers.map((tier) => (
+			<article class:list={['price-card', tier.featured && 'is-featured']}>
+				{tier.featured && <p class="badge">Most common for distant landlords</p>}
+				<p class="tier-also">{tier.also}</p>
+				<h3>{tier.label}</h3>
+				<p class="price">{tier.price}</p>
+				<p class="price-note">{tier.priceNote}</p>
+				{!compact && <p class="example">{tier.example}</p>}
+				{!compact && (
+					<ul>
+						{tier.includes.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				)}
+				{compact ? (
+					<p class="example">{tier.example}</p>
+				) : (
+					<a class="btn btn-secondary" href={tier.href}>
+						What’s included
+					</a>
+				)}
+			</article>
+		))
+	}
+</div>
+
+<style>
+	.price-grid {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.price-card {
+		padding: 1.25rem 1.2rem 1.35rem;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+		display: grid;
+		gap: 0.45rem;
+		align-content: start;
+	}
+
+	.price-card.is-featured {
+		border-color: color-mix(in srgb, var(--brass) 55%, var(--ink));
+		background: color-mix(in srgb, var(--cream) 55%, var(--white));
+	}
+
+	.badge {
+		margin: 0;
+		font-size: 0.75rem;
+		font-weight: 650;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--moss);
+	}
+
+	.tier-also {
+		margin: 0;
+		font-size: 0.85rem;
+		font-weight: 650;
+		color: var(--moss);
+	}
+
+	.price-card h3 {
+		margin: 0;
+		font-size: 1.35rem;
+		color: var(--ink);
+	}
+
+	.price {
+		margin: 0.15rem 0 0;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 4vw, 2.6rem);
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		color: var(--ink);
+		line-height: 1;
+	}
+
+	.price-note,
+	.example {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.95rem;
+	}
+
+	.example {
+		padding: 0.55rem 0.7rem;
+		background: var(--mist);
+		color: var(--ink-soft);
+	}
+
+	.price-card ul {
+		margin: 0.35rem 0 0.75rem;
+		padding-left: 1.1rem;
+		color: var(--muted);
+		display: grid;
+		gap: 0.3rem;
+	}
+
+	.price-card .btn {
+		justify-self: start;
+		padding: 0.7rem 1rem;
+		min-height: 2.5rem;
+		font-size: 0.95rem;
+	}
+
+	.is-compact .price-card {
+		padding: 1.1rem 1rem 1.15rem;
+	}
+
+	.is-compact .price {
+		font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+	}
+
+	@media (min-width: 840px) {
+		.price-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.1rem;
+		}
+	}
+</style>

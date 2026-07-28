@@ -1,0 +1,957 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Icon from '../components/Icon.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import { homeFaqs } from '../data/faq';
+import { landlordNeeds, painPoints, peaceOfMind, trustFactors } from '../data/content';
+import { faqSchema, serviceSchema, webPageSchema } from '../data/schema';
+import { pageSeo } from '../data/seo';
+import RelatedGuides from '../components/RelatedGuides.astro';
+import FeePriceCards from '../components/FeePriceCards.astro';
+
+const servicePaths = [
+	{
+		label: 'Tenant find',
+		also: 'Let only',
+		price: '4–8%',
+		note: 'of year-one rent, or a fixed fee',
+		best: 'Hands-on landlords who live nearby',
+		service: 'tenant-find',
+	},
+	{
+		label: 'Rent collection',
+		also: 'Mid tier',
+		price: '5–10%',
+		note: 'of monthly rent + VAT',
+		best: 'Cashflow handled, repairs still yours',
+		service: 'rent-collect',
+	},
+	{
+		label: 'Full management',
+		also: 'Most hands-off',
+		price: '8–15%',
+		note: 'of monthly rent + VAT',
+		best: 'Distant, busy or portfolio landlords',
+		service: 'full',
+		featured: true,
+	},
+];
+
+const steps = [
+	{
+		icon: 'postcode',
+		num: '01',
+		title: 'Tell us where you let',
+		body: 'Share your postcode and whether you want tenant-find or full management.',
+	},
+	{
+		icon: 'compare',
+		num: '02',
+		title: 'Compare on what counts',
+		body: 'We surface fees, ratings and service depth for agents active near your property.',
+	},
+	{
+		icon: 'check',
+		num: '03',
+		title: 'Choose with confidence',
+		body: 'Shortlist trusted locals for your postcode — with featured partners where we have them — then instruct the right fit.',
+	},
+];
+const jsonLd = [
+	webPageSchema({
+		name: pageSeo.home.title,
+		description: pageSeo.home.description,
+		path: '/',
+	}),
+	serviceSchema(),
+	faqSchema(homeFaqs),
+];
+---
+
+<BaseLayout
+	title={pageSeo.home.title}
+	description={pageSeo.home.description}
+	canonicalPath="/"
+	jsonLd={jsonLd}
+>
+	<SiteHeader variant="overlay" />
+
+	<main>
+		<section class="hero" aria-labelledby="hero-heading">
+			<div class="hero-media" aria-hidden="true">
+				<img
+					src="/hero-property.jpg"
+					alt=""
+					width="2400"
+					height="1802"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			</div>
+			<div class="hero-veil" aria-hidden="true"></div>
+			<div class="hero-stack">
+				<div class="hero-content">
+					<p class="hero-brand">
+						<span class="hero-logo-wrap">
+							<BrandLogo size={48} showWordmark={false} />
+						</span>
+						Best Letting Agent for Landlords
+					</p>
+					<h1 id="hero-heading">Find the right letting agent for your postcode.</h1>
+					<p class="hero-lead">
+						Honest UK fee bands and local recommendations — no invented savings figures, no national default agent.
+					</p>
+					<div class="hero-actions">
+						<a class="btn btn-primary" href="#compare">Compare by postcode</a>
+						<a class="btn btn-ghost" href="#services">See service levels</a>
+					</div>
+				</div>
+
+				<div class="hero-panel" id="compare">
+					<form class="compare-form" action="/compare/" method="get">
+						<p class="panel-label">Free postcode match · UK-wide</p>
+						<label class="field">
+							<span>Property postcode</span>
+							<input
+								type="text"
+								name="postcode"
+								placeholder="e.g. M1 1AE, EH1 1YZ, DN1 1AA"
+								autocomplete="postal-code"
+								required
+							/>
+						</label>
+						<label class="field">
+							<span>Service needed</span>
+							<select name="service">
+								<option value="full">Full management</option>
+								<option value="tenant-find">Tenant find only</option>
+								<option value="rent-collect">Rent collection</option>
+							</select>
+						</label>
+						<button class="btn btn-primary" type="submit">Compare agents</button>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<section class="services" id="services" aria-labelledby="services-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">Choose your service level</p>
+					<h2 id="services-heading">Three ways landlords instruct an agent</h2>
+					<p class="section-lead">
+						Pick the level that matches how hands-on you want to be — then compare agents near your property with that service pre-selected.
+					</p>
+				</div>
+				<div class="service-strip reveal" role="list">
+					{
+						servicePaths.map((item) => (
+							<a
+								class:list={['service-lane', item.featured && 'is-featured']}
+								href={`/compare/?service=${item.service}`}
+								role="listitem"
+							>
+								<p class="tier-also">{item.also}</p>
+								<h3>{item.label}</h3>
+								<p class="service-price">{item.price}</p>
+								<p class="service-note">{item.note}</p>
+								<p class="service-best">{item.best}</p>
+								<span class="service-cta">Compare this level →</span>
+							</a>
+						))
+					}
+				</div>
+				<p class="services-foot reveal">
+					Typical UK bands only — always get a written schedule.
+					<a href="/full-management-vs-tenant-find/">What’s included in each service</a>
+					·
+					<a href="/letting-agent-fees/">Full fees guide</a>
+				</p>
+			</div>
+		</section>
+
+		<section class="fees-home" aria-labelledby="typical-fees-heading">
+			<div class="section-shell">
+				<div class="fee-strip reveal" id="typical-fees">
+					<div class="fee-strip-head">
+						<p class="eyebrow">Typical UK fees</p>
+						<h2 id="typical-fees-heading">What landlords usually pay</h2>
+						<p class="section-lead">
+							Illustrative bands for tenant find, rent collection and full management — then convert any quote into pounds on your rent.
+						</p>
+					</div>
+					<FeePriceCards compact />
+					<p class="fee-strip-note">
+						Not live agent quotes.
+						<a href="/letting-agent-fees/">Full fees guide</a>
+						·
+						<a href="/letting-agents/doncaster/">Doncaster fee table</a>
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="pain" id="pain-points" aria-labelledby="pain-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">Landlord pain points</p>
+					<h2 id="pain-heading">What goes wrong when the wrong agent wins the instruction</h2>
+					<p class="section-lead">
+						These are the issues landlords search for — and the reasons comparison sites exist. Fix them at selection time, not mid-tenancy.
+					</p>
+				</div>
+				<div class="grid-cards cols-2">
+					{
+						painPoints.map((item, i) => (
+							<article class="grid-item reveal" style={`--d: ${i * 50}ms`}>
+								<span class="icon-badge" aria-hidden="true">
+									<Icon name={item.icon} size={22} />
+								</span>
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</article>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="needs" id="what-landlords-want" aria-labelledby="needs-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">Search intent</p>
+					<h2 id="needs-heading">What landlords are actually looking for</h2>
+					<p class="section-lead">
+						Beyond “cheapest fee”, landlords want predictable yield, protected client money and an agent who understands their postcode.
+					</p>
+				</div>
+				<div class="grid-cards cols-2">
+					{
+						landlordNeeds.map((item, i) => (
+							<article class="grid-item reveal" style={`--d: ${i * 50}ms`}>
+								<span class="icon-badge" aria-hidden="true">
+									<Icon name={item.icon} size={22} />
+								</span>
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</article>
+						))
+					}
+				</div>
+				<p class="inline-links reveal">
+					Deep dives:
+					<a href="/letting-agent-fees/">UK letting agent fees</a>
+					·
+					<a href="/full-management-vs-tenant-find/">Managed vs let-only</a>
+					·
+					<a href="/how-to-choose-a-letting-agent/">How to choose</a>
+					·
+					<a href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
+					·
+					<a href="/letting-agents/">All UK areas</a>
+					·
+					<a href="/compare/">Compare by postcode</a>
+				</p>
+			</div>
+		</section>
+
+		<section class="trust" id="trust" aria-labelledby="trust-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">Trust factors</p>
+					<h2 id="trust-heading">Checks that separate a safe agent from a sales pitch</h2>
+					<p class="section-lead">
+						Verify these before you compare personalities or shop-window claims. Regulation and money protection come first.
+					</p>
+				</div>
+				<div class="grid-cards cols-3">
+					{
+						trustFactors.map((item, i) => (
+							<article class="grid-item reveal" style={`--d: ${i * 40}ms`}>
+								<span class="icon-badge" aria-hidden="true">
+									<Icon name={item.icon} size={22} />
+								</span>
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</article>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="recommended" id="recommended" aria-labelledby="recommended-heading">
+			<div class="section-shell recommended-grid">
+				<div class="recommended-copy reveal">
+					<p class="eyebrow">Featured for Doncaster (~9 miles)</p>
+					<h2 id="recommended-heading">Kerrigans Property — Doncaster landlords’ local choice</h2>
+					<p class="section-lead">
+						Family-run since 1978, ARLA Propertymark registered and steeped in Doncaster’s rental market. We recommend Kerrigans for properties in Doncaster and about a 9-mile radius — not Sheffield or Rotherham town centres. Tenant find through to full management, with clear communication and transparent fees.
+					</p>
+					<ul class="ticks" role="list">
+						<li>45+ years letting experience across Doncaster</li>
+						<li>Tenant find, rent collection &amp; full management</li>
+						<li>ARLA Propertymark &amp; The Property Ombudsman</li>
+						<li>Coverage: Doncaster + ~9 mile radius only</li>
+						<li>Free, no-obligation rental valuations</li>
+					</ul>
+					<p class="call-line">
+						Prefer to talk?
+						<a href="tel:+441302769276">Call 01302 769276</a>
+					</p>
+					<div class="hero-actions">
+						<a class="btn btn-primary" href="tel:+441302769276">Call Kerrigans</a>
+						<a class="btn btn-secondary" href="/letting-agents/doncaster/">Doncaster guide</a>
+					</div>
+					<p class="section-lead" style="margin-top: 1.25rem; font-size: 1rem;">
+						Elsewhere in South Yorkshire we feature separate locals:
+						<a href="/letting-agents/sheffield/">Henry Spencer &amp; Sons (Sheffield)</a>
+						and
+						<a href="/letting-agents/rotherham/">Bricknells Rentals (Rotherham)</a>.
+					</p>
+				</div>
+				<figure class="recommended-visual reveal">
+					<img
+						src="/section-city.jpg"
+						alt="Professional property management in a UK city context"
+						width="1600"
+						height="1067"
+						loading="lazy"
+					/>
+					<figcaption>
+						<span>Kerrigans Property</span>
+						<span>Sales &amp; Lettings · Doncaster</span>
+					</figcaption>
+				</figure>
+			</div>
+		</section>
+
+		<section class="peace" id="peace-of-mind" aria-labelledby="peace-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">Peace of mind</p>
+					<h2 id="peace-heading">Designed for landlords who want less hassle, not more jargon</h2>
+					<p class="section-lead">
+						Many landlords are retired, busy, or new to letting after inheriting a property. They want a trustworthy local agent, clear fees, and someone they can phone.
+					</p>
+				</div>
+				<div class="grid-cards cols-2">
+					{
+						peaceOfMind.map((item, i) => (
+							<article class="grid-item reveal" style={`--d: ${i * 50}ms`}>
+								<span class="icon-badge" aria-hidden="true">
+									<Icon name={item.icon} size={22} />
+								</span>
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</article>
+						))
+					}
+				</div>
+				<p class="inline-links reveal">
+					Useful next steps:
+					<a href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
+					·
+					<a href="/full-management-vs-tenant-find/">Full management explained</a>
+					·
+					<a href="tel:+441302769276">Call Kerrigans on 01302 769276</a>
+				</p>
+			</div>
+		</section>
+
+		<section class="how" id="how" aria-labelledby="how-heading">
+			<div class="section-shell">
+				<div class="section-intro reveal">
+					<p class="eyebrow">How it works</p>
+					<h2 id="how-heading">Three steps from postcode to the right agent</h2>
+				</div>
+				<ol class="steps" role="list">
+					{
+						steps.map((step, i) => (
+							<li class="step reveal" style={`--d: ${i * 100}ms`}>
+								<span class="step-top">
+									<span class="icon-badge" aria-hidden="true">
+										<Icon name={step.icon} size={22} />
+									</span>
+									<span class="step-num">{step.num}</span>
+								</span>
+								<h3>{step.title}</h3>
+								<p>{step.body}</p>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</section>
+
+		<FaqSection items={homeFaqs} heading="People also ask about letting agents" />
+
+		<section class="promise" aria-labelledby="promise-heading">
+			<div class="section-shell promise-inner reveal">
+				<h2 id="promise-heading">Built for landlords who want clarity, not sales pressure</h2>
+				<p>
+					Compare fees and ratings with the same honesty landlords expect from AgentCheck-style tools — then instruct a recommended local partner when the fit is right.
+				</p>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="/compare/">Start your comparison</a>
+					<a class="btn btn-secondary" href="/recommend/">Recommend an agent</a>
+				</div>
+				<RelatedGuides exclude="/" />
+			</div>
+		</section>
+	</main>
+
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.hero {
+		position: relative;
+		isolation: isolate;
+		min-height: 100svh;
+		display: grid;
+		align-items: end;
+		color: var(--cream);
+		overflow: hidden;
+	}
+
+	.hero-media {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+	}
+
+	.hero-media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		animation: ken 18s var(--ease) both;
+	}
+
+	.hero-veil {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background:
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--ink) 50%, transparent) 0%,
+				color-mix(in srgb, var(--ink) 38%, transparent) 35%,
+				color-mix(in srgb, var(--ink) 92%, transparent) 100%
+			),
+			linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--ink) 72%, transparent) 0%,
+				color-mix(in srgb, var(--ink) 18%, transparent) 72%
+			);
+	}
+
+	.hero-stack {
+		width: min(1120px, calc(100% - 2.5rem));
+		margin-inline: auto;
+		padding: clamp(6.5rem, 14vh, 9rem) 0 clamp(1.75rem, 4vh, 2.75rem);
+		display: grid;
+		gap: clamp(1.75rem, 4vh, 2.75rem);
+	}
+
+	.hero-content {
+		max-width: 40rem;
+	}
+
+	.hero-brand {
+		font-family: var(--font-display);
+		font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		margin-bottom: 1.1rem;
+		animation: rise 0.9s var(--ease) both;
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		flex-wrap: wrap;
+	}
+
+	.hero-logo-wrap {
+		display: inline-flex;
+		flex-shrink: 0;
+	}
+
+	.hero-brand::after {
+		content: '';
+		display: block;
+		width: 100%;
+		max-width: 3.5rem;
+		height: 2px;
+		margin-top: 0.15rem;
+		background: var(--brass);
+		transform-origin: left;
+		animation: draw 0.9s var(--ease) 0.25s both;
+		flex-basis: 100%;
+	}
+
+	.hero h1 {
+		font-size: clamp(2.15rem, 5.2vw, 3.5rem);
+		max-width: 14ch;
+		margin-bottom: 1rem;
+		animation: rise 0.9s var(--ease) 0.12s both;
+	}
+
+	.hero-lead {
+		font-size: clamp(1.05rem, 2vw, 1.2rem);
+		max-width: 34rem;
+		opacity: 0.9;
+		margin-bottom: 1.75rem;
+		animation: rise 0.9s var(--ease) 0.22s both;
+	}
+
+	.hero-actions {
+		animation: rise 0.9s var(--ease) 0.32s both;
+	}
+
+	.hero-panel {
+		animation: rise 0.9s var(--ease) 0.4s both;
+		background: color-mix(in srgb, var(--ink) 88%, black);
+		border: 1px solid color-mix(in srgb, var(--brass) 35%, transparent);
+		padding: 1.15rem 1.2rem 1.25rem;
+		box-shadow: 0 24px 60px color-mix(in srgb, black 35%, transparent);
+	}
+
+	.panel-label {
+		margin: 0 0 0.85rem;
+		font-size: 0.78rem;
+		font-weight: 650;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--brass);
+		grid-column: 1 / -1;
+	}
+
+	.compare-form {
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.field {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.field span {
+		font-size: 0.82rem;
+		font-weight: 650;
+		color: color-mix(in srgb, var(--cream) 72%, transparent);
+	}
+
+	.field input,
+	.field select {
+		width: 100%;
+		padding: 0.85rem 0.95rem;
+		border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
+		background: color-mix(in srgb, var(--ink) 70%, black);
+		color: var(--cream);
+		border-radius: 0;
+	}
+
+	.field input::placeholder {
+		color: color-mix(in srgb, var(--cream) 45%, transparent);
+	}
+
+	.field input:focus,
+	.field select:focus {
+		outline: 2px solid var(--brass);
+		outline-offset: 1px;
+	}
+
+	.field select option {
+		color: var(--ink);
+		background: var(--white);
+	}
+
+	.services {
+		background:
+			radial-gradient(ellipse 70% 50% at 0% 0%, color-mix(in srgb, var(--moss) 18%, transparent), transparent),
+			var(--ink);
+		color: var(--cream);
+	}
+
+	.services .eyebrow {
+		color: var(--brass);
+	}
+
+	.services .section-intro h2,
+	.services .section-lead {
+		color: var(--cream);
+	}
+
+	.services .section-lead {
+		opacity: 0.88;
+	}
+
+	.service-strip {
+		display: grid;
+		gap: 0;
+		border-top: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+	}
+
+	.service-lane {
+		display: grid;
+		gap: 0.35rem;
+		padding: 1.5rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+		text-decoration: none;
+		color: inherit;
+		transition: background 0.25s var(--ease), padding-left 0.25s var(--ease);
+	}
+
+	.service-lane:hover {
+		background: color-mix(in srgb, var(--cream) 5%, transparent);
+		padding-left: 0.65rem;
+	}
+
+	.service-lane.is-featured .service-price {
+		color: var(--brass);
+	}
+
+	.tier-also {
+		margin: 0;
+		font-size: 0.8rem;
+		font-weight: 650;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--cream) 55%, transparent);
+	}
+
+	.service-lane h3 {
+		margin: 0;
+		font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+		color: var(--cream);
+	}
+
+	.service-price {
+		margin: 0.15rem 0 0;
+		font-family: var(--font-display);
+		font-size: clamp(2.4rem, 5vw, 3.4rem);
+		font-weight: 700;
+		letter-spacing: -0.04em;
+		line-height: 1;
+		color: var(--cream);
+	}
+
+	.service-note,
+	.service-best {
+		margin: 0;
+		color: color-mix(in srgb, var(--cream) 68%, transparent);
+		font-size: 0.98rem;
+	}
+
+	.service-cta {
+		margin-top: 0.55rem;
+		font-weight: 650;
+		color: var(--brass);
+		font-size: 0.95rem;
+	}
+
+	.services-foot {
+		margin-top: 1.5rem;
+		font-size: 0.95rem;
+		color: color-mix(in srgb, var(--cream) 62%, transparent);
+	}
+
+	.services-foot a {
+		color: var(--brass);
+		font-weight: 550;
+	}
+
+	.fees-home {
+		background:
+			radial-gradient(ellipse 80% 60% at 100% 0%, color-mix(in srgb, var(--mist) 80%, transparent), transparent),
+			var(--paper);
+	}
+
+	.fee-strip-head {
+		max-width: 40rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.fee-strip-head h2 {
+		font-size: clamp(1.55rem, 3vw, 2.1rem);
+		color: var(--ink);
+		margin: 0 0 0.55rem;
+	}
+
+	.fee-strip-note {
+		margin: 1rem 0 0;
+		font-size: 0.95rem;
+		color: var(--muted);
+	}
+
+	.fee-strip-note a {
+		color: var(--forest);
+		font-weight: 550;
+	}
+
+	.icon-badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-bottom: 0.85rem;
+		color: var(--forest);
+		background: color-mix(in srgb, var(--mist) 80%, white);
+		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+	}
+
+	.pain {
+		background: var(--mist);
+	}
+
+	.needs {
+		background: var(--paper);
+	}
+
+	.inline-links {
+		margin-top: 2rem;
+		color: var(--muted);
+	}
+
+	.inline-links a {
+		color: var(--forest);
+		font-weight: 550;
+	}
+
+	.trust {
+		background: color-mix(in srgb, var(--mist) 55%, var(--paper));
+	}
+
+	.peace {
+		background:
+			linear-gradient(
+				180deg,
+				var(--paper),
+				color-mix(in srgb, var(--mist) 45%, var(--paper))
+			);
+	}
+
+	.recommended {
+		background: var(--ink);
+		color: var(--cream);
+	}
+
+	.recommended .eyebrow {
+		color: var(--brass);
+	}
+
+	.recommended-copy h2,
+	.recommended .section-lead {
+		color: var(--cream);
+	}
+
+	.recommended .section-lead {
+		opacity: 0.88;
+	}
+
+	.call-line {
+		margin: 0 0 1.25rem;
+		font-size: 1.15rem;
+	}
+
+	.call-line a {
+		color: var(--brass);
+		font-weight: 650;
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--brass) 70%, transparent);
+		margin-left: 0.35rem;
+	}
+
+	.recommended-grid {
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+	}
+
+	.recommended .btn-secondary {
+		border-color: color-mix(in srgb, var(--cream) 35%, transparent);
+		color: var(--cream);
+	}
+
+	.recommended .btn-secondary:hover {
+		border-color: var(--cream);
+		background: color-mix(in srgb, var(--cream) 8%, transparent);
+	}
+
+	.recommended-visual {
+		margin: 0;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.recommended-visual img {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		filter: saturate(0.85) contrast(1.05);
+	}
+
+	.recommended-visual figcaption {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		padding: 0.9rem 0 0;
+		font-size: 0.9rem;
+		opacity: 0.8;
+	}
+
+	.how {
+		background: var(--mist);
+	}
+
+	.steps {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 2rem;
+	}
+
+	.step {
+		transition-delay: var(--d, 0ms);
+	}
+
+	.step-top {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.step-top .icon-badge {
+		margin-bottom: 0;
+	}
+
+	.step-num {
+		display: block;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--brass-deep);
+		letter-spacing: 0.06em;
+	}
+
+	.step h3 {
+		font-size: 1.4rem;
+		color: var(--ink);
+		margin-bottom: 0.4rem;
+	}
+
+	.step p {
+		color: var(--muted);
+		max-width: 28rem;
+	}
+
+	.promise {
+		background:
+			linear-gradient(
+				135deg,
+				color-mix(in srgb, var(--forest) 8%, var(--paper)),
+				var(--paper) 55%
+			);
+	}
+
+	.promise-inner {
+		max-width: 42rem;
+	}
+
+	.promise h2 {
+		font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+		margin-bottom: 0.9rem;
+		color: var(--ink);
+	}
+
+	.promise p {
+		color: var(--muted);
+		margin-bottom: 1.5rem;
+		font-size: 1.08rem;
+	}
+
+	@media (min-width: 720px) {
+		.hero-panel {
+			padding: 1.25rem 1.4rem 1.4rem;
+		}
+
+		.compare-form {
+			grid-template-columns: 1.2fr 1fr auto;
+			align-items: end;
+			gap: 1rem;
+		}
+
+		.panel-label {
+			margin-bottom: 0.15rem;
+		}
+
+		.service-strip {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			border-top: none;
+			gap: 0;
+		}
+
+		.service-lane {
+			padding: 0 1.35rem;
+			border-bottom: none;
+			border-left: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+		}
+
+		.service-lane:first-child {
+			padding-left: 0;
+			border-left: none;
+		}
+
+		.service-lane:last-child {
+			padding-right: 0;
+		}
+
+		.service-lane:hover {
+			padding-left: 1.35rem;
+			background: transparent;
+			transform: translateY(-3px);
+		}
+
+		.service-lane:first-child:hover {
+			padding-left: 0;
+		}
+
+		.steps {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2rem;
+		}
+	}
+
+	@media (min-width: 960px) {
+		.recommended-grid {
+			grid-template-columns: 1.05fr 0.95fr;
+			gap: 3.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-media img,
+		.hero-brand,
+		.hero-brand::after,
+		.hero h1,
+		.hero-lead,
+		.hero-actions,
+		.hero-panel {
+			animation: none;
+		}
+
+		.service-lane,
+		.service-lane:hover {
+			transition: none;
+			transform: none;
+		}
+	}
+</style>
