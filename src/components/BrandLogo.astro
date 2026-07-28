@@ -65,4 +65,18 @@ const { size = 36, showWordmark = true, tone = 'light' } = Astro.props;
 	.is-dark .brand-logo-mark {
 		box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent);
 	}
+
+	@media (max-width: 420px) {
+		.brand-soft {
+			display: none;
+		}
+
+		.brand-strong {
+			font-size: 0.88rem;
+		}
+
+		.brand-logo {
+			gap: 0.55rem;
+		}
+	}
 </style>
