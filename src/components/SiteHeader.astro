@@ -455,17 +455,6 @@ const { variant: _variant = 'solid' } = Astro.props;
 		align-items: center;
 	}
 
-	@media (max-width: 420px) {
-		.menu-toggle-label {
-			position: absolute;
-			width: 1px;
-			height: 1px;
-			overflow: hidden;
-			clip: rect(0, 0, 0, 0);
-		}
-	}
-
-	/* Keep hamburger until there is room for Fees + Guides + Areas + FAQ */
 	@media (min-width: 1040px) {
 		.nav-desktop {
 			display: flex;
