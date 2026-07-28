@@ -52,4 +52,12 @@ export const chatChoices: ChatChoice[] = [
 		href: '/how-to-choose-a-letting-agent/',
 		cta: 'See the choose guide',
 	},
+	{
+		id: 'mortgage',
+		label: 'Buy-to-let mortgage help?',
+		reply:
+			'After you know agent fees, check whether your buy-to-let mortgage or remortgage still works on the rent. MortgageRM has guidance for landlord finance.',
+		href: 'https://mortgagerm.co.uk/',
+		cta: 'Visit MortgageRM',
+	},
 ];

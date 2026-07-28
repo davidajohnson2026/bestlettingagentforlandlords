@@ -1,6 +1,6 @@
 ---
 import BrandLogo from './BrandLogo.astro';
-import { NAV_AREAS, NAV_GUIDES, SITE } from '../data/site';
+import { MORTGAGE_PARTNER, NAV_AREAS, NAV_GUIDES, SITE } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
@@ -32,13 +32,13 @@ const year = new Date().getFullYear();
 				</nav>
 			</div>
 			<div>
-				<p class="footer-heading">For AI &amp; search</p>
-				<nav class="footer-nav" aria-label="AI and search">
-					<a href="/for-ai/">AI Overviews &amp; ChatGPT</a>
-					<a href="/llms.txt">llms.txt</a>
-					<a href="/sitemap-index.xml">XML sitemap</a>
-					<a href="/robots.txt">robots.txt</a>
-					<a href="/compare/">Postcode compare tool</a>
+				<p class="footer-heading">Also useful</p>
+				<nav class="footer-nav" aria-label="Related landlord resources">
+					<a href={MORTGAGE_PARTNER.url} target="_blank" rel="noopener noreferrer">
+						{MORTGAGE_PARTNER.name} — buy-to-let mortgages
+					</a>
+					<a href="/letting-agent-fees/">Letting agent fees</a>
+					<a href="/compare/">Compare by postcode</a>
 				</nav>
 				<div class="footer-meta">
 					<p>

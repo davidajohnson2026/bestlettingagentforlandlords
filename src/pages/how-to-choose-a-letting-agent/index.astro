@@ -6,6 +6,7 @@ import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
 import GuideVisual from '../../components/GuideVisual.astro';
 import GuideCards from '../../components/GuideCards.astro';
+import MortgagePartner from '../../components/MortgagePartner.astro';
 import Icon from '../../components/Icon.astro';
 import { chooseFaqs } from '../../data/faq';
 import { painPoints, trustFactors } from '../../data/content';
@@ -110,6 +111,8 @@ const jsonLd = [
 					Also read our <a href="/letting-agent-fees/">UK fees guide</a> and browse
 					<a href="/letting-agents/">letting agents by UK area</a>.
 				</p>
+
+				<MortgagePartner />
 
 				<p class="hero-actions" style="margin-top: 2rem;">
 					<a class="btn btn-primary" href="/compare/">Compare agents</a>

@@ -13,6 +13,7 @@ import RelatedGuides from '../components/RelatedGuides.astro';
 import FeePriceCards from '../components/FeePriceCards.astro';
 import GuideCards from '../components/GuideCards.astro';
 import SpotStrip from '../components/SpotStrip.astro';
+import MortgagePartner from '../components/MortgagePartner.astro';
 
 const servicePaths = [
 	{
@@ -192,6 +193,9 @@ const jsonLd = [
 						·
 						<a href="/letting-agents/doncaster/">Doncaster fee table</a>
 					</p>
+					<div class="fee-mortgage reveal">
+						<MortgagePartner />
+					</div>
 				</div>
 			</div>
 		</section>
@@ -735,6 +739,10 @@ const jsonLd = [
 	.fee-strip-note a {
 		color: var(--forest);
 		font-weight: 550;
+	}
+
+	.fee-mortgage {
+		margin-top: 1.5rem;
 	}
 
 	.icon-badge {

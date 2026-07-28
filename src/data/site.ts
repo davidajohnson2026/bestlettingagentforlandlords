@@ -10,6 +10,15 @@ export const SITE = {
 	sameAs: [] as string[],
 	/** Where landlord recommendation form submissions are sent (FormSubmit / inbox) */
 	recommendationsEmail: 'hello@bestlettingagentforlandlords.co.uk',
+} as const;
+
+/** Related landlord finance site */
+export const MORTGAGE_PARTNER = {
+	name: 'MortgageRM',
+	url: 'https://mortgagerm.co.uk/',
+	label: 'Buy-to-let & remortgage guidance',
+	blurb:
+		'Once agent fees are clear, check your buy-to-let mortgage or remortgage options so yield still works after management costs.',
 };
 
 export type NavLink = {

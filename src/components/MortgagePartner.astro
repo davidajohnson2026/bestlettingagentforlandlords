@@ -1,0 +1,75 @@
+---
+import { MORTGAGE_PARTNER } from '../data/site';
+
+interface Props {
+	/** Compact inline note vs padded callout box */
+	variant?: 'callout' | 'inline';
+}
+
+const { variant = 'callout' } = Astro.props;
+---
+
+{
+	variant === 'inline' ? (
+		<p class="mortgage-inline">
+			Looking at finance as well as fees? See{' '}
+			<a href={MORTGAGE_PARTNER.url} target="_blank" rel="noopener noreferrer">
+				{MORTGAGE_PARTNER.name}
+			</a>{' '}
+			for buy-to-let and remortgage guidance.
+		</p>
+	) : (
+		<aside class="mortgage-callout" aria-label="Related mortgage guidance">
+			<p class="mortgage-kicker">Related for landlords</p>
+			<h2 class="mortgage-title">{MORTGAGE_PARTNER.label}</h2>
+			<p class="mortgage-body">{MORTGAGE_PARTNER.blurb}</p>
+			<a class="btn btn-secondary" href={MORTGAGE_PARTNER.url} target="_blank" rel="noopener noreferrer">
+				Visit {MORTGAGE_PARTNER.name}
+			</a>
+		</aside>
+	)
+}
+
+<style>
+	.mortgage-callout {
+		margin: 1.75rem 0;
+		padding: 1.25rem 1.3rem 1.35rem;
+		max-width: 42rem;
+		background: color-mix(in srgb, var(--mist) 70%, white);
+		border: 1px solid color-mix(in srgb, var(--forest) 18%, transparent);
+		border-radius: var(--radius);
+		border-left: 3px solid var(--brass);
+	}
+
+	.mortgage-kicker {
+		margin: 0 0 0.35rem;
+		font-size: 0.75rem;
+		font-weight: 650;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--moss);
+	}
+
+	.mortgage-title {
+		margin: 0 0 0.45rem;
+		font-size: 1.25rem;
+		color: var(--ink);
+	}
+
+	.mortgage-body {
+		margin: 0 0 1rem;
+		color: var(--muted);
+		font-size: 1rem;
+	}
+
+	.mortgage-inline {
+		margin: 1rem 0 0;
+		color: var(--muted);
+		font-size: 0.98rem;
+	}
+
+	.mortgage-inline a {
+		color: var(--forest);
+		font-weight: 550;
+	}
+</style>
