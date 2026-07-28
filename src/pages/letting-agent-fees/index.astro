@@ -4,6 +4,8 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import GuideVisual from '../../components/GuideVisual.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import KeyFacts from '../../components/KeyFacts.astro';
 import GuideToc from '../../components/GuideToc.astro';
 import MidArticleCta from '../../components/MidArticleCta.astro';
@@ -111,6 +113,11 @@ const jsonLd = [
 			<p class="guide-updated">Updated 28 July 2026 · Independent landlord guidance</p>
 
 			<KeyFacts heading="Quick summary (TL;DR)" facts={keyFacts} />
+			<GuideVisual
+				src="/spots/fees.jpg"
+				alt="Calculator and landlord fee paperwork"
+				caption="Translate every % into pounds on your rent before you instruct."
+			/>
 			<GuideToc items={toc} />
 
 			<div class="prose">
@@ -293,6 +300,7 @@ const jsonLd = [
 		</article>
 
 		<FaqSection items={feesFaqs} id="fees-faq" heading="People also ask about letting agent fees" />
+		<GuideCards heading="More landlord guides" exclude="/letting-agent-fees/" />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/letting-agent-fees/" />
 		</div>

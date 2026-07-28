@@ -4,6 +4,8 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import GuideVisual from '../../components/GuideVisual.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import Icon from '../../components/Icon.astro';
 import { chooseFaqs } from '../../data/faq';
 import { painPoints, trustFactors } from '../../data/content';
@@ -43,6 +45,11 @@ const jsonLd = [
 		</header>
 
 		<article class="section-shell">
+			<GuideVisual
+				src="/spots/street.jpg"
+				alt="UK homes on a residential street"
+				caption="Pick the agent who knows your streets — not just your postcode district."
+			/>
 			<div class="prose">
 				<p>
 					Choosing a letting agent is one of the highest-leverage decisions a landlord makes. The wrong instruction creates voids, compliance risk and months of poor communication. The right one protects yield and your time.
@@ -112,6 +119,7 @@ const jsonLd = [
 		</article>
 
 		<FaqSection items={chooseFaqs} id="choose-faq" heading="People also ask when choosing an agent" />
+		<GuideCards heading="More landlord guides" exclude="/how-to-choose-a-letting-agent/" />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/how-to-choose-a-letting-agent/" />
 		</div>

@@ -4,6 +4,8 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import GuideVisual from '../../components/GuideVisual.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import KeyFacts from '../../components/KeyFacts.astro';
 import GuideToc from '../../components/GuideToc.astro';
 import MidArticleCta from '../../components/MidArticleCta.astro';
@@ -138,6 +140,11 @@ const jsonLd = [
 		<article class="section-shell prose">
 			<p class="guide-updated">Updated 28 July 2026 · Independent landlord guidance</p>
 			<KeyFacts facts={keyFacts} />
+			<GuideVisual
+				src="/spots/city.jpg"
+				alt="City skyline representing managed rental stock"
+				caption="A management company should feel local — even when your portfolio isn’t."
+			/>
 			<GuideToc items={toc} />
 
 			<p>
@@ -202,6 +209,7 @@ const jsonLd = [
 		</article>
 
 		<FaqSection items={faqs} id="pmc-faq" heading="People also ask about property management companies" />
+		<GuideCards heading="More landlord guides" exclude={path} />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude={path} />
 		</div>

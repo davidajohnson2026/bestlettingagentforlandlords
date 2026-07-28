@@ -12,6 +12,7 @@ import { pageSeo } from '../data/seo';
 import RelatedGuides from '../components/RelatedGuides.astro';
 import FeePriceCards from '../components/FeePriceCards.astro';
 import GuideCards from '../components/GuideCards.astro';
+import SpotStrip from '../components/SpotStrip.astro';
 
 const servicePaths = [
 	{
@@ -386,28 +387,43 @@ const jsonLd = [
 			</div>
 		</section>
 
+		<SpotStrip />
+
 		<section class="how" id="how" aria-labelledby="how-heading">
-			<div class="section-shell">
-				<div class="section-intro reveal">
-					<p class="eyebrow">How it works</p>
-					<h2 id="how-heading">Three steps from postcode to the right agent</h2>
-				</div>
-				<ol class="steps" role="list">
-					{
-						steps.map((step, i) => (
-							<li class="step reveal" style={`--d: ${i * 100}ms`}>
-								<span class="step-top">
-									<span class="icon-badge" aria-hidden="true">
-										<Icon name={step.icon} size={22} />
+			<div class="section-shell how-layout">
+				<div class="how-copy">
+					<div class="section-intro reveal">
+						<p class="eyebrow">How it works</p>
+						<h2 id="how-heading">Three steps from postcode to the right agent</h2>
+					</div>
+					<ol class="steps" role="list">
+						{
+							steps.map((step, i) => (
+								<li class="step reveal" style={`--d: ${i * 100}ms`}>
+									<span class="step-top">
+										<span class="icon-badge" aria-hidden="true">
+											<Icon name={step.icon} size={22} />
+										</span>
+										<span class="step-num">{step.num}</span>
 									</span>
-									<span class="step-num">{step.num}</span>
-								</span>
-								<h3>{step.title}</h3>
-								<p>{step.body}</p>
-							</li>
-						))
-					}
-				</ol>
+									<h3>{step.title}</h3>
+									<p>{step.body}</p>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+				<figure class="how-visual reveal">
+					<img
+						src="/spots/street.jpg"
+						alt="UK residential street with homes for let"
+						width="800"
+						height="600"
+						loading="lazy"
+						decoding="async"
+					/>
+					<figcaption>Local streets beat national brochures</figcaption>
+				</figure>
 			</div>
 		</section>
 
@@ -1066,12 +1082,39 @@ const jsonLd = [
 		background: var(--mist);
 	}
 
+	.how-layout {
+		display: grid;
+		gap: 2rem;
+		align-items: center;
+	}
+
+	.how-visual {
+		margin: 0;
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+		background: var(--white);
+	}
+
+	.how-visual img {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+	}
+
+	.how-visual figcaption {
+		padding: 0.85rem 1rem;
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		color: var(--ink);
+	}
+
 	.steps {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: grid;
-		gap: 2rem;
+		gap: 1.5rem;
 	}
 
 	.step {
@@ -1194,11 +1237,6 @@ const jsonLd = [
 			padding-left: 0;
 		}
 
-		.steps {
-			grid-template-columns: repeat(3, 1fr);
-			gap: 2rem;
-		}
-
 		.pain-row {
 			grid-template-columns: 5.5rem 1fr;
 			gap: 1.75rem;
@@ -1216,6 +1254,11 @@ const jsonLd = [
 	}
 
 	@media (min-width: 960px) {
+		.how-layout {
+			grid-template-columns: 1.1fr 0.9fr;
+			gap: 3rem;
+		}
+
 		.recommended-grid {
 			grid-template-columns: 1.05fr 0.95fr;
 			gap: 3.5rem;

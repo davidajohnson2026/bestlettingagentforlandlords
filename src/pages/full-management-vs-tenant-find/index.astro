@@ -4,6 +4,8 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import GuideVisual from '../../components/GuideVisual.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import Icon from '../../components/Icon.astro';
 import { serviceFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
@@ -65,6 +67,11 @@ const jsonLd = [
 		</header>
 
 		<section class="section-shell">
+			<GuideVisual
+				src="/spots/build.jpg"
+				alt="Apartment building exterior"
+				caption="Hands-off or hands-on — pick the service level before you compare % fees."
+			/>
 			<div class="grid-cards cols-3">
 				{
 					tiers.map((tier) => (
@@ -106,6 +113,7 @@ const jsonLd = [
 		</article>
 
 		<FaqSection items={serviceFaqs} id="services-faq" heading="People also ask about letting services" />
+		<GuideCards heading="More landlord guides" exclude="/full-management-vs-tenant-find/" />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/full-management-vs-tenant-find/" />
 		</div>

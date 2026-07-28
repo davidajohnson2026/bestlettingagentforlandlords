@@ -4,6 +4,8 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import RelatedGuides from '../../components/RelatedGuides.astro';
+import GuideVisual from '../../components/GuideVisual.astro';
+import GuideCards from '../../components/GuideCards.astro';
 import Icon from '../../components/Icon.astro';
 import { phoneFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
@@ -76,6 +78,11 @@ const jsonLd = [
 		</header>
 
 		<article class="section-shell">
+			<GuideVisual
+				src="/spots/call.jpg"
+				alt="Landlords discussing property management on a call"
+				caption="If they dodge fees on the phone, they will dodge them in the tenancy too."
+			/>
 			<div class="checklist-intro prose">
 				<p>
 					Tick each point as you go. You do not need to sound like an expert — clear answers matter more than fancy language.
@@ -127,6 +134,7 @@ const jsonLd = [
 		</article>
 
 		<FaqSection items={phoneFaqs} id="phone-faq" heading="People also ask about phoning agents" />
+		<GuideCards heading="More landlord guides" exclude="/questions-to-ask-a-letting-agent/" />
 		<div class="section-shell" style="padding-top: 0;">
 			<RelatedGuides exclude="/questions-to-ask-a-letting-agent/" />
 		</div>
@@ -155,6 +163,7 @@ const jsonLd = [
 		padding: 1.15rem 1.2rem;
 		background: var(--white);
 		border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+		border-radius: var(--radius);
 	}
 
 	.phone-num {

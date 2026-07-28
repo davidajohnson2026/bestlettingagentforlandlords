@@ -1,0 +1,105 @@
+---
+export type SpotItem = {
+	src: string;
+	alt: string;
+	caption: string;
+};
+
+interface Props {
+	heading?: string;
+	items?: SpotItem[];
+}
+
+const {
+	heading = 'Landlord life, in three frames',
+	items = [
+		{
+			src: '/spots/fees.jpg',
+			alt: 'Calculator and paperwork for fee planning',
+			caption: 'That “all-in” fee that… wasn’t',
+		},
+		{
+			src: '/spots/call.jpg',
+			alt: 'People in a meeting discussing property management',
+			caption: 'Still waiting for the agent to call back',
+		},
+		{
+			src: '/spots/desk.jpg',
+			alt: 'Laptop and documents on a desk',
+			caption: 'Get the fee schedule in writing first',
+		},
+	],
+} = Astro.props;
+---
+
+<section class="spot-strip" aria-labelledby="spot-strip-heading">
+	<div class="section-shell">
+		<h2 id="spot-strip-heading">{heading}</h2>
+		<ul class="spot-grid" role="list">
+			{
+				items.map((item) => (
+					<li>
+						<figure class="spot-card">
+							<img src={item.src} alt={item.alt} width="800" height="500" loading="lazy" decoding="async" />
+							<figcaption>{item.caption}</figcaption>
+						</figure>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.spot-strip {
+		background: var(--mist);
+	}
+
+	.spot-strip h2 {
+		text-align: center;
+		font-size: clamp(1.55rem, 3vw, 2.1rem);
+		color: var(--ink);
+		margin: 0 0 1.75rem;
+	}
+
+	.spot-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 1.15rem;
+	}
+
+	.spot-card {
+		margin: 0;
+		background: var(--white);
+		border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: 0 10px 24px color-mix(in srgb, var(--ink) 6%, transparent);
+		height: 100%;
+	}
+
+	.spot-card img {
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: cover;
+	}
+
+	.spot-card figcaption {
+		padding: 0.85rem 1rem 1rem;
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		font-weight: 560;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		line-height: 1.35;
+	}
+
+	@media (min-width: 720px) {
+		.spot-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.25rem;
+		}
+	}
+</style>
