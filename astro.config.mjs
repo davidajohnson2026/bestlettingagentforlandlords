@@ -6,5 +6,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
 	site: 'https://bestlettingagentforlandlords.co.uk',
 	trailingSlash: 'always',
-	integrations: [sitemap()],
+	integrations: [
+		sitemap({
+			filter: (page) => !page.includes('/recommend/thanks'),
+		}),
+	],
 });

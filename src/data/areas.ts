@@ -1,11 +1,14 @@
 import type { FeaturedAgent } from './recommendations';
 import {
 	bricknellsFeatured,
+	getDistrictCode,
+	getPostalAreaCode,
 	henrySpencerFeatured,
 	kerrigansFeatured,
 } from './recommendations';
 
 export type { FeaturedAgent };
+export { getDistrictCode as getDistrict, getPostalAreaCode as getPostalArea };
 
 export type Area = {
 	slug: string;
@@ -362,27 +365,15 @@ export function areaPath(slug: string) {
 	return `/letting-agents/${slug}/`;
 }
 
-/** Normalise a UK postcode and return postal area (letters before first digit). */
-export function getPostalArea(postcode: string): string | null {
-	const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
-	const match = cleaned.match(/^([A-Z]{1,2})\d/);
-	return match?.[1] ?? null;
-}
-
-export function getDistrict(postcode: string): string | null {
-	const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
-	const match = cleaned.match(/^([A-Z]{1,2}\d{1,2})/);
-	return match?.[1] ?? null;
-}
-
+/** Normalise a UK postcode and return postal area / district (shared parsers). */
 export function matchAreaByPostcode(postcode: string): Area | null {
-	const district = getDistrict(postcode);
+	const district = getDistrictCode(postcode);
 	if (district) {
 		const byDistrict = areas.find((area) => area.districts?.includes(district));
 		if (byDistrict) return byDistrict;
 	}
 
-	const postalArea = getPostalArea(postcode);
+	const postalArea = getPostalAreaCode(postcode);
 	if (!postalArea) return null;
 
 	// Longest prefix first so SW beats S-style mistakes; prefixes are exact postal areas

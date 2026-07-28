@@ -48,7 +48,9 @@
 		transform 0.25s var(--ease),
 		background 0.25s var(--ease),
 		border-color 0.25s var(--ease),
-		color 0.25s var(--ease);
+		color 0.25s var(--ease),
+		box-shadow 0.25s var(--ease),
+		filter 0.25s var(--ease);
 }
 
 .btn:hover {
@@ -62,6 +64,50 @@
 
 .btn-primary:hover {
 	background: color-mix(in srgb, var(--brass) 88%, white);
+}
+
+/* Soft quiver + flash — key conversion CTAs only (PPC-style attention) */
+@keyframes btn-quiver {
+	0%,
+	55%,
+	100% {
+		transform: translateY(0) rotate(0deg) scale(1);
+		filter: brightness(1);
+		box-shadow: 0 0 0 0 transparent;
+	}
+	8% {
+		transform: translateY(0) rotate(-1.4deg) scale(1.03);
+		filter: brightness(1.08);
+	}
+	16% {
+		transform: translateY(0) rotate(1.4deg) scale(1.045);
+		filter: brightness(1.14);
+		box-shadow: 0 0 0 7px var(--entice-glow);
+	}
+	24% {
+		transform: translateY(0) rotate(-0.8deg) scale(1.03);
+		filter: brightness(1.06);
+	}
+	32% {
+		transform: translateY(0) rotate(0.5deg) scale(1.015);
+		filter: brightness(1.1);
+		box-shadow: 0 0 0 3px var(--entice-glow-mid);
+	}
+}
+
+.btn-entice {
+	--entice-glow: color-mix(in srgb, var(--brass) 32%, transparent);
+	--entice-glow-mid: color-mix(in srgb, var(--brass) 18%, transparent);
+	animation: btn-quiver 2.4s var(--ease) infinite;
+	will-change: transform, filter, box-shadow;
+}
+
+.btn-entice:hover,
+.btn-entice:focus-visible {
+	animation: none;
+	transform: translateY(-2px);
+	filter: brightness(1.06);
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--brass) 24%, transparent);
 }
 
 .btn-ghost {
@@ -265,6 +311,15 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.btn:hover {
+		transform: none;
+	}
+
+	.btn-entice,
+	.btn-entice:hover,
+	.btn-entice:focus-visible {
+		animation: none;
+		filter: none;
+		box-shadow: none;
 		transform: none;
 	}
 }

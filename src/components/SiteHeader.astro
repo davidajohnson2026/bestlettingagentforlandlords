@@ -34,7 +34,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 	</nav>
 
 	<div class="header-actions">
-		<a class="header-cta" href="/compare/">Compare</a>
+		<a class="header-cta btn-entice" href="/compare/">Compare</a>
 		<button
 			class="menu-toggle"
 			type="button"
@@ -469,6 +469,12 @@ const { variant: _variant = 'solid' } = Astro.props;
 		.nav-desktop > a,
 		.nav-drop summary {
 			transition: none;
+		}
+
+		.header-cta.btn-entice {
+			animation: none;
+			filter: none;
+			box-shadow: none;
 		}
 
 		.header-cta:hover {

@@ -44,16 +44,37 @@ export const KERRIGANS_OUTSIDE_DISTRICTS = [
 	'DN22',
 ] as const;
 
+/**
+ * Normalise a UK postcode to A–Z / 0–9 only.
+ * Outward code is everything before the inward unit (always last 3 chars when complete).
+ */
+export function cleanPostcode(postcode: string): string {
+	return postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+/**
+ * UK outward district without sector letter (e.g. DN2, DN11, S1, S60, EC1).
+ * Complete postcodes: strip the inward 3 characters first so DN2 1AA → DN2, not DN21.
+ */
 export function getDistrictCode(postcode: string): string | null {
-	const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
-	const match = cleaned.match(/^([A-Z]{1,2}\d{1,2})/);
+	const cleaned = cleanPostcode(postcode);
+	if (!cleaned) return null;
+
+	const outward = cleaned.length >= 5 ? cleaned.slice(0, -3) : cleaned;
+	const match = outward.match(/^([A-Z]{1,2}\d{1,2})[A-Z]?$/);
 	return match?.[1] ?? null;
 }
 
 export function getPostalAreaCode(postcode: string): string | null {
-	const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
-	const match = cleaned.match(/^([A-Z]{1,2})\d/);
-	return match?.[1] ?? null;
+	const cleaned = cleanPostcode(postcode);
+	if (!cleaned) return null;
+
+	const outward = cleaned.length >= 5 ? cleaned.slice(0, -3) : cleaned;
+	const withDigit = outward.match(/^([A-Z]{1,2})\d/);
+	if (withDigit) return withDigit[1];
+	// Bare area only (e.g. "DN") — used for incomplete compare input
+	const bare = outward.match(/^([A-Z]{1,2})$/);
+	return bare?.[1] ?? null;
 }
 
 /** True only for Doncaster-area postcodes inside the Kerrigans ~9 mile coverage. */

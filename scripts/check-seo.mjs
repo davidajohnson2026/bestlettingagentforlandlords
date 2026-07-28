@@ -92,4 +92,11 @@ if (failures.length) {
 	process.exit(1);
 }
 
+// Noindex pages must not appear in the XML sitemap
+const sitemap = await readFile(join(DIST.pathname, 'sitemap-0.xml'), 'utf8');
+if (sitemap.includes('/recommend/thanks')) {
+	console.error('SEO check failed: noindex /recommend/thanks/ is still in sitemap-0.xml');
+	process.exit(1);
+}
+
 console.log(`SEO check passed: ${files.length} HTML pages, compare crawl signals OK.`);

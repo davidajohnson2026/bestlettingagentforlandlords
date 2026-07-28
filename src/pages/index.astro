@@ -110,7 +110,7 @@ const jsonLd = [
 						Honest UK fee bands and local recommendations — no invented savings figures, no national default agent.
 					</p>
 					<div class="hero-actions">
-						<a class="btn btn-primary" href="#compare">Compare by postcode</a>
+						<a class="btn btn-primary btn-entice" href="#compare">Compare by postcode</a>
 						<a class="btn btn-ghost" href="#services">See service levels</a>
 					</div>
 				</div>
@@ -136,7 +136,7 @@ const jsonLd = [
 								<option value="rent-collect">Rent collection</option>
 							</select>
 						</label>
-						<button class="btn btn-primary" type="submit">Compare agents</button>
+						<button class="btn btn-primary btn-entice" type="submit">Compare agents</button>
 					</form>
 				</div>
 			</div>
@@ -229,7 +229,7 @@ const jsonLd = [
 				</ol>
 				<div class="pain-foot reveal">
 					<p>Still choosing from a shopfront leaflet?</p>
-					<a class="btn btn-primary" href="/compare/">Compare agents near you</a>
+					<a class="btn btn-primary btn-entice" href="/compare/">Compare agents near you</a>
 				</div>
 			</div>
 		</section>
@@ -242,7 +242,7 @@ const jsonLd = [
 					Enter your property postcode, pick tenant-find or full management, and see local guidance — not a national default agent.
 				</p>
 				<div class="hero-actions">
-					<a class="btn btn-primary" href="/compare/">Start free comparison</a>
+					<a class="btn btn-primary btn-entice" href="/compare/">Start free comparison</a>
 					<a class="btn btn-ghost" href="/questions-to-ask-a-letting-agent/">Phone checklist</a>
 				</div>
 			</div>
@@ -465,7 +465,7 @@ const jsonLd = [
 					Compare fees and local fit with honesty — then instruct a recommended partner when the postcode matches.
 				</p>
 				<div class="hero-actions">
-					<a class="btn btn-primary" href="/compare/">Start your comparison</a>
+					<a class="btn btn-primary btn-entice" href="/compare/">Start your comparison</a>
 					<a class="btn btn-ghost" href="/recommend/">Recommend an agent</a>
 				</div>
 				<RelatedGuides exclude="/" tone="inverse" />
@@ -958,10 +958,17 @@ const jsonLd = [
 	.band-cta .btn-primary {
 		background: var(--ink);
 		color: var(--cream);
+		--entice-glow: color-mix(in srgb, var(--cream) 30%, transparent);
+		--entice-glow-mid: color-mix(in srgb, var(--cream) 16%, transparent);
 	}
 
 	.band-cta .btn-primary:hover {
 		background: var(--ink-soft);
+	}
+
+	.band-cta .btn-entice:hover,
+	.band-cta .btn-entice:focus-visible {
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--cream) 22%, transparent);
 	}
 
 	.needs {
