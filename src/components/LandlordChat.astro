@@ -5,6 +5,14 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 <div class="landlord-chat" data-landlord-chat>
 	<button
 		type="button"
+		class="chat-backdrop"
+		data-chat-backdrop
+		aria-label="Close chat"
+		hidden
+	></button>
+
+	<button
+		type="button"
 		class="chat-launcher"
 		data-chat-open
 		aria-controls="landlord-chat-panel"
@@ -77,24 +85,32 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 	if (root instanceof HTMLElement) {
 		const openBtn = root.querySelector('[data-chat-open]');
 		const closeBtn = root.querySelector('[data-chat-close]');
+		const backdrop = root.querySelector('[data-chat-backdrop]');
 		const panel = root.querySelector('[data-chat-panel]');
 		const body = root.querySelector('[data-chat-body]');
 
-		const setOpen = (open: boolean) => {
+		const setOpen = (open: boolean, opts: { restoreFocus?: boolean } = {}) => {
 			if (!(panel instanceof HTMLElement) || !(openBtn instanceof HTMLButtonElement)) return;
+			const restoreFocus = opts.restoreFocus !== false;
 			panel.hidden = !open;
+			if (backdrop instanceof HTMLElement) backdrop.hidden = !open;
 			openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
 			root.classList.toggle('is-open', open);
+			document.body.classList.toggle('chat-open', open);
 			if (open) {
 				const first = panel.querySelector('.chat-choice, .chat-close');
 				if (first instanceof HTMLElement) first.focus();
-			} else {
-				openBtn.focus();
+			} else if (restoreFocus) {
+				openBtn.focus({ preventScroll: true });
 			}
 		};
 
+		// Always start closed (covers bfcache / back-forward restore)
+		setOpen(false, { restoreFocus: false });
+
 		openBtn?.addEventListener('click', () => setOpen(true));
 		closeBtn?.addEventListener('click', () => setOpen(false));
+		backdrop?.addEventListener('click', () => setOpen(false));
 
 		document.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape' && root.classList.contains('is-open')) {
@@ -102,13 +118,17 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 			}
 		});
 
+		window.addEventListener('pageshow', () => {
+			setOpen(false, { restoreFocus: false });
+		});
+
 		const appendUser = (label: string) => {
 			if (!(body instanceof HTMLElement)) return;
 			const bubble = document.createElement('div');
 			bubble.className = 'chat-bubble user';
-			bubble.innerHTML = `<p></p>`;
-			const p = bubble.querySelector('p');
-			if (p) p.textContent = label;
+			const p = document.createElement('p');
+			p.textContent = label;
+			bubble.appendChild(p);
 			body.appendChild(bubble);
 			body.scrollTop = body.scrollHeight;
 		};
@@ -125,6 +145,7 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 				link.className = 'chat-cta';
 				link.href = href;
 				link.textContent = cta;
+				link.addEventListener('click', () => setOpen(false, { restoreFocus: false }));
 				bubble.appendChild(link);
 			}
 			const again = document.createElement('button');
@@ -133,7 +154,9 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 			again.textContent = 'Ask another question';
 			again.addEventListener('click', () => {
 				const greeting = body.querySelector('[data-chat-greeting]');
-				body.querySelectorAll('.chat-bubble.user, .chat-bubble.bot:not([data-chat-greeting])').forEach((el) => el.remove());
+				body
+					.querySelectorAll('.chat-bubble.user, .chat-bubble.bot:not([data-chat-greeting])')
+					.forEach((el) => el.remove());
 				if (greeting instanceof HTMLElement) {
 					greeting.hidden = false;
 					body.scrollTop = 0;
@@ -149,10 +172,14 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 			if (!(target instanceof Element)) return;
 			const choice = target.closest('[data-chat-choice]');
 			if (!(choice instanceof HTMLElement)) return;
+			event.preventDefault();
 			const href = choice.dataset.href || '';
 			if (href) {
-				setOpen(false);
-				window.location.assign(href);
+				setOpen(false, { restoreFocus: false });
+				// Let the sheet close before navigating so mobile paints the page
+				window.setTimeout(() => {
+					window.location.assign(href);
+				}, 60);
 				return;
 			}
 			const label = choice.dataset.label || choice.textContent?.trim() || 'Question';
@@ -166,16 +193,44 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 	}
 </script>
 
+<style is:global>
+	body.chat-open {
+		overflow: hidden;
+		touch-action: none;
+	}
+</style>
+
 <style>
 	.landlord-chat {
 		position: fixed;
-		right: 1rem;
-		bottom: 1rem;
+		inset: auto 1rem 1rem auto;
 		z-index: 80;
 		display: grid;
 		justify-items: end;
 		gap: 0.75rem;
 		font-family: var(--font-body);
+		pointer-events: none;
+	}
+
+	.landlord-chat > * {
+		pointer-events: auto;
+	}
+
+	.chat-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 79;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		background: color-mix(in srgb, var(--ink) 45%, transparent);
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.chat-backdrop[hidden],
+	.chat-panel[hidden] {
+		display: none !important;
 	}
 
 	.chat-launcher {
@@ -213,6 +268,8 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 	}
 
 	.chat-panel {
+		position: relative;
+		z-index: 81;
 		width: min(24.5rem, calc(100vw - 1.5rem));
 		max-height: min(34rem, calc(100svh - 2rem));
 		display: grid;
@@ -248,8 +305,8 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 	}
 
 	.chat-close {
-		width: 2.25rem;
-		height: 2.25rem;
+		width: 2.5rem;
+		height: 2.5rem;
 		border: 1px solid color-mix(in srgb, var(--cream) 25%, transparent);
 		border-radius: var(--radius-sm);
 		background: transparent;
@@ -257,6 +314,7 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 		font-size: 1.45rem;
 		line-height: 1;
 		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	.chat-close:hover {
@@ -272,6 +330,7 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 		background:
 			radial-gradient(ellipse 80% 40% at 100% 0%, color-mix(in srgb, var(--mist) 70%, transparent), transparent),
 			var(--paper);
+		-webkit-overflow-scrolling: touch;
 	}
 
 	.chat-bubble {
@@ -322,7 +381,7 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 		justify-content: space-between;
 		gap: 0.75rem;
 		width: 100%;
-		padding: 0.8rem 0.95rem;
+		padding: 0.85rem 0.95rem;
 		border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
 		border-radius: var(--radius-sm);
 		background: color-mix(in srgb, var(--mist) 55%, white);
@@ -332,6 +391,8 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 		font-size: 0.95rem;
 		text-align: left;
 		cursor: pointer;
+		min-height: 2.85rem;
+		-webkit-tap-highlight-color: transparent;
 		transition:
 			background 0.2s var(--ease),
 			border-color 0.2s var(--ease),
@@ -385,7 +446,26 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 		background: var(--white);
 	}
 
-	@media (max-width: 520px) {
+	@media (max-width: 640px) {
+		.landlord-chat {
+			inset: auto 0 0 0;
+			justify-items: stretch;
+			padding: 0;
+			gap: 0;
+		}
+
+		.chat-launcher {
+			position: fixed;
+			right: max(0.85rem, env(safe-area-inset-right));
+			bottom: max(0.85rem, env(safe-area-inset-bottom));
+			width: 3.25rem;
+			height: 3.25rem;
+			padding: 0;
+			justify-content: center;
+			border-radius: var(--radius-lg);
+			z-index: 81;
+		}
+
 		.chat-launcher-label {
 			position: absolute;
 			width: 1px;
@@ -394,12 +474,23 @@ import { chatChoices, chatGreeting } from '../data/chat-bot';
 			clip: rect(0, 0, 0, 0);
 		}
 
-		.chat-launcher {
-			width: 3.25rem;
-			height: 3.25rem;
-			padding: 0;
-			justify-content: center;
-			border-radius: var(--radius-lg);
+		.landlord-chat.is-open .chat-launcher {
+			display: none;
+		}
+
+		.chat-panel {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			max-height: min(78svh, 36rem);
+			border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+			border-left: 0;
+			border-right: 0;
+			border-bottom: 0;
+			z-index: 82;
+			padding-bottom: env(safe-area-inset-bottom);
 		}
 	}
 
