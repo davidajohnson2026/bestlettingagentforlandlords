@@ -12,6 +12,7 @@ import Icon from '../../components/Icon.astro';
 import { phoneFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
+import { kerrigansFeatured } from '../../data/recommendations';
 
 const { title, description } = pageSeo.phone;
 const path = '/questions-to-ask-a-letting-agent/';
@@ -120,9 +121,9 @@ const jsonLd = [
 						<a href="tel:+441302769276">01302 769276</a>
 					</p>
 					<div class="hero-actions">
-						<a class="btn btn-primary" href="tel:+441302769276">Call Kerrigans</a>
-						<a class="btn btn-secondary" href="https://kerrigans.co.uk/lettings/" target="_blank" rel="noopener noreferrer">
-							Visit their website
+						<a class="btn btn-primary" href={kerrigansFeatured.phoneHref}>Call Kerrigans</a>
+						<a class="btn btn-secondary" href={kerrigansFeatured.url} target="_blank" rel="noopener noreferrer">
+							Visit Kerrigans
 						</a>
 					</div>
 				</div>

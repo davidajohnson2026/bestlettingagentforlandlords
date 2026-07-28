@@ -91,7 +91,7 @@ export function isWithinKerrigansRadius(postcode: string): boolean {
 
 export const kerrigansFeatured: FeaturedAgent = {
 	name: 'Kerrigans Property',
-	url: 'https://kerrigans.co.uk/lettings/',
+	url: 'https://kerrigans.co.uk/doncaster/landlord-services/',
 	phone: '01302 769276',
 	phoneHref: 'tel:+441302769276',
 	summary:

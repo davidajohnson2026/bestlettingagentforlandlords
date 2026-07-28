@@ -48,7 +48,7 @@ export const cityFeeComparisons: CityFeeCompare[] = [
 				aside: 'Call for fees',
 				topMatch: true,
 				phoneHref: 'tel:+441302769276',
-				url: 'https://kerrigans.co.uk/lettings/',
+				url: 'https://kerrigans.co.uk/doncaster/landlord-services/',
 			},
 			{
 				name: 'Typical local independent',

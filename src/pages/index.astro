@@ -16,6 +16,7 @@ import SpotStrip from '../components/SpotStrip.astro';
 import MortgagePartner from '../components/MortgagePartner.astro';
 import MemeBreak from '../components/MemeBreak.astro';
 import RelatedRail from '../components/RelatedRail.astro';
+import { kerrigansFeatured } from '../data/recommendations';
 
 const servicePaths = [
 	{
@@ -344,7 +345,10 @@ const jsonLd = [
 						<a href="tel:+441302769276">Call 01302 769276</a>
 					</p>
 					<div class="hero-actions">
-						<a class="btn btn-primary" href="tel:+441302769276">Call Kerrigans</a>
+						<a class="btn btn-primary" href={kerrigansFeatured.phoneHref}>Call Kerrigans</a>
+						<a class="btn btn-secondary" href={kerrigansFeatured.url} target="_blank" rel="noopener noreferrer">
+							Visit Kerrigans
+						</a>
 						<a class="btn btn-secondary" href="/letting-agents/doncaster/">Doncaster guide</a>
 					</div>
 					<p class="section-lead" style="margin-top: 1.25rem; font-size: 1rem;">
