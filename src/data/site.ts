@@ -17,15 +17,19 @@ export type NavLink = {
 	label: string;
 };
 
-/** Primary guide links shown in the menu bar */
+/** Primary guide links — desktop nests most under Guides */
 export const NAV_GUIDES: NavLink[] = [
-	{ href: '/letting-agent-fees/', label: 'Fees guide' },
+	{ href: '/letting-agent-fees/', label: 'Fees' },
 	{ href: '/full-management-vs-tenant-find/', label: 'Managed vs let-only' },
 	{ href: '/property-management-companies/', label: 'Property managers' },
 	{ href: '/how-to-choose-a-letting-agent/', label: 'How to choose' },
 	{ href: '/questions-to-ask-a-letting-agent/', label: 'Phone checklist' },
 	{ href: '/recommend/', label: 'Recommend an agent' },
 ];
+
+/** Top-level Fees stays visible; remaining guides sit in the Guides menu */
+export const NAV_FEES = NAV_GUIDES[0];
+export const NAV_GUIDE_MENU = NAV_GUIDES.slice(1);
 
 /** Highlight cities in the Areas menu (full list on /letting-agents/) */
 export const NAV_AREAS: NavLink[] = [

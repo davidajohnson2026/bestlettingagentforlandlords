@@ -1,6 +1,6 @@
 ---
 import BrandLogo from './BrandLogo.astro';
-import { NAV_AREAS, NAV_GUIDES, SITE } from '../data/site';
+import { NAV_AREAS, NAV_FEES, NAV_GUIDE_MENU, NAV_GUIDES, SITE } from '../data/site';
 
 interface Props {
 	variant?: 'overlay' | 'solid';
@@ -12,19 +12,21 @@ const { variant: _variant = 'solid' } = Astro.props;
 
 <header class="site-header">
 	<a class="brand" href="/">
-		<BrandLogo size={40} />
+		<BrandLogo size={36} />
 		<span class="sr-only">{SITE.name}</span>
 	</a>
 
 	<nav class="nav-desktop" aria-label="Primary">
-		{
-			NAV_GUIDES.map((item) => (
-				<a href={item.href}>{item.label}</a>
-			))
-		}
-		<details class="nav-areas">
+		<a href={NAV_FEES.href}>{NAV_FEES.label}</a>
+		<details class="nav-drop" data-nav-drop>
+			<summary>Guides</summary>
+			<div class="nav-drop-panel" role="group" aria-label="Landlord guides">
+				{NAV_GUIDE_MENU.map((item) => <a href={item.href}>{item.label}</a>)}
+			</div>
+		</details>
+		<details class="nav-drop" data-nav-drop>
 			<summary>Areas</summary>
-			<div class="nav-areas-panel" role="group" aria-label="Local areas">
+			<div class="nav-drop-panel" role="group" aria-label="Local areas">
 				{NAV_AREAS.map((item) => <a href={item.href}>{item.label}</a>)}
 			</div>
 		</details>
@@ -32,7 +34,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 	</nav>
 
 	<div class="header-actions">
-		<a class="header-cta" href="/compare/">Compare agents</a>
+		<a class="header-cta" href="/compare/">Compare</a>
 		<button
 			class="menu-toggle"
 			type="button"
@@ -48,12 +50,12 @@ const { variant: _variant = 'solid' } = Astro.props;
 
 <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
 	<nav class="mobile-nav" aria-label="Mobile">
+		<a class="mobile-cta" href="/compare/">Compare agents</a>
 		<p class="mobile-label">Guides</p>
 		{NAV_GUIDES.map((item) => <a href={item.href}>{item.label}</a>)}
 		<p class="mobile-label">Areas</p>
 		{NAV_AREAS.map((item) => <a href={item.href}>{item.label}</a>)}
 		<a href="/#faq">FAQ</a>
-		<a class="mobile-cta" href="/compare/">Compare agents</a>
 	</nav>
 </div>
 
@@ -80,6 +82,26 @@ const { variant: _variant = 'solid' } = Astro.props;
 			if (event.key === 'Escape') setOpen(false);
 		});
 	}
+
+	const drops = document.querySelectorAll('[data-nav-drop]');
+	drops.forEach((drop) => {
+		drop.addEventListener('toggle', () => {
+			if (!(drop instanceof HTMLDetailsElement) || !drop.open) return;
+			drops.forEach((other) => {
+				if (other !== drop && other instanceof HTMLDetailsElement) other.open = false;
+			});
+		});
+	});
+
+	document.addEventListener('click', (event) => {
+		const target = event.target;
+		if (!(target instanceof Node)) return;
+		drops.forEach((drop) => {
+			if (drop instanceof HTMLDetailsElement && drop.open && !drop.contains(target)) {
+				drop.open = false;
+			}
+		});
+	});
 </script>
 
 <style is:global>
@@ -94,7 +116,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
-		padding: 0.85rem clamp(1.25rem, 4vw, 3rem);
+		padding: 0.7rem clamp(1.25rem, 4vw, 2.5rem);
 		background: color-mix(in srgb, var(--ink) 94%, black);
 		color: var(--cream);
 		position: sticky;
@@ -112,52 +134,55 @@ const { variant: _variant = 'solid' } = Astro.props;
 		min-width: 0;
 		color: inherit;
 		z-index: 1;
+		flex-shrink: 0;
 	}
 
 	.nav-desktop {
 		display: none;
 		align-items: center;
-		gap: 0.35rem 1.05rem;
+		gap: 0.15rem;
 		font-size: 0.95rem;
 		font-weight: 550;
+		flex-wrap: nowrap;
 	}
 
 	.nav-desktop > a,
-	.nav-areas summary {
+	.nav-drop summary {
 		text-decoration: none;
 		opacity: 1;
 		cursor: pointer;
 		list-style: none;
-		padding: 0.45rem 0.55rem;
+		padding: 0.5rem 0.75rem;
 		border-radius: var(--radius-sm);
-		color: color-mix(in srgb, var(--cream) 88%, white);
+		color: color-mix(in srgb, var(--cream) 90%, white);
+		white-space: nowrap;
 		transition:
 			background 0.2s var(--ease),
 			color 0.2s var(--ease);
 	}
 
 	.nav-desktop > a:hover,
-	.nav-areas summary:hover,
-	.nav-areas[open] summary {
+	.nav-drop summary:hover,
+	.nav-drop[open] summary {
 		background: color-mix(in srgb, var(--cream) 12%, transparent);
 		color: var(--cream);
 	}
 
-	.nav-areas {
+	.nav-drop {
 		position: relative;
 	}
 
-	.nav-areas summary {
+	.nav-drop summary {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.35rem;
+		gap: 0.4rem;
 	}
 
-	.nav-areas summary::-webkit-details-marker {
+	.nav-drop summary::-webkit-details-marker {
 		display: none;
 	}
 
-	.nav-areas summary::after {
+	.nav-drop summary::after {
 		content: '';
 		width: 0.35rem;
 		height: 0.35rem;
@@ -167,33 +192,34 @@ const { variant: _variant = 'solid' } = Astro.props;
 		opacity: 0.8;
 	}
 
-	.nav-areas-panel {
+	.nav-drop-panel {
 		position: absolute;
-		top: calc(100% + 0.65rem);
-		left: 50%;
-		transform: translateX(-50%);
-		min-width: 13rem;
+		top: calc(100% + 0.55rem);
+		left: 0;
+		min-width: 14.5rem;
 		max-height: min(70vh, 28rem);
 		overflow: auto;
-		padding: 0.55rem;
+		padding: 0.45rem;
 		background: var(--ink);
 		border: 1px solid color-mix(in srgb, var(--brass) 45%, transparent);
 		border-radius: var(--radius);
 		box-shadow: 0 16px 36px color-mix(in srgb, black 35%, transparent);
 		display: grid;
-		gap: 0.15rem;
+		gap: 0.1rem;
+		z-index: 95;
 	}
 
-	.nav-areas-panel a {
+	.nav-drop-panel a {
 		text-decoration: none;
-		padding: 0.55rem 0.7rem;
+		padding: 0.6rem 0.75rem;
 		border-radius: calc(var(--radius-sm) - 2px);
-		opacity: 0.95;
+		color: color-mix(in srgb, var(--cream) 92%, white);
+		white-space: nowrap;
 	}
 
-	.nav-areas-panel a:hover {
+	.nav-drop-panel a:hover {
 		background: color-mix(in srgb, var(--cream) 10%, transparent);
-		opacity: 1;
+		color: var(--cream);
 	}
 
 	.header-actions {
@@ -201,6 +227,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 		align-items: center;
 		gap: 0.65rem;
 		z-index: 1;
+		flex-shrink: 0;
 	}
 
 	.header-cta {
@@ -208,11 +235,12 @@ const { variant: _variant = 'solid' } = Astro.props;
 		text-decoration: none;
 		font-weight: 650;
 		font-size: 0.92rem;
-		padding: 0.7rem 1.1rem;
+		padding: 0.65rem 1.05rem;
 		border-radius: var(--radius-sm);
 		border: 1px solid transparent;
 		background: var(--brass);
 		color: var(--ink);
+		white-space: nowrap;
 		transition:
 			background 0.25s var(--ease),
 			transform 0.25s var(--ease);
@@ -313,7 +341,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 	}
 
 	.mobile-label {
-		margin: 1rem 0 0.35rem;
+		margin: 1.15rem 0 0.35rem;
 		font-size: 0.75rem;
 		font-weight: 650;
 		letter-spacing: 0.12em;
@@ -321,20 +349,16 @@ const { variant: _variant = 'solid' } = Astro.props;
 		color: var(--brass);
 	}
 
-	.mobile-label:first-child {
-		margin-top: 0;
-	}
-
 	.mobile-nav a {
 		text-decoration: none;
 		font-family: var(--font-display);
-		font-size: 1.3rem;
-		padding: 0.65rem 0;
+		font-size: 1.25rem;
+		padding: 0.6rem 0;
 		border-bottom: 1px solid color-mix(in srgb, var(--cream) 12%, transparent);
 	}
 
 	.mobile-cta {
-		margin-top: 1.25rem;
+		margin: 0 0 0.5rem;
 		display: inline-flex !important;
 		justify-content: center;
 		padding: 0.95rem 1.1rem !important;
@@ -365,7 +389,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 	@media (prefers-reduced-motion: reduce) {
 		.header-cta,
 		.nav-desktop > a,
-		.nav-areas summary {
+		.nav-drop summary {
 			transition: none;
 		}
 
