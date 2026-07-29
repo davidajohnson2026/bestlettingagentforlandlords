@@ -4,5 +4,6 @@ compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"
 
 [vars]
-BREVO_SENDER_EMAIL = "hello@bestlettingagentforlandlords.co.uk"
-CONTACT_TO = "hello@bestlettingagentforlandlords.co.uk"
+# BREVO_SENDER_EMAIL must be verified in Brevo (shared agency sender).
+BREVO_SENDER_EMAIL = "info@loudcrowd.agency"
+CONTACT_TO = "info@loudcrowd.agency"
