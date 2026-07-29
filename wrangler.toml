@@ -4,6 +4,5 @@ compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"
 
 [vars]
-# Use Luxe Glow verified Brevo sender; enquiries still go to info@loudcrowd.agency.
-BREVO_SENDER_EMAIL = "glow@luxeglowstudio.co.uk"
+BREVO_SENDER_EMAIL = "hello@bestlettingagentforlandlords.co.uk"
 CONTACT_TO = "info@loudcrowd.agency"
