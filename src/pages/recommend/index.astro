@@ -14,7 +14,6 @@ import { SITE } from '../../data/site';
 const { title, description } = pageSeo.recommend;
 const path = '/recommend/';
 
-const formAction = `https://formsubmit.co/${SITE.recommendationsEmail}`;
 const thanksUrl = `${SITE.url}/recommend/thanks/`;
 
 const recommendFaqs = [
@@ -77,16 +76,13 @@ function stars(n: number) {
 
 					<form
 						class="rec-form"
-						action={formAction}
+						action="/api/recommend"
 						method="POST"
 						id="recommend-form"
 						aria-labelledby="form-heading"
 					>
-						<input type="hidden" name="_subject" value="Landlord recommendation — bestlettingagentforlandlords" />
-						<input type="hidden" name="_template" value="table" />
-						<input type="hidden" name="_captcha" value="false" />
-						<input type="hidden" name="_next" value={thanksUrl} />
 						<input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+						<p class="rec-form-status" id="recommend-form-status" hidden role="status"></p>
 
 						<label class="field">
 							<span>Letting agent name</span>
@@ -226,6 +222,57 @@ function stars(n: number) {
 	<SiteFooter />
 </BaseLayout>
 
+<script define:vars={{ thanksUrl }}>
+	const form = document.getElementById('recommend-form');
+	const statusEl = document.getElementById('recommend-form-status');
+	const submitBtn = form?.querySelector('button[type="submit"]');
+
+	function setStatus(message, isError) {
+		if (!(statusEl instanceof HTMLElement)) return;
+		statusEl.hidden = false;
+		statusEl.textContent = message;
+		statusEl.dataset.type = isError ? 'error' : 'success';
+	}
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		if (!(form instanceof HTMLFormElement)) return;
+
+		if (submitBtn instanceof HTMLButtonElement) {
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Sending…';
+		}
+		if (statusEl instanceof HTMLElement) {
+			statusEl.hidden = true;
+		}
+
+		try {
+			const response = await fetch('/api/recommend', {
+				method: 'POST',
+				headers: { Accept: 'application/json' },
+				body: new FormData(form),
+			});
+			const result = await response.json();
+			if (!response.ok || !result.ok) {
+				throw new Error(result.message || 'Send failed');
+			}
+			window.location.href = result.redirect || thanksUrl;
+		} catch (error) {
+			setStatus(
+				error instanceof Error && error.message
+					? error.message
+					: 'Could not send your recommendation. Please try again.',
+				true,
+			);
+		} finally {
+			if (submitBtn instanceof HTMLButtonElement) {
+				submitBtn.disabled = false;
+				submitBtn.textContent = 'Send recommendation';
+			}
+		}
+	});
+</script>
+
 <style>
 	.recommend-layout {
 		padding-top: clamp(2.5rem, 5vw, 3.5rem);
@@ -253,6 +300,20 @@ function stars(n: number) {
 		display: grid;
 		gap: 1rem;
 		max-width: 34rem;
+	}
+
+	.rec-form-status {
+		margin: 0;
+		padding: 0.75rem 1rem;
+		border-radius: 0.5rem;
+		font-size: 0.92rem;
+		line-height: 1.5;
+	}
+
+	.rec-form-status[data-type='error'] {
+		background: rgba(220, 80, 80, 0.1);
+		border: 1px solid rgba(220, 80, 80, 0.35);
+		color: var(--ink);
 	}
 
 	.field {
