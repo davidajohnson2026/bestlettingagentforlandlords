@@ -58,6 +58,30 @@ async function sendViaBrevo(
 		const detail = await response.text();
 		throw new Error(`Brevo ${response.status}: ${detail}`);
 	}
+
+	const detail = await response.text();
+	let messageId = '';
+	try {
+		const parsed = JSON.parse(detail) as { messageId?: string };
+		messageId = parsed.messageId?.trim() ?? '';
+	} catch {
+		// ignore
+	}
+	if (!messageId) {
+		throw new Error(`Brevo accepted but no messageId: ${detail}`);
+	}
+}
+
+function resolveSenderEmail(env: Env, defaultFrom: string): string {
+	const configured = env.BREVO_SENDER_EMAIL?.trim() || defaultFrom;
+	if (/luxeglowstudio\.co\.uk/i.test(configured)) return defaultFrom;
+	return configured;
+}
+
+function resolveContactTo(env: Env, defaultTo: string): string {
+	const configured = env.CONTACT_TO?.trim() || defaultTo;
+	if (/luxeglowstudio\.co\.uk/i.test(configured)) return defaultTo;
+	return configured;
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
@@ -99,8 +123,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 		);
 	}
 
-	const contactTo = env.CONTACT_TO?.trim() || DEFAULT_TO;
-	const fromEmail = env.BREVO_SENDER_EMAIL?.trim() || DEFAULT_FROM;
+	const contactTo = resolveContactTo(env, DEFAULT_TO);
+	const fromEmail = resolveSenderEmail(env, DEFAULT_FROM);
+	const sentAt = new Date().toISOString();
 	const subject = `Landlord recommendation — ${agentName} (${area})`;
 	const body = [
 		`Agent: ${agentName}`,
@@ -110,6 +135,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 		`Landlord: ${landlordName}`,
 		`Email: ${email}`,
 		`Consent to publish: ${consent}`,
+		`Sent: ${sentAt}`,
 		'',
 		recommendation,
 		'',
