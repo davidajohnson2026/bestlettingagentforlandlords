@@ -1,0 +1,19 @@
+{
+	"version": 1,
+	"description": "Route page requests through Functions so the canonical-host 301 in functions/_middleware.js runs — Pages serves static assets before Functions by default. Asset paths stay excluded to keep function invocations off images and stylesheets.",
+	"include": ["/*"],
+	"exclude": [
+		"/_astro/*",
+		"/_next/*",
+		"/images/*",
+		"/fonts/*",
+		"/icons/*",
+		"/assets/*",
+		"/favicon.ico",
+		"/favicon.svg",
+		"/robots.txt",
+		"/sitemap.xml",
+		"/sitemap-index.xml",
+		"/sitemap-0.xml"
+	]
+}
