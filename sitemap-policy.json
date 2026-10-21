@@ -1,0 +1,40 @@
+{
+  "site": "https://bestlettingagentforlandlords.co.uk",
+  "name": "Best Letting Agent for Landlords",
+  "xmlFile": "sitemap-0.xml",
+  "html": true,
+  "exclude": [
+    "/recommend/thanks/"
+  ],
+  "htmlExclude": [],
+  "groups": [
+    {
+      "title": "Find and compare local agents",
+      "prefixes": [
+        "/letting-agents/",
+        "/compare/",
+        "/recommend/",
+        "/property-management-companies/"
+      ]
+    },
+    {
+      "title": "Choosing and paying an agent",
+      "prefixes": [
+        "/full-management-",
+        "/how-to-",
+        "/letting-agent-fees/",
+        "/questions-to-"
+      ]
+    },
+    {
+      "title": "About this guide",
+      "prefixes": [
+        "/",
+        "/for-ai/"
+      ]
+    }
+  ],
+  "fallbackGroup": "More guides and resources",
+  "htmlTitle": "Site Map and Guides | Best Letting Agent for Landlords",
+  "htmlDescription": "Browse our landlord guides, local letting agent comparisons and practical resources. Find information about fees, management options and choosing an agent."
+}

@@ -5,14 +5,16 @@
   "engines": {
     "node": ">=22.12.0"
   },
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build && node scripts/check-seo.mjs && node --experimental-strip-types scripts/check-postcodes.mjs",
-		"preview": "astro preview",
-		"astro": "astro",
-		"check:seo": "node scripts/check-seo.mjs",
-		"check:postcodes": "node --experimental-strip-types scripts/check-postcodes.mjs"
-	},
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/check-seo.mjs && node --experimental-strip-types scripts/check-postcodes.mjs",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check:seo": "node scripts/check-seo.mjs",
+    "check:postcodes": "node --experimental-strip-types scripts/check-postcodes.mjs",
+    "test:sitemaps": "node --test tests/sitemap-build.test.mjs && python3 scripts/check-sitemaps.py",
+    "postbuild": "npm run test:sitemaps"
+  },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.4"
