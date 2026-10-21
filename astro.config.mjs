@@ -1,3 +1,5 @@
+import sitemapBuild from "./integrations/sitemap-build.mjs";
+import sitemapPolicy from "./sitemap-policy.json";
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
@@ -10,5 +12,6 @@ export default defineConfig({
 		sitemap({
 			filter: (page) => !page.includes('/recommend/thanks'),
 		}),
+		sitemapBuild(sitemapPolicy),
 	],
 });
