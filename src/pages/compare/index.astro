@@ -29,12 +29,12 @@ const compareFaqs = [
 	{
 		question: 'Which letting agents does this compare tool recommend?',
 		answer:
-			'Kerrigans Property for Doncaster and about a 9-mile radius only. Henry Spencer & Sons for Sheffield. Bricknells Rentals for Rotherham. Other UK postcodes get area guides and trust checklists — not a Doncaster default.',
+			'Doncaster currently receives an independent area guide, without a featured referral. Sheffield and Rotherham retain editorial agent listings. Verify current service coverage and credentials directly before instructing an agent.',
 	},
 	{
-		question: 'Does Kerrigans cover Sheffield or Rotherham?',
+		question: 'Does a postcode match appoint or contact an agent?',
 		answer:
-			'No. For fairness we do not recommend Kerrigans for Sheffield or Rotherham town centres. Use the Sheffield and Rotherham area guides for local featured agents instead.',
+			'No. This is independent information, not an appointment or a transfer of your personal details. Contact a chosen agent yourself after checking their terms.',
 	},
 	{
 		question: 'How should landlords use this tool?',
@@ -79,7 +79,7 @@ const jsonLd = [
 				<p class="eyebrow">Fair local recommendations</p>
 				<h1>Compare letting agents near you</h1>
 				<p class="lead">
-					Enter a UK postcode for a fair local match. Kerrigans only for Doncaster + about a 9-mile radius.
+					Enter a UK postcode for a fair local match. Doncaster currently has independent guidance, without a featured referral.
 					Sheffield and Rotherham get their own featured agents — not a Doncaster recommendation by default.
 				</p>
 			</div>
@@ -145,7 +145,7 @@ const jsonLd = [
 					<p class="eyebrow">UK-wide guidance</p>
 					<h2>Compare regulated agents near your postcode</h2>
 					<p>
-						We only feature Kerrigans inside Doncaster’s ~9-mile radius, and separate Sheffield / Rotherham recommendations.
+						Doncaster currently has independent guidance; Sheffield and Rotherham have separate editorial listings.
 						For other UK areas, use the fees guide, trust checklist and phone script — then instruct a local ARLA / Safeagent member.
 					</p>
 					<p class="fee" data-other-area-note hidden></p>
@@ -186,7 +186,7 @@ const jsonLd = [
 				<h2 id="how-compare-heading">How postcode matching works</h2>
 				<ol>
 					<li>
-						<strong>Doncaster (~9 miles):</strong> districts {kerrigansDistricts.join(', ')} may show Kerrigans Property.
+						<strong>Doncaster:</strong> districts {kerrigansDistricts.join(', ')} have an independent area guide.
 						DN postcodes further out do not.
 					</li>
 					<li>
@@ -199,7 +199,7 @@ const jsonLd = [
 					</li>
 					<li>
 						<strong>Rest of the UK:</strong> open the nearest
-						<a href="/letting-agents/">city guide</a> and use our trust checklist — no Kerrigans default.
+						<a href="/letting-agents/">city guide</a> and use our trust checklist — no national default agent.
 					</li>
 				</ol>
 			</section>
@@ -219,7 +219,7 @@ const jsonLd = [
 			<div class="uk-note">
 				<p>
 					<span class="icon-badge" aria-hidden="true"><Icon name="pin" size={18} /></span>
-					<strong>Kerrigans:</strong> {kerrigansDistricts.join(', ')} (≈9 miles) ·
+					<strong>Doncaster guide:</strong> {kerrigansDistricts.join(', ')} ·
 					<strong>Sheffield:</strong> Henry Spencer &amp; Sons ·
 					<strong>Rotherham:</strong> Bricknells Rentals ·
 					<strong>Elsewhere:</strong> neutral UK guidance

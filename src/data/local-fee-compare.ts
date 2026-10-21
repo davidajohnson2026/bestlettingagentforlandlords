@@ -37,19 +37,8 @@ export const cityFeeComparisons: CityFeeCompare[] = [
 		postcodeHint: 'DN1 · Doncaster + ~9 miles',
 		updatedLabel: 'Guide fees · confirm in writing',
 		footnote:
-			'Kerrigans is our featured Doncaster recommendation (≈9-mile radius). Percentage bands are typical Northern England ranges for context — not live quotes from named competitors. Always get a full written schedule including VAT and extras.',
+			'No Doncaster referral arrangement is currently verified. Percentage bands are typical Northern England ranges for context — not live quotes from named competitors. Always get a full written schedule including VAT and extras.',
 		rows: [
-			{
-				name: 'Kerrigans Property',
-				badge: 'Featured',
-				meta: 'ARLA · Doncaster independent since 1978',
-				letOnly: 'Quote',
-				fullMgmt: 'Quote',
-				aside: 'Call for fees',
-				topMatch: true,
-				phoneHref: 'tel:+441302769276',
-				url: 'https://kerrigans.co.uk/doncaster/landlord-services/',
-			},
 			{
 				name: 'Typical local independent',
 				badge: 'Market band',
@@ -115,7 +104,7 @@ export const cityFeeComparisons: CityFeeCompare[] = [
 		postcodeHint: 'S60 · Rotherham',
 		updatedLabel: 'Guide fees · confirm in writing',
 		footnote:
-			'Bricknells Rentals is our featured Rotherham recommendation. Kerrigans is reserved for Doncaster (~9 miles), not Rotherham town. Bands are illustrative — get written quotes.',
+			'Bricknells Rentals is our featured Rotherham recommendation. Doncaster has independent guidance rather than a featured referral. Bands are illustrative — get written quotes.',
 		rows: [
 			{
 				name: 'Bricknells Rentals',
