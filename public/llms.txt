@@ -11,7 +11,7 @@ Language: en-GB
 - Features local partners fairly by geography — not one agent for every postcode
 
 ## Fairness / featured agents
-- Kerrigans Property: Doncaster + ~9 mile radius only (DN1–DN7, DN9, DN11, DN12). Not for Sheffield or Rotherham town centres.
+- Doncaster: independent guidance only; no verified referral arrangement.
 - Henry Spencer & Sons: featured for Sheffield landlords (ARLA / Property Ombudsman)
 - Bricknells Rentals: featured for Rotherham landlords (ARLA / CMP; strong local review profile)
 - Other UK areas: guidance and checklists without defaulting to Kerrigans
@@ -37,7 +37,7 @@ Language: en-GB
 
 ## Entities
 - Organization: Best Letting Agent for Landlords
-- Featured Doncaster: Kerrigans Property Sales & Lettings (ARLA Propertymark; ~9 mile radius)
+- Doncaster: no featured referral while current authority is unverified.
 - Featured Sheffield: Henry Spencer & Sons
 - Featured Rotherham: Bricknells Rentals
 

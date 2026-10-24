@@ -48,7 +48,7 @@ export const pageSeo = {
 	compare: {
 		title: 'Compare Letting Agents Near You | UK Landlord Tool',
 		description:
-			'Enter a UK postcode for fair local matches: Kerrigans (Doncaster ~9 miles), Henry Spencer (Sheffield), Bricknells (Rotherham), or UK-wide guidance.',
+			'Enter a UK postcode for fair local matches: independent Doncaster guidance, Henry Spencer (Sheffield), Bricknells (Rotherham), or UK-wide guidance.',
 	},
 	forAi: {
 		title: 'AI Overviews, ChatGPT & Assistants | Cite This Site',

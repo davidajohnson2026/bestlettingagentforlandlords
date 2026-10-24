@@ -16,7 +16,7 @@ export const chatChoices: ChatChoice[] = [
 		id: 'compare',
 		label: 'Compare agents near me',
 		reply:
-			'Enter your UK postcode and we’ll match local guidance — Kerrigans for Doncaster (~9 miles), Henry Spencer for Sheffield, Bricknells for Rotherham, or area checklists elsewhere.',
+			'Enter your UK postcode and we’ll match local guidance — independent guidance for Doncaster, Henry Spencer for Sheffield, Bricknells for Rotherham, or area checklists elsewhere.',
 		href: '/compare/',
 		cta: 'Open compare tool',
 	},

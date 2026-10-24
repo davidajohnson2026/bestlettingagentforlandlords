@@ -87,7 +87,7 @@ export const doncasterFaqs: FaqItem[] = [
 	{
 		question: 'Who are the best letting agents in Doncaster for landlords?',
 		answer:
-			'Look for locally established, regulated agents with strong landlord reviews and transparent fees. Kerrigans Property is a long-standing Doncaster firm (trading since 1978), ARLA Propertymark registered, offering tenant-find through to full management.',
+			'Compare locally established agents using current register checks and written fees. No Doncaster referral arrangement is currently verified by this publisher.',
 	},
 	{
 		question: 'How much do Doncaster letting agents charge?',
@@ -123,7 +123,7 @@ export const sheffieldFaqs: FaqItem[] = [
 	{
 		question: 'Are there recommended letting agents in Sheffield?',
 		answer:
-			'We feature Henry Spencer & Sons for Sheffield landlords: an independent ARLA-qualified lettings team with The Property Ombudsman membership. Always still check fees and recent local lets for your postcode. We do not recommend Doncaster agents for Sheffield properties.',
+			'Henry Spencer & Sons is included as a Sheffield editorial listing. This is not verification of current accreditation, redress membership or service quality. Check official registers, full written fees and recent comparable lets before instructing.',
 	},
 	{
 		question: 'How much do Sheffield letting agents charge landlords?',
@@ -141,7 +141,7 @@ export const rotherhamFaqs: FaqItem[] = [
 	{
 		question: 'Are there recommended letting agents near Rotherham?',
 		answer:
-			'We feature Bricknells Rentals for Rotherham landlords: an ARLA-licensed local independent with Client Money Protection and strong review scores. Compare their written fees with other regulated locals. Kerrigans is reserved for Doncaster (~9-mile radius), not Rotherham town.',
+			'We feature Bricknells Rentals for Rotherham landlords: an ARLA-licensed local independent with Client Money Protection and strong review scores. Compare their written fees with other regulated locals. Doncaster has an independent guide rather than a featured referral.',
 	},
 ];
 

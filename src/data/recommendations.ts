@@ -89,39 +89,21 @@ export function isWithinKerrigansRadius(postcode: string): boolean {
 	return area === 'DN' && !district;
 }
 
-export const kerrigansFeatured: FeaturedAgent = {
-	name: 'Kerrigans Property',
-	url: 'https://kerrigans.co.uk/doncaster/landlord-services/',
-	phone: '01302 769276',
-	phoneHref: 'tel:+441302769276',
-	summary:
-		'Family-run since 1978, ARLA Propertymark registered, offering tenant find through to full management across Doncaster and the local area (about a 9-mile radius).',
-	highlights: [
-		'45+ years letting experience across Doncaster',
-		'Tenant find, rent collection & full management',
-		'ARLA Propertymark & The Property Ombudsman',
-		'Covers Doncaster + ~9 mile radius (not Sheffield/Rotherham town centres)',
-		'Free, no-obligation rental valuations',
-	],
-	reputationNote:
-		'Long-established Doncaster independent with ARLA Propertymark membership and The Property Ombudsman.',
-};
-
 export const henrySpencerFeatured: FeaturedAgent = {
 	name: 'Henry Spencer & Sons',
 	url: 'https://www.hss-lettings.co.uk/',
 	phone: '0114 229 6410',
 	phoneHref: 'tel:+441142296410',
 	summary:
-		'Independent Sheffield letting specialists. ARLA-qualified team, registered with The Property Ombudsman, focused on transparent landlord service across Sheffield.',
+		'Sheffield lettings listing. Check current professional memberships, redress registration, written fees and recent landlord references before instructing.',
 	highlights: [
-		'ARLA Propertymark qualified lettings team',
-		'Independent Sheffield agent with strong local focus',
-		'The Property Ombudsman redress membership',
-		'Tenant find through to managed options',
+		'Check current professional membership',
+		'Ask about recent lets in your postcode',
+		'Verify redress and client-money protection',
+		'Confirm the available service and full written fees',
 	],
 	reputationNote:
-		'ARLA-qualified independent Sheffield firm with The Property Ombudsman membership — a fair local alternative to national brands.',
+		'An editorial listing, not verification of accreditation, review scores or service quality.',
 };
 
 export const bricknellsFeatured: FeaturedAgent = {
@@ -130,13 +112,13 @@ export const bricknellsFeatured: FeaturedAgent = {
 	phone: '01709 365584',
 	phoneHref: 'tel:+441709365584',
 	summary:
-		'Rotherham-focused independent letting agency. ARLA licensed, Client Money Protection, and consistently strong landlord review scores on major review platforms.',
+		'Rotherham lettings listing. Verify current professional memberships, client-money protection, redress registration and written terms directly.',
 	highlights: [
-		'ARLA licensed with Client Money Protection',
-		'Strong allAgents review profile (high recommend rate)',
-		'Large local managed portfolio experience',
-		'Let-only and fully managed options for landlords',
+		'Verify current accreditation and money protection',
+		'Read recent detailed landlord reviews',
+		'Ask about comparable properties in your postcode',
+		'Confirm service options and a complete written quote',
 	],
 	reputationNote:
-		'Widely reviewed Rotherham independent (ARLA / CMP) often cited among top-rated local letting agents — recommended here instead of Doncaster agents for fairness.',
+		'An editorial listing, not a verified ranking, accreditation or performance endorsement.',
 };

@@ -16,7 +16,6 @@ import SpotStrip from '../components/SpotStrip.astro';
 import MortgagePartner from '../components/MortgagePartner.astro';
 import MemeBreak from '../components/MemeBreak.astro';
 import RelatedRail from '../components/RelatedRail.astro';
-import { kerrigansFeatured } from '../data/recommendations';
 
 const servicePaths = [
 	{
@@ -328,27 +327,18 @@ const jsonLd = [
 		<section class="recommended" id="recommended" aria-labelledby="recommended-heading">
 			<div class="section-shell recommended-grid">
 				<div class="recommended-copy reveal">
-					<p class="eyebrow">Featured for Doncaster (~9 miles)</p>
-					<h2 id="recommended-heading">Kerrigans Property — Doncaster landlords’ local choice</h2>
+					<p class="eyebrow">Independent Doncaster guidance</p>
+					<h2 id="recommended-heading">Compare your options before instructing an agent</h2>
 					<p class="section-lead">
-						Family-run since 1978, ARLA Propertymark registered and steeped in Doncaster’s rental market. We recommend Kerrigans for properties in Doncaster and about a 9-mile radius — not Sheffield or Rotherham town centres. Tenant find through to full management, with clear communication and transparent fees.
+						LoudCrowd publishes this independent guide. We do not let, manage or value property, and no current Doncaster agency referral is offered here.
 					</p>
 					<ul class="ticks" role="list">
-						<li>45+ years letting experience across Doncaster</li>
-						<li>Tenant find, rent collection &amp; full management</li>
-						<li>ARLA Propertymark &amp; The Property Ombudsman</li>
-						<li>Coverage: Doncaster + ~9 mile radius only</li>
-						<li>Free, no-obligation rental valuations</li>
+						<li>Compare written fees including VAT and extras</li>
+						<li>Check service scope, communication and exit terms</li>
+						<li>Verify any membership claim with the relevant register</li>
 					</ul>
-					<p class="call-line">
-						Prefer to talk?
-						<a href="tel:+441302769276">Call 01302 769276</a>
-					</p>
 					<div class="hero-actions">
-						<a class="btn btn-primary" href={kerrigansFeatured.phoneHref}>Call Kerrigans</a>
-						<a class="btn btn-secondary" href={kerrigansFeatured.url} target="_blank" rel="noopener noreferrer">
-							Visit Kerrigans
-						</a>
+						<a class="btn btn-primary" href="https://lettingagentsdoncaster.co.uk/services/fees?utm_source=bestlettingagentforlandlords&amp;utm_medium=owned-guide&amp;utm_campaign=landlord-guide-oct26">Read LoudCrowd’s independent Doncaster fee guide</a>
 						<a class="btn btn-secondary" href="/letting-agents/doncaster/">Doncaster guide</a>
 					</div>
 					<p class="section-lead" style="margin-top: 1.25rem; font-size: 1rem;">
@@ -367,8 +357,8 @@ const jsonLd = [
 						loading="lazy"
 					/>
 					<figcaption>
-						<span>Kerrigans Property</span>
-						<span>Sales &amp; Lettings · Doncaster</span>
+						<span>Independent landlord guidance</span>
+						<span>Published by LoudCrowd</span>
 					</figcaption>
 				</figure>
 			</div>
@@ -402,7 +392,7 @@ const jsonLd = [
 					·
 					<a href="/full-management-vs-tenant-find/">Full management explained</a>
 					·
-					<a href="tel:+441302769276">Call Kerrigans on 01302 769276</a>
+					<a href="/letting-agents/doncaster/">Doncaster guide</a>
 				</p>
 			</div>
 		</section>

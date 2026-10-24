@@ -4,7 +4,6 @@ import {
 	getDistrictCode,
 	getPostalAreaCode,
 	henrySpencerFeatured,
-	kerrigansFeatured,
 } from './recommendations';
 
 export type { FeaturedAgent };
@@ -126,7 +125,6 @@ export const areas: Area[] = [
 			'Doncaster fees often sit toward the lower UK range versus London — commonly around 8–12% + VAT for full management.',
 		blurb:
 			'Doncaster landlords need local pricing knowledge, reliable tenant find and compliant management from agents who know DN postcodes within about nine miles of town.',
-		featured: kerrigansFeatured,
 	},
 	{
 		slug: 'newcastle',

@@ -1,6 +1,5 @@
 import { areas, areaPath } from '../data/areas';
 import { matchArea } from '../data/matchArea';
-import { isWithinKerrigansRadius } from '../data/recommendations';
 
 const SERVICE_LABELS: Record<string, string> = {
 	full: 'Full management',
@@ -107,21 +106,7 @@ export function initCompareTool() {
 			area = matched ? list.find((item) => item.slug === matched.slug) ?? null : null;
 		}
 
-		const kerrigansOk = postcode ? isWithinKerrigansRadius(postcode) : areaSlug === 'doncaster';
 		const serviceLabel = SERVICE_LABELS[service] || service;
-
-		if (area?.slug === 'doncaster' && postcode && !kerrigansOk) {
-			localRoute?.setAttribute('hidden', '');
-			defaultRec?.removeAttribute('hidden');
-			setText(defaultRec, '[data-service-label-default]', serviceLabel);
-			const note = defaultRec?.querySelector('[data-other-area-note]');
-			if (note instanceof HTMLElement) {
-				note.hidden = false;
-				note.textContent =
-					'That DN postcode looks outside our ~9-mile Doncaster radius for Kerrigans. Compare regulated local agents near you instead of a Doncaster-only recommendation.';
-			}
-			return;
-		}
 
 		if (area?.featured && localRoute && defaultRec) {
 			localRoute.removeAttribute('hidden');

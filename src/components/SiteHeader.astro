@@ -71,7 +71,7 @@ const { variant: _variant = 'solid' } = Astro.props;
 	const menu = document.querySelector('[data-mobile-menu]');
 	const menuLabel = document.querySelector('[data-menu-label]');
 	if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement) {
-		const setOpen = (open) => {
+		const setOpen = (open: boolean) => {
 			toggle.setAttribute('aria-expanded', String(open));
 			menu.hidden = !open;
 			document.body.classList.toggle('menu-open', open);
