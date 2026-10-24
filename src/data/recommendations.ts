@@ -89,24 +89,6 @@ export function isWithinKerrigansRadius(postcode: string): boolean {
 	return area === 'DN' && !district;
 }
 
-export const kerrigansFeatured: FeaturedAgent = {
-	name: 'Kerrigans Property',
-	url: 'https://kerrigans.co.uk/doncaster/landlord-services/',
-	phone: '01302 769276',
-	phoneHref: 'tel:+441302769276',
-	summary:
-		'Family-run since 1978, ARLA Propertymark registered, offering tenant find through to full management across Doncaster and the local area (about a 9-mile radius).',
-	highlights: [
-		'45+ years letting experience across Doncaster',
-		'Tenant find, rent collection & full management',
-		'ARLA Propertymark & The Property Ombudsman',
-		'Covers Doncaster + ~9 mile radius (not Sheffield/Rotherham town centres)',
-		'Free, no-obligation rental valuations',
-	],
-	reputationNote:
-		'Long-established Doncaster independent with ARLA Propertymark membership and The Property Ombudsman.',
-};
-
 export const henrySpencerFeatured: FeaturedAgent = {
 	name: 'Henry Spencer & Sons',
 	url: 'https://www.hss-lettings.co.uk/',

@@ -69,12 +69,13 @@ function stars(n: number) {
 		<section class="section-shell recommend-layout">
 			<div class="recommend-grid">
 				<div>
-					<h2 id="form-heading">Leave a recommendation</h2>
+					<h2 id="form-heading">Recommendation collection is paused</h2>
+					<p>We are checking storage, delivery and privacy before accepting recommendations. This is separate from a landlord management enquiry. Read our <a href="/privacy/">privacy notice</a>.</p>
 					<p class="intro">
 						Submissions are reviewed before they go live. Your email is for verification only and will not be published.
 					</p>
 
-					<form
+					{false && <form
 						class="rec-form"
 						action="/api/recommend"
 						method="POST"
@@ -86,7 +87,7 @@ function stars(n: number) {
 
 						<label class="field">
 							<span>Letting agent name</span>
-							<input type="text" name="agent_name" required maxlength="120" placeholder="e.g. Kerrigans Property" />
+							<input type="text" name="agent_name" required maxlength="120" placeholder="Agent’s trading name" />
 						</label>
 
 						<label class="field">
@@ -146,7 +147,7 @@ function stars(n: number) {
 						<p class="fineprint">
 							By sending, you agree we may moderate and publish a shortened version of your feedback with your first name and initial.
 						</p>
-					</form>
+					</form>}
 				</div>
 
 				<aside class="aside" aria-labelledby="published-heading">

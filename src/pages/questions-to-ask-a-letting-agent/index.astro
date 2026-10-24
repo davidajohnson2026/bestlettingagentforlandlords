@@ -12,7 +12,6 @@ import Icon from '../../components/Icon.astro';
 import { phoneFaqs } from '../../data/faq';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../data/schema';
 import { pageSeo } from '../../data/seo';
-import { kerrigansFeatured } from '../../data/recommendations';
 
 const { title, description } = pageSeo.phone;
 const path = '/questions-to-ask-a-letting-agent/';
@@ -113,18 +112,12 @@ const jsonLd = [
 					<Icon name="phone" size={22} />
 				</span>
 				<div>
-					<h2>Prefer to speak to a recommended local agent?</h2>
+					<h2>Preparing to compare Doncaster agents?</h2>
 					<p>
-						For Doncaster landlords, Kerrigans Property can talk through tenant find or full management and arrange a free rental valuation.
-					</p>
-					<p class="phone-line">
-						<a href="tel:+441302769276">01302 769276</a>
+						LoudCrowd’s independent fee guide helps you compare written quotes. We are the publisher, not a letting agency, and no agency referral or valuation booking is offered here.
 					</p>
 					<div class="hero-actions">
-						<a class="btn btn-primary" href={kerrigansFeatured.phoneHref}>Call Kerrigans</a>
-						<a class="btn btn-secondary" href={kerrigansFeatured.url} target="_blank" rel="noopener noreferrer">
-							Visit Kerrigans
-						</a>
+						<a class="btn btn-primary" href="https://lettingagentsdoncaster.co.uk/services/fees?utm_source=bestlettingagentforlandlords&amp;utm_medium=owned-guide&amp;utm_campaign=landlord-guide-oct26">Read the independent Doncaster fee guide</a>
 					</div>
 				</div>
 			</div>
