@@ -123,7 +123,7 @@ export const sheffieldFaqs: FaqItem[] = [
 	{
 		question: 'Are there recommended letting agents in Sheffield?',
 		answer:
-			'We feature Henry Spencer & Sons for Sheffield landlords: an independent ARLA-qualified lettings team with The Property Ombudsman membership. Always still check fees and recent local lets for your postcode. We do not recommend Doncaster agents for Sheffield properties.',
+			'Henry Spencer & Sons is included as a Sheffield editorial listing. This is not verification of current accreditation, redress membership or service quality. Check official registers, full written fees and recent comparable lets before instructing.',
 	},
 	{
 		question: 'How much do Sheffield letting agents charge landlords?',
